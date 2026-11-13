@@ -6,7 +6,8 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
  * the redline, holds for a beat, then falls back smoothly as the gas is let go, on a loop. The tail is
  * always lit, so at the top of the rev the whole Q is blue. Drawn for light backgrounds.
  *   <app-q-loader [size]="88" />
- * Decorative: put the "what's happening" text next to it. With reduced motion it rests part-way round.
+ * Decorative: put the "what's happening" text next to it. With reduced motion the needle drifts slowly
+ * instead of ramping, so it still reads as "working".
  *
  * The Q is drawn here as strokes, with the logo's proportions (ring, gap at the lower right, tail at 45°)
  * but a lighter line than the logo, so it reads as a gauge and leaves room for the needle.
@@ -82,6 +83,20 @@ const TICKS = Array.from({ length: 13 }, (_, i) => {
     @media (prefers-reduced-motion: no-preference) {
       .needle { animation: rev-needle 2.6s infinite; will-change: transform; }
       .sweep { animation: rev-sweep 2.6s infinite; }
+    }
+    /* Reduced motion: a loader must still show progress, so the needle drifts slowly back and forth
+       (no ramp, no fall) instead of standing still. */
+    @media (prefers-reduced-motion: reduce) {
+      .needle { animation: rev-drift 4s ease-in-out infinite alternate; }
+      .sweep { animation: rev-drift-sweep 4s ease-in-out infinite alternate; }
+    }
+    @keyframes rev-drift {
+      from { transform: rotate(91.1deg); }
+      to   { transform: rotate(238.7deg); }
+    }
+    @keyframes rev-drift-sweep {
+      from { stroke-dashoffset: 288.9; }
+      to   { stroke-dashoffset: 141.3; }
     }
     /* r = how far round the dial (0–1): needle angle = 66° + 314° × r, sweep offset = 314 × (1 − r).
        Three beats, each easing to a stop so the speed never jumps: ram the gas (idle 0.08 → redline 1,
