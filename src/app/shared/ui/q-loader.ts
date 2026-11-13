@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, input } from '@angular/core';
 
 /**
  * The QarQal loading mark: the Q itself is the rev meter. Its ring is the dial — it starts at the Q's
@@ -65,55 +65,58 @@ const TICKS = Array.from({ length: 13 }, (_, i) => {
     </span>`,
   styles: `
     .ql { display: block; }
-    svg { display: block; width: 100%; height: auto; overflow: visible; }
-    .ring { fill: none; stroke-linecap: round; }
-    .track { stroke: #e3e8f5; }
-    .redline { stroke: #ffd3bf; }
+    .ql svg { display: block; width: 100%; height: auto; overflow: visible; }
+    .ql .ring { fill: none; stroke-linecap: round; }
+    .ql .track { stroke: #e3e8f5; }
+    .ql .redline { stroke: #ffd3bf; }
     /* One dash as long as the dial (314°). Offset 314 = empty, 0 = full. Rest (reduced motion): 55% round. */
-    .sweep { stroke: url(#ql-blue); stroke-dashoffset: 141.3; }
-    .tail { stroke: url(#ql-blue); stroke-linecap: round; }
-    .tick { stroke: #b9c4e6; stroke-width: 1.5; stroke-linecap: round; }
-    .tick--major { stroke: var(--navy); stroke-width: 2.2; }
-    .tick--red { stroke: #e65000; }
-    .needle { transform-origin: 62px 62px; transform: rotate(238.7deg); }
-    .needle polygon { fill: var(--navy); }
-    .hub { fill: #fff; stroke: var(--navy); stroke-width: 2.6; }
-    .pin { fill: var(--cyan); }
+    .ql .sweep { stroke: url(#ql-blue); stroke-dashoffset: 141.3; }
+    .ql .tail { stroke: url(#ql-blue); stroke-linecap: round; }
+    .ql .tick { stroke: #b9c4e6; stroke-width: 1.5; stroke-linecap: round; }
+    .ql .tick--major { stroke: var(--navy); stroke-width: 2.2; }
+    .ql .tick--red { stroke: #e65000; }
+    .ql .needle { transform-origin: 62px 62px; transform: rotate(238.7deg); }
+    .ql .needle polygon { fill: var(--navy); }
+    .ql .hub { fill: #fff; stroke: var(--navy); stroke-width: 2.6; }
+    .ql .pin { fill: var(--cyan); }
 
     @media (prefers-reduced-motion: no-preference) {
-      .needle { animation: rev-needle 2.6s infinite; will-change: transform; }
-      .sweep { animation: rev-sweep 2.6s infinite; }
+      .ql .needle { animation: ql-rev-needle 2.6s infinite; will-change: transform; }
+      .ql .sweep { animation: ql-rev-sweep 2.6s infinite; }
     }
     /* Reduced motion: a loader must still show progress, so the needle drifts slowly back and forth
        (no ramp, no fall) instead of standing still. */
     @media (prefers-reduced-motion: reduce) {
-      .needle { animation: rev-drift 4s ease-in-out infinite alternate; }
-      .sweep { animation: rev-drift-sweep 4s ease-in-out infinite alternate; }
+      .ql .needle { animation: ql-rev-drift 4s ease-in-out infinite alternate; }
+      .ql .sweep { animation: ql-rev-drift-sweep 4s ease-in-out infinite alternate; }
     }
-    @keyframes rev-drift {
+    @keyframes ql-rev-drift {
       from { transform: rotate(91.1deg); }
       to   { transform: rotate(238.7deg); }
     }
-    @keyframes rev-drift-sweep {
+    @keyframes ql-rev-drift-sweep {
       from { stroke-dashoffset: 288.9; }
       to   { stroke-dashoffset: 141.3; }
     }
     /* r = how far round the dial (0–1): needle angle = 66° + 314° × r, sweep offset = 314 × (1 − r).
        Three beats, each easing to a stop so the speed never jumps: ram the gas (idle 0.08 → redline 1,
        quick off the mark, easing into the top), hold, let go (a smooth fall back to idle). */
-    @keyframes rev-needle {
+    @keyframes ql-rev-needle {
       0%   { transform: rotate(91.1deg); animation-timing-function: cubic-bezier(0.3, 0, 0.1, 1); }
       34%  { transform: rotate(380deg); animation-timing-function: linear; }
       44%  { transform: rotate(380deg); animation-timing-function: cubic-bezier(0.5, 0, 0.3, 1); }
       100% { transform: rotate(91.1deg); }
     }
-    @keyframes rev-sweep {
+    @keyframes ql-rev-sweep {
       0%   { stroke-dashoffset: 288.9; animation-timing-function: cubic-bezier(0.3, 0, 0.1, 1); }
       34%  { stroke-dashoffset: 0; animation-timing-function: linear; }
       44%  { stroke-dashoffset: 0; animation-timing-function: cubic-bezier(0.5, 0, 0.3, 1); }
       100% { stroke-dashoffset: 288.9; }
     }
   `,
+  // No emulated scoping: Angular renames @keyframes per component but, in the prerendered HTML, left the
+  // animation-name unrenamed, so nothing animated in production. Everything is under .ql / ql-* instead.
+  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QLoader {
