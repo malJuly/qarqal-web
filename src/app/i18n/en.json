@@ -1,0 +1,595 @@
+{
+  "meta": {
+    "lang": "en",
+    "htmlLang": "en-MY",
+    "ogLocale": "en_MY",
+    "title": "QarQal: Compare car insurance from up to 10 insurers",
+    "description": "Compare motor insurance quotes from up to 10 insurers and get 24/7 towing in one app. Road tax, licence and JPJ summons coming soon. For cars and motorbikes in Malaysia."
+  },
+  "nav": {
+    "download": "Download",
+    "language": "Language",
+    "skip": "Skip to content",
+    "links": {
+      "insurance": "Insurance",
+      "assist": "Qarqal Assist",
+      "services": "JPJ services",
+      "faq": "FAQ",
+      "about": "About us",
+      "calculator": "Calculator",
+      "privacy": "Privacy"
+    },
+    "menu": "Menu"
+  },
+  "brand": {
+    "tagline": "Bespoke app for all your vehicle needs"
+  },
+  "hero": {
+    "title": "Compare car insurance from up to 10 insurers, right on your phone.",
+    "subtitle": "Pick your cover, add the extras you want, and pay in the QarQal app. 24/7 towing is in there too, with road tax coming soon.",
+    "note": "Free to download"
+  },
+  "quote": {
+    "title": "Get your car insurance quote",
+    "idType": "ID type",
+    "idTypes": {
+      "nric": "NRIC",
+      "passport": "Passport",
+      "company": "Company / Police / Army"
+    },
+    "idNumber": {
+      "nric": "NRIC number",
+      "passport": "Passport number",
+      "company": "Registration number"
+    },
+    "idHint": {
+      "nric": "e.g. 900101-14-5678",
+      "passport": "e.g. A12345678",
+      "company": "e.g. 201001013071"
+    },
+    "plate": "Plate number",
+    "plateHint": "e.g. WXY 1234",
+    "postcode": "Postcode",
+    "postcodeHint": "e.g. 50450",
+    "submit": "Compare quotes",
+    "sending": "Checking…",
+    "consent": "By continuing, you agree QarQal may use these details to prepare your quote.",
+    "privacy": "Privacy Policy",
+    "errors": {
+      "required": "Please fill this in.",
+      "nric": "Enter the 12 digits on your MyKad.",
+      "passport": "Use letters and numbers only (up to 20).",
+      "company": "Use letters, numbers and dashes only (up to 20).",
+      "plate": "Enter a valid plate number, e.g. WXY 1234.",
+      "postcode": "Postcodes have 5 digits.",
+      "server": "We couldn't get your quote just now. Please try again, or continue in the app."
+    },
+    "doneTitle": "Your quotes are waiting in the app",
+    "doneBody": "Download QarQal and enter these details to compare up to 10 insurers side by side.",
+    "doneCta": "Download QarQal",
+    "edit": "Change details"
+  },
+  "quoteFlow": {
+    "close": "Close",
+    "back": "Back",
+    "points": {
+      "title": "Earn QarQal points",
+      "body": "Add your mobile number and earn QarQal points when you buy your insurance. We'll send you a 6-digit code.",
+      "mobile": "Mobile number",
+      "mobileHint": "12 345 6789",
+      "send": "Send code",
+      "sending": "Sending…",
+      "skip": "Skip, just show my quotes",
+      "invalid": "Enter a valid Malaysian mobile number, e.g. 12 345 6789.",
+      "failed": "We couldn't send the code. Please try again.",
+      "blocked": "This number can't be used. Please use another number or skip."
+    },
+    "otp": {
+      "title": "Enter your code",
+      "body": "We sent a 6-digit code to",
+      "code": "6-digit code",
+      "verify": "Verify and compare",
+      "verifying": "Verifying…",
+      "resend": "Resend code",
+      "resendIn": "Resend in {s}s",
+      "invalid": "Enter the 6 digits from your code.",
+      "wrong": "That code didn't work. Check it and try again."
+    },
+    "loading": "Comparing insurers for you… this can take up to 30 seconds.",
+    "covers": {
+      "COMP": "Comprehensive",
+      "TPFT": "Third party, fire & theft",
+      "TP": "Third party"
+    },
+    "results": {
+      "title": "Choose your plan",
+      "earning": "Earning points as {mobile}",
+      "notEarning": "You're not earning points on this purchase.",
+      "coverLabel": "Cover type",
+      "sumInsured": "Sum insured",
+      "noneForCover": "No insurer quoted this cover online. Try another cover type.",
+      "others": "Not available online:",
+      "notFound": "We couldn't find an insurer for this vehicle. Check the plate and ID number, or continue in the app.",
+      "error": "We couldn't get your quotes just now. Please try again.",
+      "retry": "Try again",
+      "editDetails": "Change details",
+      "openApp": "Continue in the app",
+      "lede": "Pick an insurer and add the extras you want. The price updates as you choose.",
+      "lowest": "Lowest price",
+      "priceNote": "Tiles show the gross contribution. Your total to pay, with SST and stamp duty, is in the order summary and is confirmed when you select an insurer.",
+      "notFoundTitle": "No insurer found for this vehicle",
+      "edit": "Edit",
+      "insurers": "Insurers",
+      "gross": "Gross contribution",
+      "editConfirm": {
+        "title": "Change your vehicle details?",
+        "body": "You'll go back to the home page to enter your vehicle and ID details again, and get new quotes. The choices you made on this page won't be kept.",
+        "yes": "Yes, change details",
+        "no": "Stay on this page"
+      }
+    },
+    "page": {
+      "home": "Back to home",
+      "missing": "This quote is no longer available on this device. Start a new quote to see prices again.",
+      "newQuote": "Start a new quote",
+      "steps": [
+        "Choose your plan",
+        "Your details",
+        "Payment"
+      ],
+      "progress": "Purchase progress"
+    },
+    "details": {
+      "title": "Your details",
+      "back": "Back to plans",
+      "holder": "Policy holder",
+      "contact": "Contact",
+      "address": "Address",
+      "fullName": "Full name (as on ID)",
+      "dob": "Date of birth",
+      "gender": "Gender",
+      "marital": "Marital status",
+      "nationality": "Nationality",
+      "email": "Email",
+      "address1": "Address line 1",
+      "address2": "Address line 2",
+      "address3": "Address line 3",
+      "optional": "optional",
+      "city": "City",
+      "state": "State",
+      "choose": "Choose…",
+      "continue": "Continue to payment",
+      "saving": "Saving…",
+      "failed": "We couldn't save your details. Please check them and try again.",
+      "lookupsFailed": "Some lists didn't load. Refresh the page and try again.",
+      "errName": "Enter your full name (at least 3 letters).",
+      "errEmail": "Enter a valid email address.",
+      "errAddress": "Enter at least 5 characters.",
+      "lede": "The policy will be issued in this name, so enter the details as they appear on the ID."
+    },
+    "payment": {
+      "title": "Review and pay",
+      "back": "Back to your details",
+      "totalNote": "Billplz shows the final amount before you pay.",
+      "paying": "Opening Billplz…",
+      "failed": "We couldn't start the payment. Please try again.",
+      "secure": "You'll pay on Billplz's secure page, then come back here.",
+      "lede": "Check your order, then pay securely with Billplz.",
+      "payAmount": "Pay RM {amount}"
+    },
+    "result": {
+      "successTitle": "Payment received",
+      "successBody": "Thank you. Your payment went through and we're issuing your policy now.",
+      "failedTitle": "Payment not completed",
+      "failedBody": "Your payment didn't go through and you haven't been charged. You can try again.",
+      "unknownTitle": "Payment status",
+      "unknownBody": "We couldn't confirm your payment status. If you were charged, your policy is still being issued.",
+      "retry": "Try payment again",
+      "home": "Back to home",
+      "pageTitle": "Your order"
+    },
+    "addons": {
+      "title": "Add-ons",
+      "lede": "Optional extras from this insurer.",
+      "none": "This insurer has no add-ons online.",
+      "included": "Included",
+      "plan": "Plan",
+      "choosePlan": "Choose a plan…",
+      "amount": "Cover amount (RM)",
+      "range": "Between RM {min} and RM {max}.",
+      "failed": "We couldn't update the price with this add-on. Remove it or try again.",
+      "continue": "Continue",
+      "updatingQuote": "Updating your quotation…",
+      "resetNote": "Your add-ons were reset because the value type changed. Add them again if you need them."
+    },
+    "drivers": {
+      "title": "Additional named drivers",
+      "price": "Up to {max}. First driver free, then RM {price} each.",
+      "nric": "NRIC",
+      "passport": "Passport",
+      "fullName": "Full name",
+      "idType": "ID type",
+      "idNumber": "ID number",
+      "dob": "Date of birth",
+      "add": "Add a driver",
+      "save": "Add driver",
+      "cancel": "Cancel",
+      "remove": "Remove",
+      "errName": "Enter the driver's full name (at least 3 letters).",
+      "errId": "Check the ID number."
+    },
+    "summary": {
+      "title": "Order summary",
+      "plan": "Plan",
+      "change": "Change",
+      "vehicle": "Vehicle",
+      "period": "Cover period",
+      "addons": "Add-ons",
+      "none": "None selected",
+      "free": "Free",
+      "total": "Total to pay",
+      "updating": "Updating price…",
+      "incl": "Incl. SST & stamp duty",
+      "saving": "You save RM {amount} with {pct}% NCD",
+      "breakdown": "Price breakdown",
+      "sst": "Service tax",
+      "stampDuty": "Stamp duty",
+      "processingFee": "Processing fee",
+      "roadTax": "Road tax",
+      "only": "Only",
+      "basic": "Basic contribution",
+      "ncd": "No-claim discount (NCD) {pct}%",
+      "gross": "Gross contribution",
+      "discount": "Discount",
+      "other": "Other charges",
+      "otherLess": "Other reductions"
+    },
+    "success": {
+      "title": "Yay, you're in!",
+      "body": "You'll earn QarQal points on {mobile} when you buy your insurance.",
+      "app": "Get the QarQal app",
+      "guestTitle": "Your quotes are on the way",
+      "guestBody": "We're comparing insurers for you. While you wait, get the QarQal app.",
+      "closing": "This closes by itself in {s} seconds"
+    },
+    "plan": {
+      "title": "Plan",
+      "variant": "Vehicle variant",
+      "chooseVariant": "Select variant…",
+      "valueType": "Value type",
+      "market": "Market value",
+      "agreed": "Agreed value",
+      "marketHelp": "A claim pays the car's market value at the time of loss.",
+      "agreedHelp": "A claim pays the amount agreed today.",
+      "sumInsured": "Sum insured",
+      "sumHint": "the car's covered value",
+      "sumRange": "Must be between RM {min} and RM {max}.",
+      "roadTax": "Include road tax renewal",
+      "roadTaxHelp": "Renew your road tax together with this policy."
+    },
+    "earnInApp": "Download the QarQal app to earn points"
+  },
+  "stores": {
+    "appStore": {
+      "pre": "Download on the",
+      "name": "App Store"
+    },
+    "googlePlay": {
+      "pre": "Get it on",
+      "name": "Google Play"
+    },
+    "appGallery": {
+      "pre": "Explore it on",
+      "name": "AppGallery"
+    }
+  },
+  "trust": {
+    "insurersTitle": "Quotes from these insurers",
+    "disclaimer": "Insurance quotes are provided through our partner Senang, an insurance aggregator.",
+    "rakanNiaga": "Official JPJ Rakan Niaga, by MOT",
+    "mof": "Authorized collection agent, by MOF",
+    "govTitle": "Government services",
+    "govMore": "See details"
+  },
+  "oldWay": {
+    "title": "Still chasing your agent for a quote?",
+    "body": "You message your agent and wait. You check one insurer's website, then another. Road tax is on a different portal, and the towing number is somewhere in your glovebox. QarQal puts all of it in one app."
+  },
+  "insurance": {
+    "title": "Your quote in three steps",
+    "steps": [
+      {
+        "title": "Add your vehicle",
+        "body": "Save your car or motorbike in Qarqal Garage once. Its details stay there for next year's renewal."
+      },
+      {
+        "title": "Compare quotes",
+        "body": "See prices from up to 10 insurers side by side, then add the extras you want."
+      },
+      {
+        "title": "Pay in the app",
+        "body": "Pay through a licensed Malaysian payment gateway. Your policy is issued by the insurer you chose."
+      }
+    ]
+  },
+  "calc": {
+    "title": "Work out your costs before you renew",
+    "lede": "Estimate your car insurance, road tax and car loan. Exact prices from each insurer are in the app.",
+    "tabs": {
+      "insurance": "Car insurance",
+      "roadTax": "Road tax",
+      "loan": "Car loan"
+    },
+    "fields": {
+      "coverType": "Cover type",
+      "region": "Region",
+      "engineCc": "Engine capacity (cc)",
+      "sumInsured": "Sum insured / car value (RM)",
+      "ncd": "No-claim discount (NCD)",
+      "vehicleType": "Vehicle",
+      "powertrain": "Engine type",
+      "motorKw": "Motor power (kW)",
+      "vehicleClass": "Body type",
+      "ownership": "Registered to",
+      "vehiclePrice": "Car price (RM)",
+      "downPayment": "Down payment (RM)",
+      "tenure": "Loan period",
+      "rate": "Interest rate (% a year)",
+      "rateType": "Rate type"
+    },
+    "options": {
+      "vehicleType": {
+        "CAR": "Car",
+        "MOTORCYCLE": "Motorcycle"
+      },
+      "powertrain": {
+        "ICE": "Petrol / diesel",
+        "HYBRID": "Hybrid",
+        "EV": "Electric (EV)"
+      },
+      "roadRegion": {
+        "PENINSULAR": "Peninsular Malaysia",
+        "SABAH_SARAWAK": "Sabah & Sarawak",
+        "LANGKAWI_PANGKOR": "Langkawi & Pangkor",
+        "LABUAN": "Labuan"
+      },
+      "vehicleClass": {
+        "SALOON": "Saloon (sedan, hatchback)",
+        "NON_SALOON": "Non-saloon (MPV, SUV, pickup)"
+      },
+      "ownership": {
+        "PRIVATE": "Individual",
+        "COMPANY": "Company"
+      },
+      "rateType": {
+        "EIR": "Effective rate (EIR)",
+        "FLAT": "Flat rate"
+      },
+      "years": "{n} years",
+      "oneYear": "1 year"
+    },
+    "calculate": "Calculate",
+    "calculating": "Calculating…",
+    "result": {
+      "insurance": "Estimated premium",
+      "roadTax": "Estimated road tax a year",
+      "loan": "Monthly instalment",
+      "loanAmount": "Loan amount",
+      "totalInterest": "Total interest",
+      "totalPayable": "Estimated total payable",
+      "breakdown": "How it adds up",
+      "yearly": "Estimated yearly premium",
+      "beforeTax": "before tax",
+      "premiumBeforeTax": "Premium before tax",
+      "addTax": "Add tax and stamp duty",
+      "taxNote": "Every Malaysian motor policy adds service tax on the premium plus stamp duty. The figure shown above is the premium before both.",
+      "addonTag": "Add-on"
+    },
+    "left": "{n} of {max} free calculations left today",
+    "limitTitle": "You've used today's free calculations",
+    "limitBody": "Get unlimited calculations and exact prices from up to 10 insurers in the QarQal app.",
+    "appNudge": "Exact prices from each insurer and renewal are in the QarQal app.",
+    "errors": {
+      "required": "Please fill this in.",
+      "range": "Enter a value from {min} to {max}.",
+      "downPayment": "The down payment must be less than the car price.",
+      "server": "We couldn't calculate this just now. Please try again.",
+      "config": "The calculator couldn't load. Please refresh the page.",
+      "slowDown": "Too many tries in a short time. Please wait a moment and try again."
+    },
+    "car": {
+      "field": "Car",
+      "optional": "Optional",
+      "placeholder": "Select your car to estimate sum insured",
+      "clear": "Clear car",
+      "back": "Back",
+      "close": "Close",
+      "stepBrand": "Select brand",
+      "stepModel": "Select model",
+      "stepVariant": "Select variant",
+      "stepYear": "Year of manufacture",
+      "search": "Search",
+      "newPrice": "New: {price}",
+      "notListed": "Variant not listed",
+      "notListedHint": "Enter the sum insured yourself",
+      "noResults": "No results",
+      "retry": "Retry",
+      "estimating": "Estimating market value…",
+      "sliderLabel": "Sum insured · estimated market value",
+      "manual": "Enter amount manually",
+      "useEstimate": "Use estimated market value",
+      "noEstimate": "We can't estimate this car's market value yet. Enter the sum insured below.",
+      "outOfRange": "The estimated value ({value}) is outside the insurable range. Enter the sum insured below.",
+      "loadError": "Couldn't load the car list. Please try again."
+    },
+    "perDay": "{max} free calculations a day",
+    "addons": {
+      "title": "Add-ons",
+      "optional": "Optional",
+      "selected": "{n} selected",
+      "info": "About this add-on",
+      "glassValue": "Windscreen value (RM)",
+      "range": "{min} – {max}"
+    }
+  },
+  "assist": {
+    "title": "Stuck on the highway at 2am? Qarqal Assist sends a tow truck.",
+    "body": "24/7 towing and breakdown help with Basic or Premium plans, for cars and motorbikes, including EVs and superbikes.",
+    "basic": {
+      "name": "Basic",
+      "towing": "100 km towing",
+      "uses": "Up to 3 times a year",
+      "desc": "Towing when you break down, at a lower price.",
+      "points": [
+        "100 km of towing for your vehicle, anywhere in Malaysia",
+        "Use it up to 3 times within 365 days of purchase"
+      ],
+      "upsell": "Want unlimited towing and more?",
+      "upsellCta": "See Premium"
+    },
+    "premium": {
+      "name": "Premium",
+      "towing": "300 km towing",
+      "uses": "Unlimited use per year",
+      "desc": "Our full plan: longer towing, no limit on use, and extra help when things go wrong.",
+      "points": [
+        "300 km of towing, anywhere in Malaysia",
+        "Unlimited use for the year"
+      ],
+      "extrasTitle": "Included at no extra charge",
+      "extras": [
+        {
+          "title": "Car replacement",
+          "body": "2 days of rental car."
+        },
+        {
+          "title": "One-way flight ticket",
+          "body": "A domestic flight within Malaysia."
+        },
+        {
+          "title": "Ambulance service",
+          "body": "Interstate ambulance help."
+        },
+        {
+          "title": "Flood towing",
+          "body": "Special towing when your car is caught in a flood."
+        },
+        {
+          "title": "Tyre, battery and fuel delivery",
+          "body": "Delivery only. You pay for the items."
+        },
+        {
+          "title": "Jump-start",
+          "body": "No extra charge. You pay for a new battery if yours has failed."
+        },
+        {
+          "title": "Funeral compensation",
+          "body": "RM1,000 in the event of the member’s death."
+        }
+      ]
+    },
+    "terms": "Benefits vary by plan. T&C apply.",
+    "link": "See Assist plans in the app",
+    "hint": "Tap a plan to see what’s included."
+  },
+  "more": {
+    "title": "Road tax, licence and JPJ summons, coming soon in one app",
+    "lede": "As an official JPJ Rakan Niaga, QarQal is bringing these JPJ services online. Download now and they'll be ready the day they go live.",
+    "roadtax": {
+      "title": "Road tax renewal",
+      "status": "Coming soon",
+      "points": [
+        "Renew online, any time of day",
+        "Do it right after your insurance renewal",
+        "Pay in the app"
+      ]
+    },
+    "licence": {
+      "title": "Driving licence renewal",
+      "status": "Coming soon",
+      "points": [
+        "Renew your driving licence online",
+        "Pay in the app"
+      ]
+    },
+    "summons": {
+      "title": "JPJ summons",
+      "status": "Coming soon",
+      "points": [
+        "Check your JPJ summons online",
+        "Pay them in the app"
+      ]
+    },
+    "hub": "Online, in one app"
+  },
+  "video": {
+    "title": "See QarQal on the road",
+    "play": "Play video",
+    "pending": "Video coming soon"
+  },
+  "jpj": {
+    "title": "Government services",
+    "body": "Driving licence renewal and more JPJ services are coming to the app. Download now and you'll have it the day it goes live.",
+    "badge": "Coming soon",
+    "lead": "Official JPJ Rakan Niaga",
+    "leadRest": " by the Ministry of Transport (MOT) Malaysia, with authorization from the Ministry of Finance (MOF) as a collection agent.",
+    "agencies": {
+      "mot": "Ministry of Transport Malaysia",
+      "jpj": "Jabatan Pengangkutan Jalan Malaysia",
+      "mof": "Ministry of Finance Malaysia"
+    }
+  },
+  "faq": {
+    "title": "Questions people ask",
+    "items": [
+      {
+        "q": "Is QarQal free?",
+        "a": "Yes, the app is free to download."
+      },
+      {
+        "q": "Who issues my policy?",
+        "a": "The insurer you choose. QarQal gets your quotes through Senang, our insurance aggregator partner."
+      },
+      {
+        "q": "Is paying in the app safe?",
+        "a": "Payments go through licensed Malaysian payment gateways."
+      },
+      {
+        "q": "Does it cover motorbikes and company cars?",
+        "a": "Yes: cars, motorbikes and company-registered vehicles."
+      },
+      {
+        "q": "Which phones can use QarQal?",
+        "a": "iPhone, Android and Huawei."
+      },
+      {
+        "q": "What is a Rakan Niaga?",
+        "a": "A business partner appointed by the Ministry of Transport (MOT) to provide JPJ services. QarQal is an official JPJ Rakan Niaga, with authorization from the Ministry of Finance (MOF) as a collection agent."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Get your first quote before your renewal date."
+  },
+  "screens": {
+    "sample": "Sample screen. Your prices depend on your vehicle.",
+    "tryIt": "Try it: scroll and tap the screen."
+  },
+  "footer": {
+    "operatedBy": "QarQal is operated by July Systems Tech Sdn. Bhd.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms & Conditions",
+    "contact": "Contact us",
+    "rights": "All rights reserved."
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "toc": "On this page",
+    "englishOnly": "",
+    "back": "Back to home"
+  },
+  "terms": {
+    "title": "Terms & Conditions",
+    "englishOnly": ""
+  }
+}

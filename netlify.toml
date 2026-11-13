@@ -1,0 +1,17 @@
+# Netlify build settings for the QarQal landing page (Angular, every route prerendered to static HTML).
+# Calculator API root: set apiBaseUrl in src/environments/environment.ts (it is built into the page), then redeploy.
+
+[build]
+  command = "npm run build"
+  publish = "dist/qarqal_landing_page_angular/browser"
+
+[build.environment]
+  # Angular 20 needs Node 20.19+ or 22.12+.
+  NODE_VERSION = "22"
+
+# Showcase only: keep the site out of search engines until it is approved to replace www.qarqal.com.
+# Remove this block when this deploy becomes the real site.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"

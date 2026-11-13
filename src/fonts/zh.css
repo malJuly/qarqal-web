@@ -1,0 +1,3 @@
+/* Chinese glyphs: loaded only on /zh/ pages (see SeoService). Split by unicode-range, so browsers fetch only the characters used. */
+@import '@fontsource/noto-sans-sc/400.css';
+@import '@fontsource/noto-sans-sc/700.css';

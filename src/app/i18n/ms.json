@@ -1,0 +1,595 @@
+{
+  "meta": {
+    "lang": "ms",
+    "htmlLang": "ms-MY",
+    "ogLocale": "ms_MY",
+    "title": "QarQal: Bandingkan insurans kereta daripada sehingga 10 syarikat insurans",
+    "description": "Bandingkan sebut harga insurans motor daripada sehingga 10 syarikat insurans dan dapatkan bantuan tunda 24/7 dalam satu aplikasi. Cukai jalan, lesen dan saman JPJ akan datang. Untuk kereta dan motosikal di Malaysia."
+  },
+  "nav": {
+    "download": "Muat turun",
+    "language": "Bahasa",
+    "skip": "Langkau ke kandungan",
+    "links": {
+      "insurance": "Insurans",
+      "assist": "Qarqal Assist",
+      "services": "Perkhidmatan JPJ",
+      "faq": "Soalan lazim",
+      "about": "Tentang kami",
+      "calculator": "Kalkulator",
+      "privacy": "Privasi"
+    },
+    "menu": "Menu"
+  },
+  "brand": {
+    "tagline": "Bespoke app for all your vehicle needs"
+  },
+  "hero": {
+    "title": "Bandingkan insurans kereta daripada sehingga 10 syarikat insurans, terus dari telefon anda.",
+    "subtitle": "Pilih perlindungan anda, tambah manfaat yang anda mahu, dan bayar dalam aplikasi QarQal. Bantuan tunda 24/7 pun ada, dan cukai jalan akan datang.",
+    "note": "Percuma untuk dimuat turun"
+  },
+  "quote": {
+    "title": "Dapatkan sebut harga insurans kereta anda",
+    "idType": "Jenis ID",
+    "idTypes": {
+      "nric": "NRIC",
+      "passport": "Pasport",
+      "company": "Syarikat / Polis / Tentera"
+    },
+    "idNumber": {
+      "nric": "Nombor NRIC",
+      "passport": "Nombor pasport",
+      "company": "Nombor pendaftaran"
+    },
+    "idHint": {
+      "nric": "cth. 900101-14-5678",
+      "passport": "cth. A12345678",
+      "company": "cth. 201001013071"
+    },
+    "plate": "Nombor plat",
+    "plateHint": "cth. WXY 1234",
+    "postcode": "Poskod",
+    "postcodeHint": "cth. 50450",
+    "submit": "Bandingkan sebut harga",
+    "sending": "Menyemak…",
+    "consent": "Dengan meneruskan, anda bersetuju QarQal boleh menggunakan butiran ini untuk menyediakan sebut harga anda.",
+    "privacy": "Dasar Privasi",
+    "errors": {
+      "required": "Sila isi ruangan ini.",
+      "nric": "Masukkan 12 digit pada MyKad anda.",
+      "passport": "Gunakan huruf dan nombor sahaja (maksimum 20).",
+      "company": "Gunakan huruf, nombor dan sengkang sahaja (maksimum 20).",
+      "plate": "Masukkan nombor plat yang sah, cth. WXY 1234.",
+      "postcode": "Poskod mempunyai 5 digit.",
+      "server": "Kami tidak dapat mendapatkan sebut harga anda sekarang. Sila cuba lagi, atau teruskan dalam aplikasi."
+    },
+    "doneTitle": "Sebut harga anda menanti dalam aplikasi",
+    "doneBody": "Muat turun QarQal dan masukkan butiran ini untuk membandingkan sehingga 10 syarikat insurans.",
+    "doneCta": "Muat turun QarQal",
+    "edit": "Tukar butiran"
+  },
+  "quoteFlow": {
+    "close": "Tutup",
+    "back": "Kembali",
+    "points": {
+      "title": "Kumpul mata QarQal",
+      "body": "Masukkan nombor telefon bimbit anda dan kumpul mata QarQal apabila anda membeli insurans. Kami akan menghantar kod 6 digit.",
+      "mobile": "Nombor telefon bimbit",
+      "mobileHint": "12 345 6789",
+      "send": "Hantar kod",
+      "sending": "Menghantar…",
+      "skip": "Langkau, tunjuk sebut harga saya",
+      "invalid": "Masukkan nombor telefon bimbit Malaysia yang sah, cth. 12 345 6789.",
+      "failed": "Kami tidak dapat menghantar kod. Sila cuba lagi.",
+      "blocked": "Nombor ini tidak boleh digunakan. Sila guna nombor lain atau langkau."
+    },
+    "otp": {
+      "title": "Masukkan kod anda",
+      "body": "Kami telah menghantar kod 6 digit ke",
+      "code": "Kod 6 digit",
+      "verify": "Sahkan dan bandingkan",
+      "verifying": "Mengesahkan…",
+      "resend": "Hantar semula kod",
+      "resendIn": "Hantar semula dalam {s}s",
+      "invalid": "Masukkan 6 digit kod anda.",
+      "wrong": "Kod itu tidak sah. Semak dan cuba lagi."
+    },
+    "loading": "Membandingkan syarikat insurans untuk anda… ini boleh mengambil masa sehingga 30 saat.",
+    "covers": {
+      "COMP": "Komprehensif",
+      "TPFT": "Pihak ketiga, kebakaran & kecurian",
+      "TP": "Pihak ketiga"
+    },
+    "results": {
+      "title": "Pilih pelan anda",
+      "earning": "Kumpul mata sebagai {mobile}",
+      "notEarning": "Anda tidak mengumpul mata untuk pembelian ini.",
+      "coverLabel": "Jenis perlindungan",
+      "sumInsured": "Jumlah diinsuranskan",
+      "noneForCover": "Tiada syarikat insurans memberi sebut harga dalam talian untuk perlindungan ini. Cuba jenis lain.",
+      "others": "Tidak tersedia dalam talian:",
+      "notFound": "Kami tidak menemui syarikat insurans untuk kenderaan ini. Semak nombor plat dan nombor ID, atau teruskan dalam aplikasi.",
+      "error": "Kami tidak dapat mendapatkan sebut harga anda sekarang. Sila cuba lagi.",
+      "retry": "Cuba lagi",
+      "editDetails": "Tukar butiran",
+      "openApp": "Teruskan dalam aplikasi",
+      "lede": "Pilih syarikat insurans dan tambah perlindungan yang anda mahu. Harga dikemas kini semasa anda memilih.",
+      "lowest": "Harga terendah",
+      "priceNote": "Jubin menunjukkan sumbangan kasar. Jumlah perlu dibayar, termasuk SST dan duti setem, ada dalam ringkasan pesanan dan disahkan apabila anda memilih syarikat insurans.",
+      "notFoundTitle": "Tiada syarikat insurans ditemui untuk kenderaan ini",
+      "edit": "Ubah",
+      "insurers": "Syarikat insurans",
+      "gross": "Sumbangan kasar",
+      "editConfirm": {
+        "title": "Tukar butiran kenderaan anda?",
+        "body": "Anda akan kembali ke laman utama untuk memasukkan semula butiran kenderaan dan ID, dan mendapatkan sebut harga baharu. Pilihan yang anda buat di halaman ini tidak akan disimpan.",
+        "yes": "Ya, tukar butiran",
+        "no": "Kekal di halaman ini"
+      }
+    },
+    "page": {
+      "home": "Kembali ke laman utama",
+      "missing": "Sebut harga ini tidak lagi tersedia pada peranti ini. Mulakan sebut harga baharu untuk melihat harga semula.",
+      "newQuote": "Mulakan sebut harga baharu",
+      "steps": [
+        "Pilih pelan anda",
+        "Butiran anda",
+        "Pembayaran"
+      ],
+      "progress": "Kemajuan pembelian"
+    },
+    "details": {
+      "title": "Butiran anda",
+      "back": "Kembali ke pelan",
+      "holder": "Pemegang polisi",
+      "contact": "Hubungan",
+      "address": "Alamat",
+      "fullName": "Nama penuh (seperti dalam ID)",
+      "dob": "Tarikh lahir",
+      "gender": "Jantina",
+      "marital": "Status perkahwinan",
+      "nationality": "Warganegara",
+      "email": "E-mel",
+      "address1": "Alamat baris 1",
+      "address2": "Alamat baris 2",
+      "address3": "Alamat baris 3",
+      "optional": "pilihan",
+      "city": "Bandar",
+      "state": "Negeri",
+      "choose": "Pilih…",
+      "continue": "Teruskan ke pembayaran",
+      "saving": "Menyimpan…",
+      "failed": "Kami tidak dapat menyimpan butiran anda. Sila semak dan cuba lagi.",
+      "lookupsFailed": "Sesetengah senarai tidak dimuatkan. Muat semula halaman dan cuba lagi.",
+      "errName": "Masukkan nama penuh anda (sekurang-kurangnya 3 huruf).",
+      "errEmail": "Masukkan alamat e-mel yang sah.",
+      "errAddress": "Masukkan sekurang-kurangnya 5 aksara.",
+      "lede": "Polisi akan dikeluarkan atas nama ini, jadi masukkan butiran seperti dalam ID."
+    },
+    "payment": {
+      "title": "Semak dan bayar",
+      "back": "Kembali ke butiran anda",
+      "totalNote": "Billplz menunjukkan jumlah akhir sebelum anda membayar.",
+      "paying": "Membuka Billplz…",
+      "failed": "Kami tidak dapat memulakan pembayaran. Sila cuba lagi.",
+      "secure": "Anda akan membayar di halaman selamat Billplz, kemudian kembali ke sini.",
+      "lede": "Semak pesanan anda, kemudian bayar dengan selamat melalui Billplz.",
+      "payAmount": "Bayar RM {amount}"
+    },
+    "result": {
+      "successTitle": "Pembayaran diterima",
+      "successBody": "Terima kasih. Pembayaran anda berjaya dan kami sedang mengeluarkan polisi anda.",
+      "failedTitle": "Pembayaran tidak selesai",
+      "failedBody": "Pembayaran anda tidak berjaya dan anda tidak dicaj. Anda boleh cuba lagi.",
+      "unknownTitle": "Status pembayaran",
+      "unknownBody": "Kami tidak dapat mengesahkan status pembayaran anda. Jika anda telah dicaj, polisi anda masih sedang dikeluarkan.",
+      "retry": "Cuba bayar lagi",
+      "home": "Kembali ke laman utama",
+      "pageTitle": "Pesanan anda"
+    },
+    "addons": {
+      "title": "Tambahan",
+      "lede": "Tambahan pilihan daripada syarikat insurans ini.",
+      "none": "Syarikat insurans ini tiada tambahan dalam talian.",
+      "included": "Termasuk",
+      "plan": "Pelan",
+      "choosePlan": "Pilih pelan…",
+      "amount": "Jumlah perlindungan (RM)",
+      "range": "Antara RM {min} dan RM {max}.",
+      "failed": "Kami tidak dapat mengemas kini harga dengan tambahan ini. Buang atau cuba lagi.",
+      "continue": "Teruskan",
+      "updatingQuote": "Mengemas kini sebut harga anda…",
+      "resetNote": "Tambahan anda telah ditetapkan semula kerana jenis nilai berubah. Tambah semula jika perlu."
+    },
+    "drivers": {
+      "title": "Pemandu bernama tambahan",
+      "price": "Sehingga {max}. Pemandu pertama percuma, kemudian RM {price} setiap seorang.",
+      "nric": "MyKad",
+      "passport": "Pasport",
+      "fullName": "Nama penuh",
+      "idType": "Jenis ID",
+      "idNumber": "Nombor ID",
+      "dob": "Tarikh lahir",
+      "add": "Tambah pemandu",
+      "save": "Tambah pemandu",
+      "cancel": "Batal",
+      "remove": "Buang",
+      "errName": "Masukkan nama penuh pemandu (sekurang-kurangnya 3 huruf).",
+      "errId": "Semak nombor ID."
+    },
+    "summary": {
+      "title": "Ringkasan pesanan",
+      "plan": "Pelan",
+      "change": "Tukar",
+      "vehicle": "Kenderaan",
+      "period": "Tempoh perlindungan",
+      "addons": "Tambahan",
+      "none": "Tiada dipilih",
+      "free": "Percuma",
+      "total": "Jumlah perlu dibayar",
+      "updating": "Mengemas kini harga…",
+      "incl": "Termasuk SST & duti setem",
+      "saving": "Anda jimat RM {amount} dengan NCD {pct}%",
+      "breakdown": "Pecahan harga",
+      "sst": "Cukai perkhidmatan",
+      "stampDuty": "Duti setem",
+      "processingFee": "Yuran pemprosesan",
+      "roadTax": "Cukai jalan",
+      "only": "Hanya",
+      "basic": "Sumbangan asas",
+      "ncd": "Diskaun tanpa tuntutan (NCD) {pct}%",
+      "gross": "Sumbangan kasar",
+      "discount": "Diskaun",
+      "other": "Caj lain",
+      "otherLess": "Potongan lain"
+    },
+    "success": {
+      "title": "Hore, anda berjaya!",
+      "body": "Anda akan mendapat mata QarQal untuk {mobile} apabila anda membeli insurans.",
+      "app": "Dapatkan aplikasi QarQal",
+      "guestTitle": "Sebut harga anda sedang disediakan",
+      "guestBody": "Kami sedang membandingkan syarikat insurans untuk anda. Sementara menunggu, dapatkan aplikasi QarQal.",
+      "closing": "Ini akan ditutup sendiri dalam {s} saat"
+    },
+    "plan": {
+      "title": "Pelan",
+      "variant": "Varian kenderaan",
+      "chooseVariant": "Pilih varian…",
+      "valueType": "Jenis nilai",
+      "market": "Nilai pasaran",
+      "agreed": "Nilai dipersetujui",
+      "marketHelp": "Tuntutan membayar nilai pasaran kereta pada masa kerugian.",
+      "agreedHelp": "Tuntutan membayar jumlah yang dipersetujui hari ini.",
+      "sumInsured": "Jumlah diinsuranskan",
+      "sumHint": "nilai kereta yang dilindungi",
+      "sumRange": "Mesti antara RM {min} dan RM {max}.",
+      "roadTax": "Sertakan pembaharuan cukai jalan",
+      "roadTaxHelp": "Perbaharui cukai jalan anda bersama polisi ini."
+    },
+    "earnInApp": "Muat turun aplikasi QarQal untuk kumpul mata"
+  },
+  "stores": {
+    "appStore": {
+      "pre": "Muat turun di",
+      "name": "App Store"
+    },
+    "googlePlay": {
+      "pre": "Dapatkan di",
+      "name": "Google Play"
+    },
+    "appGallery": {
+      "pre": "Terokai di",
+      "name": "AppGallery"
+    }
+  },
+  "trust": {
+    "insurersTitle": "Sebut harga daripada syarikat insurans ini",
+    "disclaimer": "Sebut harga insurans disediakan melalui rakan kongsi kami, Senang, sebuah agregator insurans.",
+    "rakanNiaga": "Rakan Niaga JPJ rasmi, oleh MOT",
+    "mof": "Ejen kutipan dengan kebenaran daripada MOF",
+    "govTitle": "Perkhidmatan kerajaan",
+    "govMore": "Lihat butiran"
+  },
+  "oldWay": {
+    "title": "Masih menunggu sebut harga daripada ejen anda?",
+    "body": "Anda mesej ejen anda dan tunggu. Anda semak laman web satu syarikat insurans, kemudian yang lain pula. Cukai jalan di portal lain, dan nombor trak tunda entah di mana dalam laci kereta. QarQal satukan semuanya dalam satu aplikasi."
+  },
+  "insurance": {
+    "title": "Sebut harga anda dalam tiga langkah",
+    "steps": [
+      {
+        "title": "Tambah kenderaan anda",
+        "body": "Simpan kereta atau motosikal anda dalam Qarqal Garage sekali sahaja. Butirannya kekal di situ untuk pembaharuan tahun depan."
+      },
+      {
+        "title": "Bandingkan sebut harga",
+        "body": "Lihat harga daripada sehingga 10 syarikat insurans secara bersebelahan, kemudian tambah manfaat yang anda mahu."
+      },
+      {
+        "title": "Bayar dalam aplikasi",
+        "body": "Bayar melalui gerbang pembayaran Malaysia yang berlesen. Polisi anda dikeluarkan oleh syarikat insurans yang anda pilih."
+      }
+    ]
+  },
+  "calc": {
+    "title": "Kira kos anda sebelum memperbaharui",
+    "lede": "Anggarkan insurans kereta, cukai jalan dan pinjaman kereta anda. Harga tepat daripada setiap syarikat insurans ada dalam aplikasi.",
+    "tabs": {
+      "insurance": "Insurans kereta",
+      "roadTax": "Cukai jalan",
+      "loan": "Pinjaman kereta"
+    },
+    "fields": {
+      "coverType": "Jenis perlindungan",
+      "region": "Kawasan",
+      "engineCc": "Kapasiti enjin (cc)",
+      "sumInsured": "Jumlah diinsuranskan / nilai kereta (RM)",
+      "ncd": "Diskaun tanpa tuntutan (NCD)",
+      "vehicleType": "Kenderaan",
+      "powertrain": "Jenis enjin",
+      "motorKw": "Kuasa motor (kW)",
+      "vehicleClass": "Jenis badan",
+      "ownership": "Didaftarkan atas nama",
+      "vehiclePrice": "Harga kereta (RM)",
+      "downPayment": "Bayaran pendahuluan (RM)",
+      "tenure": "Tempoh pinjaman",
+      "rate": "Kadar faedah (% setahun)",
+      "rateType": "Jenis kadar"
+    },
+    "options": {
+      "vehicleType": {
+        "CAR": "Kereta",
+        "MOTORCYCLE": "Motosikal"
+      },
+      "powertrain": {
+        "ICE": "Petrol / diesel",
+        "HYBRID": "Hibrid",
+        "EV": "Elektrik (EV)"
+      },
+      "roadRegion": {
+        "PENINSULAR": "Semenanjung Malaysia",
+        "SABAH_SARAWAK": "Sabah & Sarawak",
+        "LANGKAWI_PANGKOR": "Langkawi & Pangkor",
+        "LABUAN": "Labuan"
+      },
+      "vehicleClass": {
+        "SALOON": "Saloon (sedan, hatchback)",
+        "NON_SALOON": "Bukan saloon (MPV, SUV, pikap)"
+      },
+      "ownership": {
+        "PRIVATE": "Individu",
+        "COMPANY": "Syarikat"
+      },
+      "rateType": {
+        "EIR": "Kadar efektif (EIR)",
+        "FLAT": "Kadar rata"
+      },
+      "years": "{n} tahun",
+      "oneYear": "1 tahun"
+    },
+    "calculate": "Kira",
+    "calculating": "Mengira…",
+    "result": {
+      "insurance": "Anggaran premium",
+      "roadTax": "Anggaran cukai jalan setahun",
+      "loan": "Ansuran bulanan",
+      "loanAmount": "Jumlah pinjaman",
+      "totalInterest": "Jumlah faedah",
+      "totalPayable": "Anggaran jumlah perlu dibayar",
+      "breakdown": "Pecahan kiraan",
+      "yearly": "Anggaran premium setahun",
+      "beforeTax": "sebelum cukai",
+      "premiumBeforeTax": "Premium sebelum cukai",
+      "addTax": "Tambah cukai dan duti setem",
+      "taxNote": "Setiap polisi motor di Malaysia dikenakan cukai perkhidmatan ke atas premium dan duti setem. Angka di atas ialah premium sebelum kedua-duanya.",
+      "addonTag": "Tambahan"
+    },
+    "left": "{n} daripada {max} kiraan percuma lagi hari ini",
+    "limitTitle": "Anda telah guna semua kiraan percuma hari ini",
+    "limitBody": "Dapatkan kiraan tanpa had dan harga tepat daripada sehingga 10 syarikat insurans dalam aplikasi QarQal.",
+    "appNudge": "Harga tepat setiap syarikat insurans dan pembaharuan ada dalam aplikasi QarQal.",
+    "errors": {
+      "required": "Sila isi ruangan ini.",
+      "range": "Masukkan nilai dari {min} hingga {max}.",
+      "downPayment": "Bayaran pendahuluan mesti kurang daripada harga kereta.",
+      "server": "Kami tidak dapat mengira sekarang. Sila cuba lagi.",
+      "config": "Kalkulator tidak dapat dimuatkan. Sila muat semula halaman.",
+      "slowDown": "Terlalu banyak cubaan dalam masa singkat. Sila tunggu sebentar dan cuba lagi."
+    },
+    "car": {
+      "field": "Kereta",
+      "optional": "Pilihan",
+      "placeholder": "Pilih kereta anda untuk anggar jumlah diinsuranskan",
+      "clear": "Kosongkan kereta",
+      "back": "Kembali",
+      "close": "Tutup",
+      "stepBrand": "Pilih jenama",
+      "stepModel": "Pilih model",
+      "stepVariant": "Pilih varian",
+      "stepYear": "Tahun dibuat",
+      "search": "Cari",
+      "newPrice": "Baharu: {price}",
+      "notListed": "Varian tiada dalam senarai",
+      "notListedHint": "Masukkan jumlah diinsuranskan sendiri",
+      "noResults": "Tiada hasil",
+      "retry": "Cuba lagi",
+      "estimating": "Menganggar nilai pasaran…",
+      "sliderLabel": "Jumlah diinsuranskan · anggaran nilai pasaran",
+      "manual": "Masukkan jumlah sendiri",
+      "useEstimate": "Guna anggaran nilai pasaran",
+      "noEstimate": "Kami belum dapat menganggar nilai pasaran kereta ini. Masukkan jumlah diinsuranskan di bawah.",
+      "outOfRange": "Anggaran nilai ({value}) di luar julat yang boleh diinsuranskan. Masukkan jumlah diinsuranskan di bawah.",
+      "loadError": "Senarai kereta tidak dapat dimuatkan. Sila cuba lagi."
+    },
+    "perDay": "{max} kiraan percuma sehari",
+    "addons": {
+      "title": "Manfaat tambahan",
+      "optional": "Pilihan",
+      "selected": "{n} dipilih",
+      "info": "Tentang manfaat ini",
+      "glassValue": "Nilai cermin depan (RM)",
+      "range": "{min} – {max}"
+    }
+  },
+  "assist": {
+    "title": "Tersadai di lebuh raya jam 2 pagi? Qarqal Assist hantar trak tunda.",
+    "body": "Bantuan tunda dan kerosakan 24/7 dengan pelan Basic atau Premium, untuk kereta dan motosikal, termasuk EV dan superbike.",
+    "basic": {
+      "name": "Basic",
+      "towing": "Tunda 100 km",
+      "uses": "Sehingga 3 kali setahun",
+      "desc": "Bantuan tunda bila kenderaan anda rosak, pada harga lebih rendah.",
+      "points": [
+        "Tunda 100 km untuk kenderaan anda, di seluruh Malaysia",
+        "Boleh digunakan sehingga 3 kali dalam 365 hari dari tarikh pembelian"
+      ],
+      "upsell": "Mahu tunda tanpa had dan banyak lagi?",
+      "upsellCta": "Lihat Premium"
+    },
+    "premium": {
+      "name": "Premium",
+      "towing": "Tunda 300 km",
+      "uses": "Penggunaan tanpa had setahun",
+      "desc": "Pelan lengkap kami: tunda lebih jauh, tanpa had penggunaan, dan bantuan tambahan bila berlaku masalah.",
+      "points": [
+        "Tunda 300 km, di seluruh Malaysia",
+        "Penggunaan tanpa had sepanjang tahun"
+      ],
+      "extrasTitle": "Termasuk tanpa caj tambahan",
+      "extras": [
+        {
+          "title": "Kereta gantian",
+          "body": "Kereta sewa selama 2 hari."
+        },
+        {
+          "title": "Tiket penerbangan sehala",
+          "body": "Penerbangan domestik dalam Malaysia."
+        },
+        {
+          "title": "Perkhidmatan ambulans",
+          "body": "Bantuan ambulans antara negeri."
+        },
+        {
+          "title": "Tunda banjir",
+          "body": "Bantuan tunda khas ketika kereta anda dilanda banjir."
+        },
+        {
+          "title": "Penghantaran tayar, bateri dan minyak",
+          "body": "Penghantaran sahaja. Anda bayar untuk barangnya."
+        },
+        {
+          "title": "Jump-start",
+          "body": "Tiada caj tambahan. Anda bayar bateri baharu jika bateri rosak."
+        },
+        {
+          "title": "Pampasan khairat kematian",
+          "body": "RM1,000 sekiranya ahli meninggal dunia."
+        }
+      ]
+    },
+    "terms": "Manfaat berbeza mengikut pelan. Tertakluk kepada terma dan syarat.",
+    "link": "Lihat pelan Assist dalam aplikasi",
+    "hint": "Ketik pelan untuk lihat apa yang termasuk."
+  },
+  "more": {
+    "title": "Cukai jalan, lesen dan saman JPJ, akan datang dalam satu aplikasi",
+    "lede": "Sebagai Rakan Niaga JPJ rasmi, QarQal membawa perkhidmatan JPJ ini ke dalam talian. Muat turun sekarang dan ia sedia sebaik sahaja dilancarkan.",
+    "roadtax": {
+      "title": "Pembaharuan cukai jalan",
+      "status": "Akan datang",
+      "points": [
+        "Perbaharui dalam talian, bila-bila masa",
+        "Terus selepas pembaharuan insurans anda",
+        "Bayar dalam aplikasi"
+      ]
+    },
+    "licence": {
+      "title": "Pembaharuan lesen memandu",
+      "status": "Akan datang",
+      "points": [
+        "Perbaharui lesen memandu dalam talian",
+        "Bayar dalam aplikasi"
+      ]
+    },
+    "summons": {
+      "title": "Saman JPJ",
+      "status": "Akan datang",
+      "points": [
+        "Semak saman JPJ anda dalam talian",
+        "Bayar dalam aplikasi"
+      ]
+    },
+    "hub": "Dalam talian, dalam satu aplikasi"
+  },
+  "video": {
+    "title": "Lihat QarQal di jalan raya",
+    "play": "Main video",
+    "pending": "Video akan datang"
+  },
+  "jpj": {
+    "title": "Perkhidmatan kerajaan",
+    "body": "Pembaharuan lesen memandu dan lebih banyak perkhidmatan JPJ akan datang ke aplikasi. Muat turun sekarang dan anda boleh guna sebaik sahaja ia dilancarkan.",
+    "badge": "Akan datang",
+    "lead": "Rakan Niaga JPJ rasmi",
+    "leadRest": " oleh Kementerian Pengangkutan (MOT) Malaysia, dengan kebenaran daripada Kementerian Kewangan (MOF) sebagai ejen kutipan.",
+    "agencies": {
+      "mot": "Kementerian Pengangkutan Malaysia",
+      "jpj": "Jabatan Pengangkutan Jalan Malaysia",
+      "mof": "Kementerian Kewangan Malaysia"
+    }
+  },
+  "faq": {
+    "title": "Soalan lazim",
+    "items": [
+      {
+        "q": "Adakah QarQal percuma?",
+        "a": "Ya, aplikasi ini percuma untuk dimuat turun."
+      },
+      {
+        "q": "Siapa yang mengeluarkan polisi saya?",
+        "a": "Syarikat insurans yang anda pilih. QarQal mendapatkan sebut harga melalui Senang, rakan kongsi agregator insurans kami."
+      },
+      {
+        "q": "Selamatkah membayar dalam aplikasi?",
+        "a": "Pembayaran dibuat melalui gerbang pembayaran Malaysia yang berlesen."
+      },
+      {
+        "q": "Adakah ia meliputi motosikal dan kereta syarikat?",
+        "a": "Ya: kereta, motosikal dan kenderaan berdaftar atas nama syarikat."
+      },
+      {
+        "q": "Telefon apa yang boleh guna QarQal?",
+        "a": "iPhone, Android dan Huawei."
+      },
+      {
+        "q": "Apakah Rakan Niaga?",
+        "a": "Rakan perniagaan yang dilantik oleh Kementerian Pengangkutan (MOT) untuk menyediakan perkhidmatan JPJ. QarQal ialah Rakan Niaga JPJ rasmi, dengan kebenaran daripada Kementerian Kewangan (MOF) sebagai ejen kutipan."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Dapatkan sebut harga pertama anda sebelum tarikh pembaharuan."
+  },
+  "screens": {
+    "sample": "Contoh skrin. Harga anda bergantung pada kenderaan anda.",
+    "tryIt": "Cuba: tatal dan ketik skrin."
+  },
+  "footer": {
+    "operatedBy": "QarQal dikendalikan oleh July Systems Tech Sdn. Bhd.",
+    "privacy": "Dasar Privasi",
+    "terms": "Terma & Syarat",
+    "contact": "Hubungi kami",
+    "rights": "Hak cipta terpelihara."
+  },
+  "privacy": {
+    "title": "Dasar Privasi",
+    "toc": "Kandungan",
+    "englishOnly": "Dasar privasi ini disediakan dalam bahasa Inggeris sahaja.",
+    "back": "Kembali ke laman utama"
+  },
+  "terms": {
+    "title": "Terma & Syarat",
+    "englishOnly": "Terma ini disediakan dalam bahasa Inggeris sahaja."
+  }
+}

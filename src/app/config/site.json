@@ -1,0 +1,52 @@
+{
+  "stores": {
+    "appStore": "https://apps.apple.com/my/app/qarqal/id6749691798",
+    "googlePlay": "https://play.google.com/store/apps/details?id=com.qarqal.app",
+    "appGallery": "https://appgallery.huawei.com/app/C114869889"
+  },
+  "contact": {
+    "email": "info@julysystems.com.my"
+  },
+  "company": {
+    "name": "July Systems Tech Sdn. Bhd.",
+    "registrationNo": ""
+  },
+  "video": {
+    "youtubeId": "",
+    "mp4": "",
+    "poster": "",
+    "clips": []
+  },
+  "languages": [
+    {
+      "code": "en",
+      "label": "EN",
+      "name": "English",
+      "path": "/"
+    },
+    {
+      "code": "ms",
+      "label": "BM",
+      "name": "Bahasa Melayu",
+      "path": "/ms/"
+    },
+    {
+      "code": "zh",
+      "label": "中文",
+      "name": "中文",
+      "path": "/zh/"
+    },
+    {
+      "code": "ta",
+      "label": "தமிழ்",
+      "name": "தமிழ்",
+      "path": "/ta/"
+    }
+  ],
+  "quote": {
+    "endpoint": ""
+  },
+  "calculator": {
+    "freePerDay": 3
+  }
+}

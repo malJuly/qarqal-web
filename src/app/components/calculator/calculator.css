@@ -1,0 +1,213 @@
+/* Calculator styles. The component uses ViewEncapsulation.None because the script builds rows and results
+   with innerHTML, which Angular's scoped styles cannot reach. Every selector is prefixed (calc__, cf, addon, carfield, carsheet). */
+  .calc { background: var(--bg-soft); }
+  .calc h2 { text-align: center; }
+  .calc__lede { margin: 0.75rem auto 0; text-align: center; }
+
+  .calc__card {
+    margin: 2rem auto 0; max-width: 960px; background: #fff; border-radius: var(--radius);
+    border: 1px solid var(--line); box-shadow: 0 20px 40px -24px rgb(4 11 36 / 0.25); padding: 8px 8px 20px;
+  }
+  .calc__tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; padding: 4px; background: var(--bg-soft); border-radius: 12px; }
+  .calc__tabs button {
+    min-height: 44px; padding: 0 8px; border: 0; border-radius: 9px; background: none; cursor: pointer;
+    font: 700 0.875rem/1.2 var(--font); color: var(--ink-2);
+  }
+  @media (min-width: 560px) { .calc__tabs button { font-size: 0.9375rem; } }
+  .calc__tabs button[aria-selected='true'] { background: #fff; color: var(--navy); box-shadow: 0 1px 3px rgb(4 11 36 / 0.12); }
+
+  /* Form beside the result on wide screens, stacked on phones. */
+  .calc__panel { padding: 20px 12px 0; display: grid; gap: 20px; }
+  .calc__panel[hidden] { display: none; }
+  @media (min-width: 900px) { .calc__panel { grid-template-columns: 1.15fr 0.85fr; padding: 24px 20px 0; gap: 28px; } }
+  /* minmax(0, 1fr): columns may shrink below their content, so a long car name can't widen the form. */
+  .calc__form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; align-content: start; }
+  /* Two per row everywhere; long selects (.cf--wide) take the full row on phones, .cf--full always. */
+  .cf { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; min-width: 0; }
+  .cf--full { grid-column: 1 / -1; }
+  @media (max-width: 559px) { .cf--wide { grid-column: 1 / -1; } }
+  .cf[hidden] { display: none; }
+  .cf label { font-size: 0.8125rem; font-weight: 700; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  /* Car insurance layout. Wide: cover|region, car, cc|sum (cc alone when sum is hidden), NCD, button.
+     Phones: cover, region, car, cc|NCD (NCD shows just the %), manual sum insured on its own row, button. */
+  @media (min-width: 560px) {
+    .cf.cc--alone { grid-column: 1 / -1; }
+    .cf.ins-ncd { grid-column: 1 / -1; }
+  }
+  @media (max-width: 559px) {
+    .cf.ins-sum, .cf.addons { order: 1; } /* both after cc|NCD, sum insured first (DOM order) */
+    form[data-kind='ins'] .calc__go { order: 2; }
+    .calc__form .cf select { padding-left: 12px; padding-right: 30px; background-position: right 8px center; }
+    .carfield__minmax .carfield__link { white-space: nowrap; font-size: 0.75rem; }
+  }
+  @media (max-width: 379px) {
+    .calc__tabs button { font-size: 0.8125rem; padding: 0 4px; white-space: nowrap; }
+  }
+  .cf input, .cf select {
+    width: 100%; height: 48px; padding: 0 14px; font: 400 1rem var(--font); color: var(--ink);
+    background: #fff; border: 1px solid #c9d1e4; border-radius: 10px;
+  }
+  .cf select {
+    appearance: none; padding-right: 36px; cursor: pointer; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;
+    background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%231e3c96' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6l6-6'/%3E%3C/svg%3E") no-repeat right 12px center;
+  }
+  .cf input:focus, .cf select:focus { outline: none; border-color: var(--navy); box-shadow: 0 0 0 3px rgb(0 160 230 / 0.28); }
+  .cf input[aria-invalid='true'] { border-color: #d92d20; }
+  .cf__err { font-size: 0.8125rem; color: #b42318; }
+  .cf__err:empty { display: none; }
+  .calc__go { grid-column: 1 / -1; width: 100%; }
+
+  /* Add-ons (rows are built by the script, built by the script) */
+  .addons { border: 1px solid var(--line); border-radius: 12px; }
+  .addons[hidden] { display: none; }
+  .addons__toggle {
+    width: 100%; min-height: 48px; display: flex; align-items: center; gap: 8px; padding: 0 12px;
+    border: 0; background: none; cursor: pointer; font: inherit; text-align: left;
+  }
+  .addons__title { flex: 1; font-size: 0.875rem; font-weight: 700; color: var(--ink); }
+  .addons__count { padding: 2px 8px; border-radius: 999px; background: #e6eeff; color: var(--navy); font-size: 0.75rem; font-weight: 700; }
+  .addons__count[hidden] { display: none; }
+  .addons__toggle .addons__chev { color: var(--ink-3); transition: rotate 0.2s; }
+  .addons__toggle[aria-expanded='true'] .addons__chev { rotate: 180deg; }
+  .addons__list[hidden] { display: none; }
+  .addons__list { border-top: 1px solid var(--line); }
+  .addons__list .addon { padding: 10px 12px; }
+  .addons__list .addon[hidden] { display: none; }
+  .addons__list .addon + .addon { border-top: 1px solid var(--line); }
+  .addons__list .addon__head { display: flex; align-items: flex-start; gap: 10px; }
+  .addons__list .addon__head input { width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--navy); flex: none; cursor: pointer; }
+  .addons__list .addon__text { flex: 1; display: grid; gap: 1px; cursor: pointer; white-space: normal; }
+  .addons__list .addon__label { font-size: 0.9375rem; font-weight: 700; color: var(--ink); }
+  .addons__list .addon__price { font-size: 0.75rem; font-weight: 700; color: var(--navy); }
+  .addons__list .addon__info {
+    width: 28px; height: 28px; flex: none; border-radius: 50%; border: 1px solid #c9d1e4; background: #fff; cursor: pointer;
+    font: italic 700 0.8125rem Georgia, serif; color: var(--ink-3);
+  }
+  .addons__list .addon__info[aria-expanded='true'] { background: var(--navy); border-color: var(--navy); color: #fff; }
+  .addons__list .addon__desc { margin: 6px 0 0 30px; font-size: 0.8125rem; line-height: 1.45; color: var(--ink-3); }
+  .addons__list .addon__desc[hidden], .addons__list .addon__params[hidden] { display: none; }
+  .addons__list .addon__params { margin: 8px 0 0 30px; }
+  /* The param field is built by the script, so it gets the form's field look here. */
+  .addons__list .addon__params .cf { display: grid; gap: 6px; }
+  .addons__list .addon__params label { font-size: 0.8125rem; font-weight: 700; color: var(--ink-2); }
+  .addons__list .addon__params .cf__opt { margin-left: 4px; font-weight: 400; color: var(--ink-3); }
+  .addons__list .addon__params input {
+    width: 100%; height: 44px; padding: 0 12px; font: 400 1rem var(--font); color: var(--ink);
+    background: #fff; border: 1px solid #c9d1e4; border-radius: 10px;
+  }
+  .addons__list .addon__params input:focus { outline: none; border-color: var(--navy); box-shadow: 0 0 0 3px rgb(0 160 230 / 0.28); }
+  .addons__list .addon__params input[aria-invalid='true'] { border-color: #d92d20; }
+  .addons__list .addon__params .cf__err { font-size: 0.8125rem; color: #b42318; }
+  .addons__list .addon__params .cf__err:empty { display: none; }
+  .cf__label { font-size: 0.8125rem; font-weight: 700; color: var(--ink-2); }
+  .cf__opt { margin-left: 4px; font-weight: 400; color: var(--ink-3); }
+
+  /* Car field */
+  .carfield__box { position: relative; }
+  .carfield__btn {
+    width: 100%; min-height: 48px; display: flex; align-items: center; gap: 10px; padding: 8px 48px 8px 12px;
+    border: 1px solid #c9d1e4; border-radius: 10px; background: #fff; cursor: pointer; text-align: left; font: inherit;
+  }
+  .carfield__btn:hover { border-color: #8895a6; }
+  .carfield__btn .carfield__car { color: var(--navy); flex: none; }
+  .carfield__btn .carfield__chev { position: absolute; right: 12px; color: var(--ink-3); }
+  /* Up to two lines, so long variant names keep their year visible; anything longer ends in "…". */
+  .carfield__value {
+    flex: 1; min-width: 0; font-size: 0.9375rem; line-height: 1.3; color: var(--ink);
+    display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden;
+  }
+  .carfield__value.is-empty { color: #8895a6; font-size: 0.9375rem; }
+  .carfield__clear { position: absolute; right: 4px; top: 50%; translate: 0 -50%; width: 40px; height: 40px; display: grid; place-items: center; border: 0; background: #fff; border-radius: 8px; color: var(--ink-3); cursor: pointer; }
+  .carfield__clear[hidden] { display: none; }
+  .carfield__est { margin-top: 10px; }
+  .carfield__est[hidden], .carfield__slider[hidden], .carfield__link[hidden] { display: none; }
+  .carfield__msg { font-size: 0.8125rem; line-height: 1.4; color: var(--ink-3); }
+  .carfield__msg:empty { display: none; }
+  .carfield__slider { padding: 12px 14px 4px; border-radius: 12px; background: #eef3ff; }
+  .carfield__label { font-size: 0.75rem; font-weight: 700; color: var(--ink-3); }
+  .carfield__amount { margin-top: 2px; font-size: 1.375rem; font-weight: 900; color: var(--navy); }
+  .carfield__slider input { width: 100%; margin: 6px 0 2px; accent-color: var(--navy); height: 28px; }
+  .carfield__minmax { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 0.75rem; color: var(--ink-3); }
+  .carfield__link { min-height: 36px; padding: 0; border: 0; background: none; cursor: pointer; font: 700 0.8125rem var(--font); color: var(--navy); text-decoration: underline; text-underline-offset: 0.2em; }
+
+  /* Car picker sheet */
+  .carsheet {
+    width: min(480px, 100vw); max-height: min(640px, 85vh); padding: 0; border: 0; border-radius: 18px;
+    display: none; flex-direction: column; overflow: hidden; color: var(--ink);
+    box-shadow: 0 30px 80px rgb(4 11 36 / 0.4);
+  }
+  .carsheet[open] { display: flex; }
+  .carsheet::backdrop { background: rgb(4 11 36 / 0.5); }
+  @media (max-width: 559px) {
+    .carsheet { margin: auto 0 0; width: 100vw; max-width: 100vw; max-height: 80vh; border-radius: 18px 18px 0 0; }
+  }
+  .carsheet__head { flex: none; display: flex; align-items: center; gap: 6px; padding: 12px 12px 8px; border-bottom: 1px solid var(--line); }
+  .carsheet__titles { flex: 1; min-width: 0; padding-left: 4px; }
+  .carsheet__titles h3 { font-size: 1.0625rem; font-weight: 900; outline: none; }
+  .carsheet__crumb { font-size: 0.8125rem; color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .carsheet__crumb:empty { display: none; }
+  .carsheet__icon { width: 44px; height: 44px; flex: none; display: grid; place-items: center; border: 0; border-radius: 10px; background: none; color: var(--ink-2); cursor: pointer; }
+  .carsheet__icon:hover { background: var(--bg-soft); }
+  .carsheet__icon[hidden] { display: none; }
+  .carsheet__search { flex: none; display: flex; align-items: center; gap: 8px; margin: 12px 14px 6px; padding: 0 12px; height: 46px; border: 1px solid #c9d1e4; border-radius: 10px; color: var(--ink-3); }
+  .carsheet__search[hidden] { display: none; }
+  .carsheet__search input { flex: 1; min-width: 0; border: 0; outline: none; font: 400 1rem var(--font); color: var(--ink); background: none; }
+  .carsheet__search:focus-within { border-color: var(--navy); box-shadow: 0 0 0 3px rgb(0 160 230 / 0.28); }
+  .carsheet__list { list-style: none; margin: 0; padding: 4px 6px 12px; overflow-y: auto; overscroll-behavior: contain; flex: 1; }
+  /* The rows are created by the script, so they need  to get these styles (Astro scopes CSS to the template). */
+  .carsheet__list button {
+    width: 100%; min-height: 48px; padding: 8px 12px; display: grid; gap: 1px; border: 0; border-radius: 10px;
+    background: none; text-align: left; cursor: pointer; font: inherit; color: var(--ink);
+  }
+  .carsheet__list button:hover, .carsheet__list button:focus-visible { background: var(--bg-soft); outline: none; }
+  .carsheet__list li + li { border-top: 1px solid var(--line); }
+  .carsheet__list .carsheet__row-label { font-weight: 700; font-size: 0.9375rem; }
+  .carsheet__list .carsheet__row-sub { font-size: 0.8125rem; color: var(--ink-3); }
+  .carsheet__state { padding: 28px 16px; text-align: center; color: var(--ink-3); font-size: 0.875rem; }
+  .carsheet__state[hidden] { display: none; }
+  .calc__go:disabled { opacity: 0.55; cursor: not-allowed; }
+
+  .calc__result:empty { display: none; }
+  @media (min-width: 900px) { .calc__result:empty { display: block; border: 1px dashed var(--line); border-radius: 12px; } }
+  .calc__result:not(:empty) { padding: 20px; border-radius: 12px; background: var(--bg-soft); align-self: start; }
+  .calc__result .calc__res-label { font-size: var(--fs-small); font-weight: 700; color: var(--ink-2); }
+  .calc__result .calc__res-total { margin-top: 2px; font-size: 2rem; font-weight: 900; color: var(--navy); letter-spacing: -0.01em; }
+  .calc__result .calc__res-sub { margin-top: 14px; font-size: 0.8125rem; font-weight: 700; color: var(--ink-3); }
+  .calc__result .calc__res-lines { list-style: none; margin: 6px 0 0; padding: 0; }
+  .calc__result .calc__res-lines li { display: flex; justify-content: space-between; gap: 12px; padding: 7px 0; border-top: 1px solid var(--line); font-size: 0.9375rem; }
+  .calc__result .calc__res-note { margin-top: 12px; font-size: 0.75rem; line-height: 1.5; color: var(--ink-3); }
+  .calc__result .calc__res-suffix { font-size: 0.8125rem; font-weight: 700; color: var(--ink-3); letter-spacing: 0; }
+  .calc__result .calc__res-lines li > span:first-child { display: grid; gap: 1px; }
+  .calc__result .calc__res-lines small { font-size: 0.75rem; color: var(--ink-3); }
+  .calc__result .calc__res-lines li.is-discount > span:last-child { color: #0b7a3e; }
+  .calc__result .calc__tag { display: inline-block; margin-left: 4px; padding: 0 6px; border-radius: 4px; background: #e6eeff; color: var(--navy); font-size: 0.6875rem; font-weight: 700; vertical-align: 1px; }
+  .calc__result .calc__res-subtotal { font-weight: 900; color: var(--navy); }
+  .calc__result .calc__res-grand { font-weight: 900; color: var(--navy); font-size: 1.0625rem; }
+  .calc__result .calc__tax-toggle {
+    width: 100%; margin-top: 10px; min-height: 44px; display: flex; align-items: center; justify-content: space-between;
+    padding: 0; border: 0; border-top: 1px solid var(--line); background: none; cursor: pointer;
+    font: 700 0.9375rem var(--font); color: var(--navy);
+  }
+  .calc__result .calc__tax-toggle span { width: 10px; height: 10px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; rotate: 45deg; translate: 0 -3px; transition: rotate 0.2s; }
+  .calc__result .calc__tax-toggle[aria-expanded='true'] span { rotate: 225deg; translate: 0 3px; }
+  .calc__result .calc__tax[hidden] { display: none; }
+  .calc__result .calc__res-error { color: #b42318; font-weight: 700; }
+
+  .calc__foot { margin: 20px 12px 0; padding-top: 16px; border-top: 1px solid var(--line); display: grid; gap: 4px; text-align: center; }
+  @media (min-width: 900px) { .calc__foot { margin-inline: 20px; } }
+  .calc__left { font-weight: 700; color: var(--navy); font-size: var(--fs-small); }
+  .calc__nudge { color: var(--ink-3); font-size: var(--fs-small); }
+
+  .calc__limit { margin: 16px 12px 0; padding: 20px; border-radius: 12px; background: var(--brand-gradient); color: #fff; text-align: center; display: grid; gap: 8px; justify-items: center; }
+  .calc__limit[hidden] { display: none; }
+  .calc__limit h3 { color: #fff; }
+  .calc__limit p { color: rgb(255 255 255 / 0.88); max-width: 52ch; margin-bottom: 8px; }
+  /* Never wider than the card. */
+  .calc__limit { min-width: 0; overflow-wrap: anywhere; }
+  .calc__limit > * { max-width: 100%; }
+  /* Phones: too narrow for three badges on one row at a usable size (Apple's minimum is 40px tall),
+     so here they keep 40px and wrap onto two centred rows. The hero and final section keep one row. */
+  @media (max-width: 559px) {
+    .calc__limit { margin-inline: 4px; padding: 18px 14px; }
+    .calc__limit .badges { --badge-h: 40px; flex-wrap: wrap; justify-content: center; }
+  }

@@ -1,0 +1,595 @@
+{
+  "meta": {
+    "lang": "zh",
+    "htmlLang": "zh-Hans-MY",
+    "ogLocale": "zh_MY",
+    "title": "QarQal：一次比较多达 10 家保险公司的汽车保险",
+    "description": "在一个应用里比较多达 10 家保险公司的汽车保险报价，并享有 24/7 拖车服务。路税、驾照和 JPJ 罚单服务即将推出。适用于马来西亚的汽车和摩托车。"
+  },
+  "nav": {
+    "download": "下载",
+    "language": "语言",
+    "skip": "跳至内容",
+    "links": {
+      "insurance": "汽车保险",
+      "assist": "Qarqal Assist",
+      "services": "JPJ 服务",
+      "faq": "常见问题",
+      "about": "关于我们",
+      "calculator": "计算器",
+      "privacy": "隐私政策"
+    },
+    "menu": "菜单"
+  },
+  "brand": {
+    "tagline": "Bespoke app for all your vehicle needs"
+  },
+  "hero": {
+    "title": "用手机比较多达 10 家保险公司的汽车保险。",
+    "subtitle": "选择保障、加上您需要的附加保障，然后在 QarQal 应用内付款。还有 24/7 拖车服务，路税更新即将推出。",
+    "note": "免费下载"
+  },
+  "quote": {
+    "title": "获取您的汽车保险报价",
+    "idType": "证件类型",
+    "idTypes": {
+      "nric": "身份证 (NRIC)",
+      "passport": "护照",
+      "company": "公司 / 警察 / 军人"
+    },
+    "idNumber": {
+      "nric": "身份证号码",
+      "passport": "护照号码",
+      "company": "注册号码"
+    },
+    "idHint": {
+      "nric": "例如 900101-14-5678",
+      "passport": "例如 A12345678",
+      "company": "例如 201001013071"
+    },
+    "plate": "车牌号码",
+    "plateHint": "例如 WXY 1234",
+    "postcode": "邮区编号",
+    "postcodeHint": "例如 50450",
+    "submit": "比较报价",
+    "sending": "正在检查…",
+    "consent": "继续即表示您同意 QarQal 使用这些资料为您准备报价。",
+    "privacy": "隐私政策",
+    "errors": {
+      "required": "请填写此栏。",
+      "nric": "请输入 MyKad 上的 12 位数字。",
+      "passport": "只能使用字母和数字（最多 20 个）。",
+      "company": "只能使用字母、数字和连字符（最多 20 个）。",
+      "plate": "请输入有效的车牌号码，例如 WXY 1234。",
+      "postcode": "邮区编号为 5 位数字。",
+      "server": "暂时无法获取报价。请重试，或在应用内继续。"
+    },
+    "doneTitle": "您的报价已在应用内等候",
+    "doneBody": "下载 QarQal 并输入这些资料，即可比较多达 10 家保险公司的报价。",
+    "doneCta": "下载 QarQal",
+    "edit": "修改资料"
+  },
+  "quoteFlow": {
+    "close": "关闭",
+    "back": "返回",
+    "points": {
+      "title": "赚取 QarQal 积分",
+      "body": "填写您的手机号码，购买保险即可赚取 QarQal 积分。我们会发送 6 位数验证码给您。",
+      "mobile": "手机号码",
+      "mobileHint": "12 345 6789",
+      "send": "发送验证码",
+      "sending": "发送中…",
+      "skip": "跳过，直接查看报价",
+      "invalid": "请输入有效的马来西亚手机号码，例如 12 345 6789。",
+      "failed": "无法发送验证码，请重试。",
+      "blocked": "此号码无法使用。请换一个号码或跳过。"
+    },
+    "otp": {
+      "title": "输入验证码",
+      "body": "我们已将 6 位数验证码发送至",
+      "code": "6 位数验证码",
+      "verify": "验证并比较",
+      "verifying": "验证中…",
+      "resend": "重新发送",
+      "resendIn": "{s} 秒后可重新发送",
+      "invalid": "请输入 6 位数验证码。",
+      "wrong": "验证码不正确，请检查后重试。"
+    },
+    "loading": "正在为您比较各家保险公司… 最多需要 30 秒。",
+    "covers": {
+      "COMP": "全面保险",
+      "TPFT": "第三方、火灾及盗窃",
+      "TP": "第三方"
+    },
+    "results": {
+      "title": "选择您的方案",
+      "earning": "以 {mobile} 赚取积分",
+      "notEarning": "此次购买不会赚取积分。",
+      "coverLabel": "保障类型",
+      "sumInsured": "投保金额",
+      "noneForCover": "没有保险公司在线报价此保障，请尝试其他类型。",
+      "others": "无法在线报价：",
+      "notFound": "找不到适合此车辆的保险公司。请检查车牌和证件号码，或在应用中继续。",
+      "error": "暂时无法获取报价，请重试。",
+      "retry": "重试",
+      "editDetails": "修改资料",
+      "openApp": "在应用中继续",
+      "lede": "选择保险公司并添加所需的附加保障。价格会随选择更新。",
+      "lowest": "最低价",
+      "priceNote": "卡片显示毛保费。含 SST 及印花税的应付总额见订单摘要，并在您选择保险公司后确认。",
+      "notFoundTitle": "找不到适合此车辆的保险公司",
+      "edit": "修改",
+      "insurers": "保险公司",
+      "gross": "毛保费",
+      "editConfirm": {
+        "title": "要修改车辆资料吗？",
+        "body": "您将返回首页重新填写车辆和证件资料，并获取新的报价。您在此页面所做的选择不会保留。",
+        "yes": "是的，修改资料",
+        "no": "留在此页面"
+      }
+    },
+    "page": {
+      "home": "返回首页",
+      "missing": "此设备上已无法查看此报价。请重新报价以查看价格。",
+      "newQuote": "重新报价",
+      "steps": [
+        "选择方案",
+        "您的资料",
+        "付款"
+      ],
+      "progress": "购买进度"
+    },
+    "details": {
+      "title": "您的资料",
+      "back": "返回方案",
+      "holder": "保单持有人",
+      "contact": "联系方式",
+      "address": "地址",
+      "fullName": "全名（与证件相同）",
+      "dob": "出生日期",
+      "gender": "性别",
+      "marital": "婚姻状况",
+      "nationality": "国籍",
+      "email": "电邮",
+      "address1": "地址第 1 行",
+      "address2": "地址第 2 行",
+      "address3": "地址第 3 行",
+      "optional": "选填",
+      "city": "城市",
+      "state": "州属",
+      "choose": "请选择…",
+      "continue": "继续付款",
+      "saving": "保存中…",
+      "failed": "无法保存您的资料。请检查后重试。",
+      "lookupsFailed": "部分列表未能加载。请刷新页面后重试。",
+      "errName": "请输入全名（至少 3 个字母）。",
+      "errEmail": "请输入有效的电邮地址。",
+      "errAddress": "请至少输入 5 个字符。",
+      "lede": "保单将以此姓名签发，请按证件上的资料填写。"
+    },
+    "payment": {
+      "title": "确认并付款",
+      "back": "返回您的资料",
+      "totalNote": "付款前 Billplz 会显示最终金额。",
+      "paying": "正在打开 Billplz…",
+      "failed": "无法开始付款，请重试。",
+      "secure": "您将在 Billplz 的安全页面付款，然后返回此处。",
+      "lede": "核对订单，然后通过 Billplz 安全付款。",
+      "payAmount": "支付 RM {amount}"
+    },
+    "result": {
+      "successTitle": "已收到付款",
+      "successBody": "谢谢。您的付款已成功，我们正在为您签发保单。",
+      "failedTitle": "付款未完成",
+      "failedBody": "您的付款未成功，您没有被扣款。您可以重试。",
+      "unknownTitle": "付款状态",
+      "unknownBody": "我们无法确认您的付款状态。如已扣款，您的保单仍在签发中。",
+      "retry": "重新付款",
+      "home": "返回首页",
+      "pageTitle": "您的订单"
+    },
+    "addons": {
+      "title": "附加保障",
+      "lede": "此保险公司提供的可选附加保障。",
+      "none": "此保险公司没有在线附加保障。",
+      "included": "已包含",
+      "plan": "方案",
+      "choosePlan": "请选择方案…",
+      "amount": "保障金额 (RM)",
+      "range": "介于 RM {min} 与 RM {max} 之间。",
+      "failed": "无法以此附加保障更新价格。请移除或重试。",
+      "continue": "继续",
+      "updatingQuote": "正在更新您的报价…",
+      "resetNote": "由于价值类型已更改，您的附加保障已重置。如有需要请重新添加。"
+    },
+    "drivers": {
+      "title": "附加指定驾驶者",
+      "price": "最多 {max} 位。第一位免费，之后每位 RM {price}。",
+      "nric": "身份证",
+      "passport": "护照",
+      "fullName": "全名",
+      "idType": "证件类型",
+      "idNumber": "证件号码",
+      "dob": "出生日期",
+      "add": "添加驾驶者",
+      "save": "添加驾驶者",
+      "cancel": "取消",
+      "remove": "移除",
+      "errName": "请输入驾驶者全名（至少 3 个字母）。",
+      "errId": "请检查证件号码。"
+    },
+    "summary": {
+      "title": "订单摘要",
+      "plan": "方案",
+      "change": "更改",
+      "vehicle": "车辆",
+      "period": "保障期",
+      "addons": "附加保障",
+      "none": "未选择",
+      "free": "免费",
+      "total": "应付总额",
+      "updating": "正在更新价格…",
+      "incl": "含 SST 及印花税",
+      "saving": "凭 {pct}% NCD 节省 RM {amount}",
+      "breakdown": "价格明细",
+      "sst": "服务税",
+      "stampDuty": "印花税",
+      "processingFee": "手续费",
+      "roadTax": "路税",
+      "only": "仅需",
+      "basic": "基本保费",
+      "ncd": "无索赔折扣 (NCD) {pct}%",
+      "gross": "毛保费",
+      "discount": "折扣",
+      "other": "其他费用",
+      "otherLess": "其他减免"
+    },
+    "success": {
+      "title": "太好了，已完成验证！",
+      "body": "购买保险后，{mobile} 将获得 QarQal 积分。",
+      "app": "下载 QarQal 应用",
+      "guestTitle": "正在为您准备报价",
+      "guestBody": "我们正在为您比较各家保险公司。等待期间，不妨下载 QarQal 应用。",
+      "closing": "将在 {s} 秒后自动关闭"
+    },
+    "plan": {
+      "title": "方案",
+      "variant": "车辆型号",
+      "chooseVariant": "请选择型号…",
+      "valueType": "价值类型",
+      "market": "市场价值",
+      "agreed": "约定价值",
+      "marketHelp": "理赔按损失发生时的车辆市场价值赔付。",
+      "agreedHelp": "理赔按今天约定的金额赔付。",
+      "sumInsured": "投保金额",
+      "sumHint": "车辆的受保价值",
+      "sumRange": "必须介于 RM {min} 与 RM {max} 之间。",
+      "roadTax": "包含路税更新",
+      "roadTaxHelp": "与此保单一并更新路税。"
+    },
+    "earnInApp": "下载 QarQal 应用即可赚取积分"
+  },
+  "stores": {
+    "appStore": {
+      "pre": "下载于",
+      "name": "App Store"
+    },
+    "googlePlay": {
+      "pre": "立即获取",
+      "name": "Google Play"
+    },
+    "appGallery": {
+      "pre": "前往",
+      "name": "AppGallery"
+    }
+  },
+  "trust": {
+    "insurersTitle": "报价来自以下保险公司",
+    "disclaimer": "保险报价由我们的合作伙伴、保险比较平台 Senang 提供。",
+    "rakanNiaga": "官方 JPJ Rakan Niaga，由交通部 (MOT) 委任",
+    "mof": "获财政部 (MOF) 授权的代收机构",
+    "govTitle": "政府服务",
+    "govMore": "查看详情"
+  },
+  "oldWay": {
+    "title": "还在等您的保险代理回复报价吗？",
+    "body": "您发信息给您的代理，然后等待。您查看一家保险公司的网站，再看另一家。路税在另一个网站办理，而拖车电话不知放在车里哪个角落。QarQal 把这些都放进一个应用。"
+  },
+  "insurance": {
+    "title": "三个步骤获取报价",
+    "steps": [
+      {
+        "title": "添加您的车辆",
+        "body": "只需在 Qarqal Garage 保存一次您的汽车或摩托车，资料会保留到明年续保时使用。"
+      },
+      {
+        "title": "比较报价",
+        "body": "并排查看多达 10 家保险公司的价格，再加上您需要的附加保障。"
+      },
+      {
+        "title": "在应用内付款",
+        "body": "通过马来西亚持牌支付网关付款。保单由您选择的保险公司发出。"
+      }
+    ]
+  },
+  "calc": {
+    "title": "续保前先算一算",
+    "lede": "估算您的汽车保险、路税和车贷。各保险公司的准确价格请在应用内查看。",
+    "tabs": {
+      "insurance": "汽车保险",
+      "roadTax": "路税",
+      "loan": "车贷"
+    },
+    "fields": {
+      "coverType": "保障类型",
+      "region": "地区",
+      "engineCc": "引擎容量 (cc)",
+      "sumInsured": "投保额 / 车价 (RM)",
+      "ncd": "无索赔折扣 (NCD)",
+      "vehicleType": "车辆",
+      "powertrain": "引擎类型",
+      "motorKw": "马达功率 (kW)",
+      "vehicleClass": "车身类型",
+      "ownership": "登记名义",
+      "vehiclePrice": "车价 (RM)",
+      "downPayment": "首付 (RM)",
+      "tenure": "贷款期限",
+      "rate": "年利率 (%)",
+      "rateType": "利率类型"
+    },
+    "options": {
+      "vehicleType": {
+        "CAR": "汽车",
+        "MOTORCYCLE": "摩托车"
+      },
+      "powertrain": {
+        "ICE": "汽油 / 柴油",
+        "HYBRID": "混合动力",
+        "EV": "电动 (EV)"
+      },
+      "roadRegion": {
+        "PENINSULAR": "马来西亚半岛",
+        "SABAH_SARAWAK": "沙巴和砂拉越",
+        "LANGKAWI_PANGKOR": "浮罗交怡和邦咯",
+        "LABUAN": "纳闽"
+      },
+      "vehicleClass": {
+        "SALOON": "轿车 (房车、掀背车)",
+        "NON_SALOON": "非轿车 (MPV、SUV、皮卡)"
+      },
+      "ownership": {
+        "PRIVATE": "个人",
+        "COMPANY": "公司"
+      },
+      "rateType": {
+        "EIR": "实际利率 (EIR)",
+        "FLAT": "固定利率"
+      },
+      "years": "{n} 年",
+      "oneYear": "1 年"
+    },
+    "calculate": "计算",
+    "calculating": "计算中…",
+    "result": {
+      "insurance": "预估保费",
+      "roadTax": "预估每年路税",
+      "loan": "每月供款",
+      "loanAmount": "贷款额",
+      "totalInterest": "总利息",
+      "totalPayable": "预估应付总额",
+      "breakdown": "计算明细",
+      "yearly": "预估年保费",
+      "beforeTax": "税前",
+      "premiumBeforeTax": "税前保费",
+      "addTax": "加上税费和印花税",
+      "taxNote": "马来西亚所有汽车保单都需在保费上加收服务税和印花税。上方显示的是两者之前的保费。",
+      "addonTag": "附加"
+    },
+    "left": "今天还剩 {n}/{max} 次免费计算",
+    "limitTitle": "今天的免费计算次数已用完",
+    "limitBody": "在 QarQal 应用内无限次计算，并查看多达 10 家保险公司的准确价格。",
+    "appNudge": "各保险公司的准确价格和续保都在 QarQal 应用内。",
+    "errors": {
+      "required": "请填写此栏。",
+      "range": "请输入 {min} 至 {max} 之间的数值。",
+      "downPayment": "首付必须少于车价。",
+      "server": "暂时无法计算，请重试。",
+      "config": "计算器无法加载，请刷新页面。",
+      "slowDown": "短时间内尝试次数过多，请稍候再试。"
+    },
+    "car": {
+      "field": "汽车",
+      "optional": "可选",
+      "placeholder": "选择您的汽车以估算投保额",
+      "clear": "清除汽车",
+      "back": "返回",
+      "close": "关闭",
+      "stepBrand": "选择品牌",
+      "stepModel": "选择型号",
+      "stepVariant": "选择款式",
+      "stepYear": "出厂年份",
+      "search": "搜索",
+      "newPrice": "新车价：{price}",
+      "notListed": "款式不在列表中",
+      "notListedHint": "自行输入投保额",
+      "noResults": "没有结果",
+      "retry": "重试",
+      "estimating": "正在估算市值…",
+      "sliderLabel": "投保额 · 预估市值",
+      "manual": "手动输入金额",
+      "useEstimate": "使用预估市值",
+      "noEstimate": "暂时无法估算这辆车的市值。请在下方输入投保额。",
+      "outOfRange": "预估市值（{value}）超出可投保范围。请在下方输入投保额。",
+      "loadError": "无法加载汽车列表，请重试。"
+    },
+    "perDay": "每天 {max} 次免费计算",
+    "addons": {
+      "title": "附加保障",
+      "optional": "可选",
+      "selected": "已选 {n} 项",
+      "info": "关于此附加保障",
+      "glassValue": "挡风玻璃价值 (RM)",
+      "range": "{min} – {max}"
+    }
+  },
+  "assist": {
+    "title": "凌晨 2 点在高速公路上抛锚？Qarqal Assist 派拖车来。",
+    "body": "Basic 或 Premium 配套提供 24/7 拖车及故障援助，适用于汽车和摩托车，包括电动车和大型摩托车。",
+    "basic": {
+      "name": "Basic",
+      "towing": "100 公里拖车",
+      "uses": "每年最多 3 次",
+      "desc": "车辆故障时的拖车服务，价格更实惠。",
+      "points": [
+        "全马范围内 100 公里拖车",
+        "购买后 365 天内最多使用 3 次"
+      ],
+      "upsell": "想要无限次拖车和更多福利？",
+      "upsellCta": "看看 Premium"
+    },
+    "premium": {
+      "name": "Premium",
+      "towing": "300 公里拖车",
+      "uses": "每年无限次使用",
+      "desc": "我们的完整方案：更远的拖车距离、不限次数，出状况时还有额外帮助。",
+      "points": [
+        "全马范围内 300 公里拖车",
+        "一年内不限次数使用"
+      ],
+      "extrasTitle": "另含以下福利，不另收费",
+      "extras": [
+        {
+          "title": "替代车",
+          "body": "2 天租车服务。"
+        },
+        {
+          "title": "单程机票",
+          "body": "马来西亚国内航班。"
+        },
+        {
+          "title": "救护车服务",
+          "body": "跨州救护车协助。"
+        },
+        {
+          "title": "水灾拖车",
+          "body": "车辆遇水灾时的特别拖车协助。"
+        },
+        {
+          "title": "轮胎、电池和燃油送达",
+          "body": "仅限送达，物品费用自付。"
+        },
+        {
+          "title": "搭电服务",
+          "body": "不另收费。如电池损坏，新电池费用自付。"
+        },
+        {
+          "title": "身故慰问金",
+          "body": "会员身故时提供 RM1,000。"
+        }
+      ]
+    },
+    "terms": "福利依配套而定，须遵守条款与条件。",
+    "link": "在应用内查看 Assist 配套",
+    "hint": "点按方案，查看包含的内容。"
+  },
+  "more": {
+    "title": "路税、驾照和 JPJ 罚单，即将在一个应用里办理",
+    "lede": "作为官方 JPJ Rakan Niaga，QarQal 正把这些 JPJ 服务搬到线上。现在下载，上线当天即可使用。",
+    "roadtax": {
+      "title": "路税更新",
+      "status": "即将推出",
+      "points": [
+        "随时线上更新",
+        "保险续保后即可办理",
+        "在应用内付款"
+      ]
+    },
+    "licence": {
+      "title": "驾照更新",
+      "status": "即将推出",
+      "points": [
+        "线上更新驾照",
+        "在应用内付款"
+      ]
+    },
+    "summons": {
+      "title": "JPJ 罚单",
+      "status": "即将推出",
+      "points": [
+        "线上查询 JPJ 罚单",
+        "在应用内缴付"
+      ]
+    },
+    "hub": "一个应用，全程线上"
+  },
+  "video": {
+    "title": "看看 QarQal 上路",
+    "play": "播放视频",
+    "pending": "视频即将推出"
+  },
+  "jpj": {
+    "title": "政府服务",
+    "body": "驾照更新及更多 JPJ 服务即将加入应用。现在下载，功能上线当天即可使用。",
+    "badge": "即将推出",
+    "lead": "官方 JPJ Rakan Niaga",
+    "leadRest": "，由马来西亚交通部 (MOT) 委任，并获财政部 (MOF) 授权为代收机构。",
+    "agencies": {
+      "mot": "马来西亚交通部",
+      "jpj": "马来西亚陆路交通局",
+      "mof": "马来西亚财政部"
+    }
+  },
+  "faq": {
+    "title": "常见问题",
+    "items": [
+      {
+        "q": "QarQal 免费吗？",
+        "a": "是的，应用可免费下载。"
+      },
+      {
+        "q": "保单由谁发出？",
+        "a": "由您选择的保险公司发出。QarQal 通过我们的保险比较平台合作伙伴 Senang 为您获取报价。"
+      },
+      {
+        "q": "在应用内付款安全吗？",
+        "a": "所有付款都通过马来西亚持牌支付网关处理。"
+      },
+      {
+        "q": "摩托车和公司车辆也可以吗？",
+        "a": "可以：汽车、摩托车以及以公司名义注册的车辆。"
+      },
+      {
+        "q": "哪些手机可以使用 QarQal？",
+        "a": "iPhone、Android 和华为手机。"
+      },
+      {
+        "q": "什么是 Rakan Niaga？",
+        "a": "由交通部 (MOT) 委任、提供 JPJ 服务的业务伙伴。QarQal 是官方 JPJ Rakan Niaga，并获财政部 (MOF) 授权为代收机构。"
+      }
+    ]
+  },
+  "cta": {
+    "title": "在续保日期之前，先拿到您的第一份报价。"
+  },
+  "screens": {
+    "sample": "示例画面。实际价格视您的车辆而定。",
+    "tryIt": "试试看：滑动并点按屏幕。"
+  },
+  "footer": {
+    "operatedBy": "QarQal 由 July Systems Tech Sdn. Bhd. 营运。",
+    "privacy": "隐私政策",
+    "terms": "条款与条件",
+    "contact": "联系我们",
+    "rights": "版权所有。"
+  },
+  "privacy": {
+    "title": "隐私政策",
+    "toc": "目录",
+    "englishOnly": "本隐私政策仅提供英文版本。",
+    "back": "返回首页"
+  },
+  "terms": {
+    "title": "条款与条件",
+    "englishOnly": "本条款仅提供英文版本。"
+  }
+}

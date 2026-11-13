@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 120" width="100%" height="100%">
+  <g fill="none" stroke="#000000" stroke-width="16" stroke-linecap="square" stroke-linejoin="miter">
+    <!-- C -->
+    <path d="M 85 20 H 20 V 100 H 85" />
+    <!-- H -->
+    <path d="M 115 20 V 100 M 180 20 V 100 M 115 60 H 180" />
+    <!-- U -->
+    <path d="M 210 20 V 100 H 275 V 20" />
+    <!-- B -->
+    <path d="M 305 20 H 350 C 370 20 370 60 350 60 H 305" />
+    <path d="M 305 60 H 350 C 370 60 370 100 350 100 H 305" />
+    <path d="M 305 20 V 100" />
+    <!-- B -->
+    <path d="M 400 20 H 440 C 460 20 460 60 440 60 H 395" />
+    <path d="M 400 60 H 440 C 460 60 460 100 440 100 H 395" />
+    <path d="M 400 20 V 100" />
+  </g>
+  <!-- ® -->
+  <text x="475" y="32" font-family="sans-serif" font-weight="bold" font-size="22" fill="#000000">®</text>
+</svg>

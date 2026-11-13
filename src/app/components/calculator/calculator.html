@@ -1,0 +1,135 @@
+<!-- Car insurance, road tax and car loan calculators. The behaviour lives in calculator.ts (setUp), which fills
+     the empty selects, result boxes and the car picker after the first render in the browser. -->
+@if (show) {
+@let c = i18n.t().calc;
+<section class="calc section" id="calculator" aria-labelledby="calc-title" #root>
+  <div class="wrap">
+    <h2 id="calc-title">{{ c.title }}</h2>
+    <p class="lede calc__lede">{{ c.lede }}</p>
+
+    <div class="calc__card">
+      <div class="calc__tabs" role="tablist" [attr.aria-label]="c.title">
+        <button type="button" role="tab" id="calc-tab-ins" aria-controls="calc-ins" aria-selected="true" data-tab="ins">{{ c.tabs.insurance }}</button>
+        <button type="button" role="tab" id="calc-tab-rt" aria-controls="calc-rt" aria-selected="false" tabindex="-1" data-tab="rt">{{ c.tabs.roadTax }}</button>
+        <button type="button" role="tab" id="calc-tab-loan" aria-controls="calc-loan" aria-selected="false" tabindex="-1" data-tab="loan">{{ c.tabs.loan }}</button>
+      </div>
+
+      <!-- Car insurance. Cover types, regions, NCD options and ranges come from the config endpoint. -->
+      <div class="calc__panel" role="tabpanel" id="calc-ins" aria-labelledby="calc-tab-ins" data-panel="ins">
+        <form class="calc__form" novalidate data-kind="ins">
+          <div class="cf cf--wide"><label for="ins-cover">{{ c.fields.coverType }}</label><select id="ins-cover" name="coverType" data-options="coverTypes"></select></div>
+          <div class="cf cf--wide"><label for="ins-region">{{ c.fields.region }}</label><select id="ins-region" name="region" data-options="regions"></select></div>
+          <!-- Car (optional), as in the app: one field that opens a step-by-step picker (brand > model > variant > year).
+               Its market value fills the sum insured through a slider; "Enter amount manually" switches to typing. -->
+          <div class="cf cf--full carfield" data-when-cover="insured">
+            <span class="cf__label" id="ins-car-label">{{ c.car.field }} <span class="cf__opt">{{ c.car.optional }}</span></span>
+            <div class="carfield__box">
+              <button type="button" class="carfield__btn" data-car-open aria-haspopup="dialog" aria-labelledby="ins-car-label ins-car-value">
+                <app-icon name="car" [size]="20" cls="carfield__car" />
+                <span class="carfield__value is-empty" id="ins-car-value" data-car-summary>{{ c.car.placeholder }}</span>
+                <app-icon name="chevronDown" [size]="20" cls="carfield__chev" />
+              </button>
+              <button type="button" class="carfield__clear" data-car-clear [attr.aria-label]="c.car.clear" hidden><app-icon name="x" [size]="18" /></button>
+            </div>
+            <div class="carfield__est" data-car-est aria-live="polite" hidden>
+              <p class="carfield__msg" data-car-msg></p>
+              <div class="carfield__slider" data-car-slider hidden>
+                <p class="carfield__label">{{ c.car.sliderLabel }}</p>
+                <p class="carfield__amount" data-car-value></p>
+                <input type="range" data-car-range [attr.aria-label]="c.car.sliderLabel" />
+                <p class="carfield__minmax">
+                  <span data-car-min></span>
+                  <button type="button" class="carfield__link" data-car-manual>{{ c.car.manual }}</button>
+                  <span data-car-max></span>
+                </p>
+              </div>
+              <button type="button" class="carfield__link" data-car-use hidden>{{ c.car.useEstimate }}</button>
+            </div>
+          </div>
+          <div class="cf" data-cc-field><label for="ins-cc">{{ c.fields.engineCc }}</label><input id="ins-cc" name="engineCc" type="text" inputmode="numeric" autocomplete="off" placeholder="1500" /><p class="cf__err" aria-live="polite"></p></div>
+          <div class="cf cf--wide ins-sum" data-when-cover="insured" data-sum-field><label for="ins-sum">{{ c.fields.sumInsured }}</label><input id="ins-sum" name="sumInsured" type="text" inputmode="numeric" autocomplete="off" placeholder="45000" /><p class="cf__err" aria-live="polite"></p></div>
+          <div class="cf ins-ncd"><label for="ins-ncd">{{ c.fields.ncd }}</label><select id="ins-ncd" name="ncdPercent" data-options="ncdOptions"></select></div>
+          <!-- Add-ons (optional): collapsed by default; rows come from the config and follow the cover type. -->
+          <div class="cf cf--full addons" data-addons hidden>
+            <button type="button" class="addons__toggle" aria-expanded="false" aria-controls="ins-addons-list" data-addons-toggle>
+              <span class="addons__title">{{ c.addons.title }} <span class="cf__opt">{{ c.addons.optional }}</span></span>
+              <span class="addons__count" data-addons-count hidden></span>
+              <app-icon name="chevronDown" [size]="20" cls="addons__chev" />
+            </button>
+            <div class="addons__list" id="ins-addons-list" data-addons-list hidden></div>
+          </div>
+          <button class="btn btn--primary calc__go" type="submit">{{ c.calculate }}</button>
+        </form>
+        <div class="calc__result" data-result aria-live="polite"></div>
+      </div>
+
+      <!-- Road tax. The options are fixed by JPJ's schedule, so they are listed here. -->
+      <div class="calc__panel" role="tabpanel" id="calc-rt" aria-labelledby="calc-tab-rt" data-panel="rt" hidden>
+        <form class="calc__form" novalidate data-kind="rt">
+          <div class="cf"><label for="rt-type">{{ c.fields.vehicleType }}</label>
+            <select id="rt-type" name="vehicleType">@for (o of opts().vehicleType; track o[0]) { <option [value]="o[0]">{{ o[1] }}</option> }</select></div>
+          <div class="cf"><label for="rt-power">{{ c.fields.powertrain }}</label>
+            <select id="rt-power" name="powertrain">@for (o of opts().powertrain; track o[0]) { <option [value]="o[0]">{{ o[1] }}</option> }</select></div>
+          <div class="cf" data-when-power="engine"><label for="rt-cc">{{ c.fields.engineCc }}</label><input id="rt-cc" name="engineCc" type="text" inputmode="numeric" autocomplete="off" placeholder="1500" /><p class="cf__err" aria-live="polite"></p></div>
+          <div class="cf" data-when-power="ev" hidden><label for="rt-kw">{{ c.fields.motorKw }}</label><input id="rt-kw" name="motorKw" type="text" inputmode="numeric" autocomplete="off" placeholder="150" /><p class="cf__err" aria-live="polite"></p></div>
+          <div class="cf cf--wide"><label for="rt-region">{{ c.fields.region }}</label>
+            <select id="rt-region" name="region">@for (o of opts().roadRegion; track o[0]) { <option [value]="o[0]">{{ o[1] }}</option> }</select></div>
+          <div class="cf cf--wide" data-when-type="car"><label for="rt-class">{{ c.fields.vehicleClass }}</label>
+            <select id="rt-class" name="vehicleClass">@for (o of opts().vehicleClass; track o[0]) { <option [value]="o[0]">{{ o[1] }}</option> }</select></div>
+          <div class="cf cf--wide" data-when-type="car"><label for="rt-own">{{ c.fields.ownership }}</label>
+            <select id="rt-own" name="ownership">@for (o of opts().ownership; track o[0]) { <option [value]="o[0]">{{ o[1] }}</option> }</select></div>
+          <button class="btn btn--primary calc__go" type="submit">{{ c.calculate }}</button>
+        </form>
+        <div class="calc__result" data-result aria-live="polite"></div>
+      </div>
+
+      <!-- Car loan. Price range, tenure limits and default rates come from the config endpoint. -->
+      <div class="calc__panel" role="tabpanel" id="calc-loan" aria-labelledby="calc-tab-loan" data-panel="loan" hidden>
+        <form class="calc__form" novalidate data-kind="loan">
+          <div class="cf cf--wide"><label for="loan-type">{{ c.fields.vehicleType }}</label>
+            <select id="loan-type" name="vehicleType">@for (o of opts().vehicleType; track o[0]) { <option [value]="o[0]">{{ o[1] }}</option> }</select></div>
+          <div class="cf cf--wide"><label for="loan-ratetype">{{ c.fields.rateType }}</label>
+            <select id="loan-ratetype" name="rateType">@for (o of opts().rateType; track o[0]) { <option [value]="o[0]">{{ o[1] }}</option> }</select></div>
+          <div class="cf"><label for="loan-price">{{ c.fields.vehiclePrice }}</label><input id="loan-price" name="vehiclePrice" type="text" inputmode="numeric" autocomplete="off" placeholder="90000" /><p class="cf__err" aria-live="polite"></p></div>
+          <div class="cf"><label for="loan-down">{{ c.fields.downPayment }}</label><input id="loan-down" name="downPayment" type="text" inputmode="numeric" autocomplete="off" placeholder="9000" /><p class="cf__err" aria-live="polite"></p></div>
+          <div class="cf"><label for="loan-tenure">{{ c.fields.tenure }}</label><select id="loan-tenure" name="tenureMonths"></select></div>
+          <div class="cf"><label for="loan-rate">{{ c.fields.rate }}</label><input id="loan-rate" name="rate" type="text" inputmode="decimal" autocomplete="off" placeholder="2.80" /><p class="cf__err" aria-live="polite"></p></div>
+          <button class="btn btn--primary calc__go" type="submit">{{ c.calculate }}</button>
+        </form>
+        <div class="calc__result" data-result aria-live="polite"></div>
+      </div>
+
+      <div class="calc__foot">
+        <p class="calc__left" data-left aria-live="polite"></p>
+        <p class="calc__nudge">{{ c.appNudge }}</p>
+      </div>
+
+      <div class="calc__limit" data-limit hidden>
+        <h3>{{ c.limitTitle }}</h3>
+        <p>{{ c.limitBody }}</p>
+        <app-store-badges />
+      </div>
+    </div>
+  </div>
+  <!-- Car picker: a bottom sheet on phones, a dialog on wider screens. Filled in by the script. -->
+  <dialog class="carsheet" data-sheet aria-labelledby="carsheet-title">
+    <div class="carsheet__head">
+      <button type="button" class="carsheet__icon" data-sheet-back [attr.aria-label]="c.car.back" hidden><app-icon name="arrowLeft" [size]="20" /></button>
+      <div class="carsheet__titles">
+        <h3 id="carsheet-title" data-sheet-title tabindex="-1" autofocus></h3>
+        <p class="carsheet__crumb" data-sheet-crumb></p>
+      </div>
+      <button type="button" class="carsheet__icon" data-sheet-close [attr.aria-label]="c.car.close"><app-icon name="x" [size]="20" /></button>
+    </div>
+    <label class="carsheet__search" data-sheet-search-wrap>
+      <app-icon name="search" [size]="18" />
+      <input type="search" data-sheet-search autocomplete="off" [placeholder]="c.car.search" [attr.aria-label]="c.car.search" />
+    </label>
+    <ul class="carsheet__list" data-sheet-list></ul>
+    <div class="carsheet__state" data-sheet-state hidden>
+      <p data-sheet-msg></p>
+      <button type="button" class="carfield__link" data-sheet-retry hidden>{{ c.car.retry }}</button>
+    </div>
+  </dialog>
+</section>
+}
