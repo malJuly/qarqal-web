@@ -19,7 +19,8 @@
       "calculator": "计算器",
       "privacy": "隐私政策"
     },
-    "menu": "菜单"
+    "menu": "菜单",
+    "agentLogin": "代理登录"
   },
   "brand": {
     "tagline": "Bespoke app for all your vehicle needs"
@@ -591,5 +592,231 @@
   "terms": {
     "title": "条款与条件",
     "englishOnly": "本条款仅提供英文版本。"
+  },
+  "agent": {
+    "meta": {
+      "title": "代理门户 | QarQal"
+    },
+    "login": {
+      "title": "代理登录",
+      "lede": "供 QarQal 合作公司及其员工使用。",
+      "email": "电子邮件",
+      "password": "密码",
+      "submit": "登录",
+      "submitting": "正在登录…",
+      "required": "请输入电子邮件和密码。",
+      "invalid": "电子邮件或密码无效。",
+      "deactivated": "此账户已被停用。请联系贵公司的管理员。",
+      "rateLimited": "尝试次数过多。请等待 15 分钟后再试。",
+      "failed": "无法登录。请检查网络连接后再试。",
+      "expired": "您的登录已过期。请重新登录。",
+      "unavailable": "代理登录暂时无法使用。"
+    },
+    "company": {
+      "title": "选择公司",
+      "lede": "您的账户属于多家公司。请选择您当前代表的公司。",
+      "rootAdmin": "主管理员",
+      "current": "当前",
+      "failed": "无法切换公司。请再试一次。"
+    },
+    "shell": {
+      "menu": "代理菜单",
+      "switchCompany": "切换公司",
+      "logout": "退出登录",
+      "loading": "加载中…",
+      "openMenu": "打开菜单",
+      "closeMenu": "关闭菜单",
+      "roles": "您的角色"
+    },
+    "home": {
+      "title": "欢迎，{name}",
+      "none": "您的角色尚未包含任何门户页面。请向贵公司的管理员申请权限。"
+    },
+    "common": {
+      "all": "全部",
+      "view": "查看",
+      "close": "关闭",
+      "save": "保存",
+      "saving": "正在保存…",
+      "loading": "加载中…",
+      "empty": "没有找到记录。",
+      "records": "条记录",
+      "loadFailed": "无法加载数据。请再试一次。",
+      "saveFailed": "无法保存。请再试一次。",
+      "downloadCsv": "下载 CSV",
+      "pages": "页码",
+      "prev": "上一页",
+      "next": "下一页"
+    },
+    "assist": {
+      "menu": "Assist 订单",
+      "title": "Assist 订单",
+      "status": "状态",
+      "company": "公司",
+      "allCompanies": "所有公司",
+      "detailTitle": "订单详情",
+      "updateTitle": "更新订单",
+      "remarks": "备注",
+      "statuses": {
+        "New": "新订单",
+        "Live": "生效中",
+        "Task Completed": "任务已完成",
+        "Refunded": "已退款",
+        "Expired": "已过期"
+      },
+      "cols": {
+        "reference": "参考编号",
+        "company": "公司",
+        "vehicle": "车辆",
+        "plan": "配套",
+        "amount": "金额",
+        "purchased": "购买日期",
+        "period": "保障期",
+        "status": "状态"
+      },
+      "detail": {
+        "reference": "参考编号",
+        "status": "状态",
+        "company": "公司",
+        "companyEmail": "公司电子邮件",
+        "customerId": "客户编号",
+        "vehicle": "车牌号码",
+        "vehicleType": "车辆类型",
+        "brand": "品牌",
+        "plan": "配套",
+        "amount": "金额",
+        "purchased": "购买日期",
+        "start": "开始日期",
+        "end": "结束日期",
+        "payment": "付款状态",
+        "driver": "司机姓名",
+        "driverId": "司机身份证号码",
+        "referral": "推荐码",
+        "remarks": "备注"
+      }
+    },
+    "insurance": {
+      "menu": "保险订单",
+      "title": "保险订单",
+      "from": "从",
+      "to": "至",
+      "payment": "付款状态",
+      "policyStatus": "保单状态",
+      "clear": "清除",
+      "totalContribution": "保费总额",
+      "viewPolicy": "保单",
+      "policyTitle": "保单详情",
+      "policyMissing": "找不到此保单。",
+      "openPolicyDoc": "打开保单文件",
+      "cols": {
+        "order": "订单编号",
+        "customer": "客户",
+        "qarqalId": "QarQal 编号",
+        "vehicle": "车辆",
+        "insurer": "保险公司",
+        "payment": "付款",
+        "contribution": "保费",
+        "policy": "保单状态",
+        "created": "创建时间",
+        "referral": "推荐码"
+      },
+      "paymentStatuses": {
+        "Success": "已付款",
+        "Failed": "失败",
+        "Initiated": "已发起"
+      },
+      "policyStatuses": {
+        "PENDING_FOR_PAYMENT": "等待付款",
+        "PENDING_FOR_APPROVAL": "等待批准",
+        "SUCCESS": "已签发",
+        "REJECTED": "已拒绝",
+        "CANCELLED": "已取消",
+        "PENDING_REFERCASE": "已转交保险公司",
+        "PENDING": "处理中",
+        "PAYMENT_FAILED": "付款失败",
+        "REFUNDED": "已退款"
+      },
+      "policy": {
+        "vehicle": "车牌号码",
+        "status": "状态",
+        "coverNote": "保障单号",
+        "issued": "签发日期",
+        "effective": "开始日期",
+        "expiry": "结束日期",
+        "sumInsured": "投保金额",
+        "valuation": "估值方式",
+        "marketValue": "市场价值",
+        "agreedValue": "协议价值",
+        "ncd": "NCD",
+        "ncdValue": "NCD 金额",
+        "basic": "基本保费",
+        "gross": "总保费",
+        "stampDuty": "印花税",
+        "sst": "SST",
+        "processingFee": "手续费",
+        "roadTax": "路税",
+        "total": "保费总额",
+        "promo": "促销码",
+        "quotation": "报价编号"
+      },
+      "nSelected": "已选 {n} 项"
+    },
+    "purchase": {
+      "menu": "购买保险",
+      "title": "购买保险",
+      "steps": [
+        "车辆与车主",
+        "保险公司与配套",
+        "资料与付款"
+      ],
+      "startOver": "重新开始",
+      "mySales": "我的销售",
+      "recent": "最近报价",
+      "customerId": "客户的 QarQal 编号",
+      "customerHint": "例如 QQ12345",
+      "customerCheck": "查询",
+      "customerFound": "客户：{name}",
+      "forCustomer": "客户 {name}",
+      "customerNote": "可选。填写 QarQal 编号后，保单将存入该客户的 QarQal 账户，仍计为贵公司的销售。",
+      "customerInvalid": "请使用 3 至 20 个字母和数字。",
+      "customerNotFound": "没有此 QarQal 编号的客户。",
+      "customerFailed": "无法查询此 QarQal 编号。请再试一次。",
+      "getQuotes": "获取报价",
+      "quoting": "正在获取报价…",
+      "notFound": "找不到此车辆和车主的报价。请检查资料后再试。",
+      "quoteFailed": "无法获取报价",
+      "listNote": "卡片上的价格为全面保障（Comprehensive）。",
+      "coverNote": "此保障仅针对所选保险公司报价。",
+      "backToPlan": "返回保险公司与配套",
+      "pay": "保存并付款",
+      "restartTitle": "开始新的报价？",
+      "restartBody": "当前的价格和选择将被清除。",
+      "result": {
+        "successTitle": "已收到付款",
+        "successBody": "付款成功。保单正在签发，稍后将显示在“我的销售”中。",
+        "failedTitle": "付款未完成",
+        "failedBody": "付款未成功，未产生任何费用。您可以再试一次。",
+        "viewSales": "查看我的销售",
+        "newSale": "新的购买",
+        "tryAgain": "再试一次"
+      }
+    },
+    "sales": {
+      "menu": "我的销售",
+      "title": "我的销售",
+      "empty": "暂无销售。",
+      "draft": "草稿",
+      "linked": "QarQal 客户",
+      "company": "公司",
+      "cols": {
+        "date": "日期",
+        "vehicle": "车辆",
+        "quotation": "报价编号",
+        "customer": "售予",
+        "total": "总额",
+        "policy": "保单状态",
+        "coverNote": "保障单"
+      }
+    }
   }
 }

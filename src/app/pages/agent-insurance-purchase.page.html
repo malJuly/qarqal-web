@@ -1,0 +1,668 @@
+@let w = i18n.t().agent.wizard;
+@let b = i18n.t().agent.bulk;
+<div class="pp" [class.has-bar]="showBottomBar" [class.embedded]="embedded()">
+  <!-- ===== Header: compact; quiet secondary links (Start over asks first) ===== -->
+  <div class="pp-head" [class.narrow]="step === 1">
+    <!-- Phones, from bulk quote: a clear way back to the batch -->
+    @if (fromBatch && !embedded()) {
+      <div class="pp-batch">
+        <button type="button" class="pp-btn-outline" (click)="backToBulk()" [disabled]="isBusy"><app-icon name="arrowLeft" [size]="16" /> {{ b.backToList }}</button>
+        <span class="pp-muted pp-small">{{ b.payingOne }}</span>
+      </div>
+    }
+    @if (!embedded()) {
+      <div class="pp-head__row">
+        <span class="pp-muted">{{ fill(w.stepOf, { step: step, total: steps.length }) }}</span>
+        <span class="pp-head__links">
+          <a [routerLink]="session.path('insurance-purchase/sales')">{{ w.mySales }}</a>
+          @if ((step > 1 || quote) && !fromBatch) { <button type="button" class="pp-link" (click)="askStartOver()" [disabled]="isBusy">{{ w.startOver }}</button> }
+        </span>
+      </div>
+      <h2 class="pp-title">{{ pageHeading }}</h2>
+    }
+
+    <!-- One vehicle or many (bulk quote) -->
+    @if (step === 1 && !fromBatch) {
+      <div class="pp-mode" role="tablist" [attr.aria-label]="b.mode">
+        <span class="pp-mode__opt active" role="tab" aria-selected="true">{{ b.oneVehicle }}</span>
+        <a class="pp-mode__opt" role="tab" aria-selected="false" [routerLink]="session.path('insurance-purchase/bulk')">{{ b.manyVehicles }}</a>
+      </div>
+    }
+
+    <!-- Progress: labels on tablet/desktop, dots only on phones -->
+    <ol class="pp-steps" [attr.aria-label]="w.progress">
+      @for (label of steps; track label; let i = $index) {
+        <li [class.active]="step === i + 1" [class.done]="step > i + 1" [attr.aria-current]="step === i + 1 ? 'step' : null">
+          <button type="button" (click)="goTo(i + 1)" [disabled]="step <= i + 1 || isBusy" [attr.aria-label]="label">
+            <span class="dot">{{ step > i + 1 ? '✓' : i + 1 }}</span><span class="lbl">{{ label }}</span>
+          </button>
+        </li>
+      }
+    </ol>
+
+    <!-- ===== Context bar (from step 2): one line on every screen ===== -->
+    @if (step >= 2 && quote && !embedded()) {
+      <div class="pp-context">
+        <strong class="nowrap">{{ quote.vehRegNo }}</strong>
+        <span class="pp-muted pp-context__veh">{{ vehicleLabel }}</span>
+        <span class="pp-chip" [title]="w.ncdTitle">NCD {{ ncdLabel(quote.ncdPercentage) }}</span>
+        <span class="pp-muted pp-context__cust">{{ w.customer }}: {{ customerName || w.notLinked }}</span>
+        @if (!fromBatch) { <button type="button" class="pp-link pp-context__edit" (click)="goTo(1)" [disabled]="isBusy">{{ w.edit }}</button> }
+      </div>
+    }
+  </div>
+
+  <!-- Phones, from bulk quote: Billplz opened in another tab -->
+  @if (paymentOpened && !embedded()) {
+    <div class="pp-alert pp-alert--ok" role="status">
+      <span>{{ b.paymentOpened }}</span>
+      <button type="button" class="pp-link" (click)="backToBulk()">{{ b.backToList }} →</button>
+    </div>
+  }
+
+  @if (errorMessage) {
+    <div class="pp-alert pp-alert--error" [class.narrow]="step === 1" role="alert">
+      {{ errorMessage }}
+      @if (fieldErrors.length) { <ul>@for (e of fieldErrors; track e) { <li>{{ e }}</li> }</ul> }
+    </div>
+  }
+  @if (optionsError) { <div class="pp-alert pp-alert--warn">{{ w.optionsError }}</div> }
+
+  <!-- =================== Step 1: Vehicle & owner =================== -->
+  @if (step === 1) {
+    <div class="pp-quote">
+      <form (submit)="submitQuote($event)" novalidate>
+        <!-- Vehicle -->
+        <div class="pp-block">
+          <label class="pp-label" for="vehicle_no">{{ w.vehicleNo }}</label>
+          <div class="pp-input pp-input--plate" [class.invalid]="invalid('vehicle_no')">
+            <input id="vehicle_no" name="vehicle_no" type="text" class="plate" [(ngModel)]="form.vehicle_no" placeholder="e.g. WXY 1234"
+              list="pp-recent-plates" autocomplete="off" autocapitalize="characters" spellcheck="false"
+              (input)="onPlateInput()" (blur)="touched.vehicle_no = true" />
+          </div>
+          <datalist id="pp-recent-plates">
+            @for (v of recentVehicles; track v.vehicle_no) { <option [value]="v.vehicle_no">{{ fill(w.quotedOn, { date: date(v.last_quoted_date) }) }}</option> }
+          </datalist>
+          @if (invalid('vehicle_no')) { <div class="pp-error">{{ w.vehicleNoError }}</div> }
+
+          @if (recentChips.length) {
+            <div class="pp-recent" [attr.aria-label]="w.quotedBefore">
+              <span class="pp-hint">{{ w.quotedBefore }}</span>
+              <div class="pp-recent__scroll">
+                @for (v of recentChips; track v.vehicle_no) {
+                  <button type="button" class="mini-plate" [class.active]="prefilledFrom?.vehicle_no === v.vehicle_no" (click)="pickRecent(v)">
+                    <span class="mini-plate__no">{{ v.vehicle_no }}</span><span class="mini-plate__date">{{ date(v.last_quoted_date) }}</span>
+                  </button>
+                }
+              </div>
+            </div>
+          }
+          @if (prefilledFrom) {
+            <div class="pp-prefill">
+              <app-icon name="check" [size]="16" />
+              <span>{{ fill(w.prefilled, { date: date(prefilledFrom.last_quoted_date) }) }}</span>
+              <button type="button" class="pp-link" (click)="clearPrefill()">{{ w.clear }}</button>
+            </div>
+          }
+        </div>
+
+        <!-- Owner -->
+        <div class="pp-block">
+          <span class="pp-label" id="id-type-label">{{ w.ownerId }}</span>
+          <div class="pp-seg" role="radiogroup" aria-labelledby="id-type-label">
+            @for (t of options?.id_types ?? []; track t.id) {
+              <input type="radio" class="pp-seg__input" name="id_type" [id]="'idt-' + t.id" [value]="t.id" [(ngModel)]="form.id_type" (change)="onIdTypeChange()" />
+              <label class="pp-seg__opt" [for]="'idt-' + t.id">{{ idTypeLabel(t.name) }}</label>
+            }
+          </div>
+          <div class="pp-grid2">
+            <div>
+              <label class="pp-label pp-label--sm" for="id_number">{{ idNumberLabel }}</label>
+              <div class="pp-input" [class.invalid]="!!idNumberError || invalid('id_number')" [class.valid]="idNumberValid && !idNumberError">
+                <input id="id_number" name="id_number" type="text" [(ngModel)]="form.id_number" [placeholder]="idNumberPlaceholder"
+                  [attr.inputmode]="idTypeCode === 'NRIC' ? 'numeric' : null" autocomplete="off"
+                  (input)="formatIdNumber()" (blur)="touched.id_number = true; validateIdNumber()" />
+                @if (idNumberValid && !idNumberError) { <app-icon name="check" [size]="16" /> }
+              </div>
+              @if (idNumberError || invalid('id_number')) { <div class="pp-error">{{ idNumberError || fill(w.enterThe, { field: idNumberLabel }) }}</div> }
+            </div>
+            <div>
+              <label class="pp-label pp-label--sm" for="postcode">{{ w.postcode }}</label>
+              <div class="pp-input" [class.invalid]="invalid('postcode')">
+                <input id="postcode" name="postcode" type="text" inputmode="numeric" maxlength="5" [(ngModel)]="form.postcode" placeholder="50450"
+                  autocomplete="postal-code" (blur)="touched.postcode = true" />
+              </div>
+              @if (invalid('postcode')) { <div class="pp-error">{{ w.postcodeError }}</div> } @else { <div class="pp-hint">{{ w.postcodeHint }}</div> }
+            </div>
+          </div>
+        </div>
+
+        <!-- Optional customer link: one quiet row until needed -->
+        <div class="pp-customer" [class.open]="showCustomerField">
+          <button type="button" class="pp-customer__toggle" (click)="toggleCustomerField()" [attr.aria-expanded]="showCustomerField" aria-controls="pp-customer-panel">
+            <span class="pp-customer__icon"><app-icon name="user" [size]="18" /></span>
+            <span class="pp-customer__text">
+              <strong>{{ w.linkCustomer }} <span class="pp-hint">({{ w.optional }})</span></strong>
+              @if (customerName) { <span class="pp-ok">✓ {{ customerName }}</span> } @else { <span class="pp-hint">{{ w.linkCustomerHint }}</span> }
+            </span>
+            <span class="chev" [class.flip]="showCustomerField"><app-icon name="chevronDown" [size]="18" /></span>
+          </button>
+          @if (showCustomerField) {
+            <div id="pp-customer-panel" class="pp-customer__panel">
+              <label class="sr-only" for="qarqal_id">{{ w.customerId }}</label>
+              <div class="pp-input">
+                <input id="qarqal_id" name="qarqal_id" type="text" [(ngModel)]="form.qarqal_id" [placeholder]="w.customerIdHint"
+                  (blur)="checkCustomer()" (keydown.enter)="$event.preventDefault(); checkCustomer()" />
+                <button type="button" class="pp-find" (click)="checkCustomer()" [disabled]="isLookingUp || !form.qarqal_id">{{ isLookingUp ? '…' : w.find }}</button>
+              </div>
+              @if (customerLookupError) { <div class="pp-error">{{ customerLookupError }}</div> }
+            </div>
+          }
+        </div>
+
+        <!-- Primary action (pinned to the bottom on phones) -->
+        <div class="pp-cta">
+          <button type="submit" class="btn btn--primary pp-cta__btn" [disabled]="isBusy || !options">
+            {{ quote ? w.backToPrices : w.comparePrices }} <app-icon name="arrowRight" [size]="18" />
+          </button>
+          <div class="pp-hint pp-center">{{ w.aboutSeconds }}</div>
+        </div>
+      </form>
+    </div>
+  }
+
+  <!-- =================== Steps 2–3: main column + summary =================== -->
+  @if (step >= 2 && quote) {
+    <div class="pp-cols">
+      <div class="pp-main">
+        <!-- ---------- Step 2: Choose cover ---------- -->
+        @if (step === 2) {
+          @if (showInsurerList) {
+            <section class="pp-card">
+              <div class="pp-card__head"><h3>{{ w.compareTitle }}</h3><span class="pp-muted">{{ w.sortedByPrice }}</span></div>
+              @if (ncdLabel(quote.ncdPercentage) !== '0%') { <div class="pp-ncd">✓ {{ fill(w.ncdIncluded, { ncd: ncdLabel(quote.ncdPercentage) }) }}</div> }
+              @if (listPricesDifferFromCover) { <p class="pp-muted pp-small">{{ fill(w.listIsComp, { cover: coverInfo(coverTypeCode).title }) }}</p> }
+
+              <div class="pp-insurers" role="list" [attr.aria-label]="w.insurers">
+                @for (p of sortedProviders; track p.provider) {
+                  <article class="ic" role="listitem" [class.selected]="isSelected(p)">
+                    <div class="ic__top">
+                      <app-insurer-logo [code]="p.provider" [apiLogo]="logo(p)" />
+                      <div class="ic__info">
+                        <h4>{{ insurerName(p) }}</h4>
+                        <div class="ic__meta">
+                          @if (listRange(p); as r) { {{ r.agreed ? w.agreedValue : w.sumInsured }} {{ shortRange(r.min, r.max) }} } @else { {{ w.sumNotStated }} }
+                        </div>
+                        @if (addonCount(p)) { <div class="ic__meta">{{ fill(w.addonsAvailable, { n: addonCount(p) }) }}</div> }
+                      </div>
+                      @if (isLowest(p)) { <span class="ic__lowest">{{ w.lowest }}</span> }
+                    </div>
+                    <div class="ic__bottom">
+                      <div>
+                        <div class="ic__price" [class.dim]="isSelected(p) && (isRepricing || priceStale)">{{ money(rowPricing(p).totalContribution) }}</div>
+                        <div class="ic__note">{{ w.inclSst }}</div>
+                      </div>
+                      <button type="button" class="ic__choose" [class.chosen]="isSelected(p)" [disabled]="isBusy" (click)="chooseProvider(p)">
+                        @if (isSelected(p)) { ✓ {{ w.selected }} } @else { {{ w.choose }} → }
+                      </button>
+                    </div>
+                  </article>
+                }
+              </div>
+              <p class="pp-muted pp-small">
+                {{ w.finalPriceNote }}
+                @if (quote.insuranceNotProviders?.length) {
+                  {{ w.notAvailable }}
+                  @for (n of quote.insuranceNotProviders; track n.provider; let last = $last) { <span class="cap">{{ n.provider.replace('_', ' ') }}{{ last ? '' : ', ' }}</span> }.
+                }
+              </p>
+            </section>
+          }
+
+          <!-- Phones: customise screen header -->
+          @if (compact && mobileView === 'customise' && selectedProvider) {
+            <div class="pp-customise-head">
+              <button type="button" class="pp-link" (click)="backToList()">← {{ w.allInsurers }}</button>
+              <div class="pp-customise-head__row">
+                <app-insurer-logo [code]="selectedProvider.provider" [apiLogo]="logo(selectedProvider)" />
+                <div><strong>{{ insurerName(selectedProvider) }}</strong><div class="pp-muted pp-small">{{ fill(w.addonsSelected, { n: selectedAddonCount }) }}</div></div>
+              </div>
+            </div>
+          }
+
+          <!-- Plan -->
+          @if (selectedProvider && showCustomise) {
+            <section id="ip-plan" class="pp-card">
+              <h3>{{ w.plan }}</h3>
+              <div class="pp-covers" role="radiogroup" [attr.aria-label]="w.coverType">
+                @for (c of options?.cover_types ?? []; track c.id) {
+                  <input type="radio" class="pp-covers__input" name="coverType" [id]="'cov-' + c.id" [value]="c.name" [(ngModel)]="cover.coverType" (change)="onCoverTypeChange()" />
+                  <label class="cover-card" [for]="'cov-' + c.id">
+                    <span class="cover-card__top"><strong>{{ coverInfo(c.name).title }}</strong>
+                      @if (coverInfo(c.name).popular) { <span class="pp-tag">{{ w.mostChosen }}</span> }</span>
+                    <span class="pp-muted pp-small">{{ coverInfo(c.name).text }}</span>
+                  </label>
+                }
+              </div>
+              <div class="pp-grid2">
+                @if (selectedProvider.variants?.length) {
+                  <div>
+                    <label class="pp-label pp-label--sm" for="nvic">{{ w.variant }}</label>
+                    <select id="nvic" name="nvic" class="pp-select" [(ngModel)]="cover.nvic" (change)="onVariantChange()" [class.invalid]="variantMissing">
+                      <option value="" disabled>{{ w.selectVariant }}</option>
+                      @for (v of selectedProvider.variants; track v.nvic) { <option [value]="v.nvic">{{ v.vehVariantDesc || v.nvic }}</option> }
+                    </select>
+                    @if (variantMissing) { <div class="pp-error">{{ w.variantError }}</div> }
+                  </div>
+                }
+                @if (!isThirdParty) {
+                  <div>
+                    <span class="pp-label pp-label--sm">{{ w.valueType }}</span>
+                    @if (singleValueType) {
+                      <div class="pp-plain">{{ singleValueType }} <span class="pp-muted pp-small">— {{ w.onlyOption }}</span></div>
+                    } @else {
+                      <div class="pp-seg pp-seg--sm" role="group" [attr.aria-label]="w.valueType">
+                        @if (marketValueAvailable) {
+                          <input type="radio" class="pp-seg__input" name="valueType" id="vt-market" value="market" [(ngModel)]="cover.valueType" (change)="onValueTypeChange()" />
+                          <label class="pp-seg__opt" for="vt-market">{{ w.marketValue }}</label>
+                        }
+                        @if (agreedValueAvailable) {
+                          <input type="radio" class="pp-seg__input" name="valueType" id="vt-agreed" value="agreed" [(ngModel)]="cover.valueType" (change)="onValueTypeChange()" />
+                          <label class="pp-seg__opt" for="vt-agreed">{{ w.agreedValue }}</label>
+                        }
+                      </div>
+                    }
+                  </div>
+                  <div class="full">
+                    <label class="pp-label pp-label--sm" for="sumInsured">{{ w.sumInsured }} <span class="pp-muted">— {{ w.sumInsuredHint }}</span></label>
+                    @if (sumInsuredRange; as r) {
+                      @if (r.max > r.min) {
+                        @for (key of [sliderKey]; track key) {
+                          <input type="range" class="pp-range" [attr.aria-label]="w.sumInsured" min="0" [max]="SLIDER_RESOLUTION" step="1" [value]="sliderPosition"
+                            [attr.aria-valuetext]="money(cover.sumInsured)" (input)="onSumSliderInput($event)" (change)="queueReprice()" />
+                        }
+                        <div class="pp-range__ends"><span>{{ money(r.min) }}</span><span>{{ money(r.max) }}</span></div>
+                      }
+                    }
+                    <div class="pp-input pp-input--money" [class.invalid]="!!sumInsuredError">
+                      <span class="pp-input__pre">RM</span>
+                      <input id="sumInsured" name="sumInsured" type="number" [(ngModel)]="cover.sumInsured" (change)="queueReprice()" (keydown.enter)="$event.preventDefault(); queueReprice()" />
+                    </div>
+                    @if (sumInsuredError) { <div class="pp-error">{{ sumInsuredError }}</div> }
+                  </div>
+                }
+                @if (quote.roadtax?.isSupported) {
+                  <label class="pp-switch full">
+                    <input type="checkbox" name="roadtax" [(ngModel)]="cover.inclusiveRoadTax" (change)="queueReprice()" />
+                    <span>{{ fill(w.includeRoadTax, { amount: money(quote.roadtax?.finalAmount) }) }}</span>
+                  </label>
+                }
+              </div>
+            </section>
+          }
+
+          <!-- Add-ons -->
+          @if (selectedProvider && showCustomise && (addonRows.length || driversAvailable)) {
+            <section class="pp-card">
+              <div class="pp-card__head"><h3>{{ w.addons }}</h3><span class="pp-muted">{{ w.priceAuto }}</span></div>
+              @if (addonsResetNote) { <div class="pp-alert pp-alert--warn pp-small">{{ w.addonsCleared }}</div> }
+              <div class="pp-addons">
+                @for (row of addonRows; track row.code) {
+                  <div class="addon" [class.on]="isAddonOn(row)">
+                    <div class="addon__body">
+                      @switch (row.kind) {
+                        @case ('plan') {
+                          <label class="pp-label pp-label--sm" [for]="'addon-' + row.code">{{ addonTitle(row) }}</label>
+                          <select class="pp-select pp-select--sm" [id]="'addon-' + row.code" [name]="'addon-' + row.code" [(ngModel)]="addonValues[row.code]" (ngModelChange)="onAddonEdited()">
+                            <option [ngValue]="null">{{ w.notSelected }}</option>
+                            @for (plan of row.addon.plans ?? []; track plan.id) { <option [ngValue]="plan.id">{{ plan.title?.en || plan.id }} · +{{ money(plan.premium) }}</option> }
+                          </select>
+                        }
+                        @default {
+                          <label class="addon__check">
+                            <input type="checkbox" [checked]="isAddonOn(row)" (change)="toggleAddon(row, $any($event.target).checked)" />
+                            <strong>{{ addonTitle(row) }}</strong>
+                            @if (row.popular) { <span class="pp-tag">{{ w.popular }}</span> }
+                          </label>
+                        }
+                      }
+                      @if (row.kind === 'amount' && isAddonOn(row) && row.addon.range) {
+                        <div class="addon__amount">
+                          <div class="pp-range__ends"><span>{{ w.coveredUpTo }} <strong>{{ money(addonValues[row.code] + '') }}</strong></span><span>max {{ money(row.addon.range.max) }}</span></div>
+                          <input type="range" class="pp-range" [attr.aria-label]="addonTitle(row)" [min]="rangeMin(row)" [max]="rangeMax(row)" [step]="rangeStep(row)"
+                            [name]="'range-' + row.code" [(ngModel)]="addonValues[row.code]" (change)="onAddonEdited()" />
+                          <div class="pp-input pp-input--money pp-input--sm" [class.invalid]="!!addonAmountError(row)">
+                            <span class="pp-input__pre">{{ w.exactRm }}</span>
+                            <input type="number" [name]="'exact-' + row.code" [min]="rangeMin(row)" [max]="rangeMax(row)" [(ngModel)]="addonValues[row.code]" (change)="onAddonEdited()" />
+                          </div>
+                          @if (addonAmountError(row)) { <div class="pp-error">{{ addonAmountError(row) }}</div> }
+                        </div>
+                      }
+                      @if (row.addon.description?.en) { <details class="addon__desc"><summary>{{ w.whatsCovered }}</summary>{{ row.addon.description?.en }}</details> }
+                    </div>
+                    @if (row.kind !== 'plan' && row.addon.premium) { <div class="addon__price">+{{ money(row.addon.premium) }}</div> }
+                  </div>
+                }
+              </div>
+
+              @if (unavailableAddons.length) {
+                <div class="pp-unavail">
+                  <div class="pp-muted pp-small"><strong>{{ fill(w.notOfferedBy, { insurer: insurerName(selectedProvider) }) }}</strong></div>
+                  @for (a of unavailableAddons; track a.code) {
+                    <div class="addon addon--off"><span class="pp-small">{{ a.title }}</span><span class="pp-muted pp-small cap">{{ fill(w.availableWith, { insurer: a.offeredBy }) }}</span></div>
+                  }
+                </div>
+              }
+
+              @if (driversAvailable) {
+                <div class="pp-drivers">
+                  <div class="pp-card__head"><strong>{{ w.additionalDrivers }}</strong><button type="button" class="pp-btn-outline" (click)="addDriver()">+ {{ w.addDriver }}</button></div>
+                  @if (!drivers.length) { <p class="pp-muted pp-small">{{ w.noDrivers }}</p> }
+                  @for (d of drivers; track $index; let i = $index) {
+                    <div class="driver">
+                      <div><label class="pp-label pp-label--sm" [for]="'drv-name-' + i">{{ w.fullName }}</label><input class="pp-field" [id]="'drv-name-' + i" [name]="'drv-name-' + i" [(ngModel)]="d.fullName" (blur)="onAddonEdited()" /></div>
+                      <div><label class="pp-label pp-label--sm" [for]="'drv-type-' + i">{{ w.idTypeLabel }}</label>
+                        <select class="pp-select" [id]="'drv-type-' + i" [name]="'drv-type-' + i" [(ngModel)]="d.idType" (ngModelChange)="onAddonEdited()"><option value="nric">{{ w.idType.nric }}</option><option value="passport">{{ w.idType.passport }}</option></select></div>
+                      <div><label class="pp-label pp-label--sm" [for]="'drv-id-' + i">{{ w.idNumberShort }}</label><input class="pp-field" [id]="'drv-id-' + i" [name]="'drv-id-' + i" [(ngModel)]="d.idNumber" (blur)="onAddonEdited()" /></div>
+                      <div><label class="pp-label pp-label--sm" [for]="'drv-nat-' + i">{{ w.nationality }}</label><input class="pp-field" [id]="'drv-nat-' + i" [name]="'drv-nat-' + i" [(ngModel)]="d.nationality" (blur)="onAddonEdited()" /></div>
+                      <div><label class="pp-label pp-label--sm" [for]="'drv-dob-' + i">{{ w.dob }}</label><input type="date" class="pp-field" [id]="'drv-dob-' + i" [name]="'drv-dob-' + i" [(ngModel)]="d.dob" (change)="onAddonEdited()" /></div>
+                      <button type="button" class="driver__remove" (click)="removeDriver(i)" [attr.aria-label]="fill(w.removeDriver, { n: i + 1 })"><app-icon name="x" [size]="16" /></button>
+                    </div>
+                  }
+                  @if (hasIncompleteDriver) { <p class="pp-warn pp-small">{{ w.driverIncomplete }}</p> }
+                </div>
+              }
+            </section>
+          }
+
+          <div class="pp-nav">
+            <button type="button" class="pp-btn-outline" (click)="fromBatch ? backToBulk() : goTo(1)" [disabled]="isBusy">← {{ fromBatch ? b.backToList : w.back }}</button>
+            <button type="button" class="btn btn--primary" (click)="continueToCheckout()" [disabled]="!canContinue || isBusy">{{ w.continueDetails }} →</button>
+          </div>
+        }
+
+        <!-- ---------- Step 3: Checkout ---------- -->
+        @if (step === 3) {
+          <form class="pp-card" (submit)="reviewAndPay($event)" (input)="profileEdited()" (change)="profileEdited()" novalidate>
+            <h3>{{ w.holder }}</h3>
+            <div class="pp-grid3">
+              <div class="span2">
+                <label class="pp-label pp-label--sm" for="p_full_name">{{ w.fullNameIc }}</label>
+                <input id="p_full_name" name="full_name" class="pp-field" [(ngModel)]="profile.full_name" autocomplete="name" [class.invalid]="profileInvalid('full_name')" />
+                @if (profileInvalid('full_name')) { <div class="pp-error">{{ w.errName }}</div> }
+              </div>
+              <div><label class="pp-label pp-label--sm">{{ idNumberLabel }}</label><input class="pp-field" [value]="quotedValues?.id_number ?? ''" disabled /></div>
+              <div>
+                <label class="pp-label pp-label--sm" for="p_dob">{{ w.dob }}</label>
+                <input id="p_dob" name="dob" type="date" class="pp-field" [(ngModel)]="profile.dob" [class.invalid]="profileInvalid('dob')" />
+                @if (profileInvalid('dob')) { <div class="pp-error">{{ w.errRequired }}</div> }
+              </div>
+              <div>
+                <span class="pp-label pp-label--sm" id="p_gender_label">{{ w.gender }}</span>
+                <div class="pp-seg pp-seg--sm" role="radiogroup" aria-labelledby="p_gender_label" [class.invalid]="profileInvalid('gender')">
+                  <input type="radio" class="pp-seg__input" name="gender" id="g-male" [value]="1" [(ngModel)]="profile.gender" />
+                  <label class="pp-seg__opt" for="g-male">{{ w.male }}</label>
+                  <input type="radio" class="pp-seg__input" name="gender" id="g-female" [value]="2" [(ngModel)]="profile.gender" />
+                  <label class="pp-seg__opt" for="g-female">{{ w.female }}</label>
+                </div>
+                @if (profileInvalid('gender')) { <div class="pp-error">{{ w.errGender }}</div> }
+              </div>
+              <div>
+                <label class="pp-label pp-label--sm" for="p_marital">{{ w.marital }}</label>
+                <select id="p_marital" name="marital_status" class="pp-select" [(ngModel)]="profile.marital_status" [class.invalid]="profileInvalid('marital_status')">
+                  <option [ngValue]="null" disabled>{{ w.select }}</option>
+                  @for (m of options?.marital_status ?? []; track m.id) { <option [ngValue]="m.id">{{ m.name }}</option> }
+                </select>
+                @if (profileInvalid('marital_status')) { <div class="pp-error">{{ w.errRequired }}</div> }
+              </div>
+              <div><label class="pp-label pp-label--sm" for="p_nat">{{ w.nationality }}</label><input id="p_nat" name="nationality" class="pp-field" [(ngModel)]="profile.nationality" /></div>
+            </div>
+
+            <h3>{{ w.contact }}</h3>
+            <div class="pp-grid2">
+              <div>
+                <label class="pp-label pp-label--sm" for="p_mobile">{{ w.mobile }}</label>
+                <input id="p_mobile" name="mobile_no" type="tel" class="pp-field" [(ngModel)]="profile.mobile_no" placeholder="60123456789" autocomplete="tel" [class.invalid]="profileInvalid('mobile_no')" />
+                @if (profileInvalid('mobile_no')) { <div class="pp-error">{{ w.errMobile }}</div> } @else { <div class="pp-hint">{{ w.mobileHint }}</div> }
+              </div>
+              <div>
+                <label class="pp-label pp-label--sm" for="p_email">{{ w.email }}</label>
+                <input id="p_email" name="email" type="email" class="pp-field" [(ngModel)]="profile.email" autocomplete="email" [class.invalid]="profileInvalid('email')" />
+                @if (profileInvalid('email')) { <div class="pp-error">{{ w.errEmail }}</div> } @else { <div class="pp-hint">{{ w.emailHint }}</div> }
+              </div>
+            </div>
+
+            <h3>{{ w.address }}</h3>
+            <div class="pp-grid3">
+              <div class="span3">
+                <label class="pp-label pp-label--sm" for="p_a1">{{ w.address1 }}</label>
+                <input id="p_a1" name="address_line1" class="pp-field" [(ngModel)]="profile.address_line1" autocomplete="address-line1" [class.invalid]="profileInvalid('address_line1')" />
+                @if (profileInvalid('address_line1')) { <div class="pp-error">{{ w.errAddress }}</div> }
+              </div>
+              <div class="span15"><label class="pp-label pp-label--sm" for="p_a2">{{ w.address2 }} <span class="pp-muted">({{ w.optional }})</span></label><input id="p_a2" name="address_line2" class="pp-field" [(ngModel)]="profile.address_line2" /></div>
+              <div class="span15"><label class="pp-label pp-label--sm" for="p_a3">{{ w.address3 }} <span class="pp-muted">({{ w.optional }})</span></label><input id="p_a3" name="address_line3" class="pp-field" [(ngModel)]="profile.address_line3" /></div>
+              <div>
+                <label class="pp-label pp-label--sm" for="p_city">{{ w.city }}</label>
+                <input id="p_city" name="city" class="pp-field" [(ngModel)]="profile.city" [class.invalid]="profileInvalid('city')" />
+                @if (profileInvalid('city')) { <div class="pp-error">{{ w.errRequired }}</div> }
+              </div>
+              <div>
+                <label class="pp-label pp-label--sm" for="p_state">{{ w.state }}</label>
+                <input id="p_state" name="state" class="pp-field" [(ngModel)]="profile.state" [class.invalid]="profileInvalid('state')" />
+                @if (profileInvalid('state')) { <div class="pp-error">{{ w.errRequired }}</div> }
+              </div>
+              <div><label class="pp-label pp-label--sm">{{ w.postcode }}</label><input class="pp-field" [value]="quotedValues?.postcode ?? ''" disabled /></div>
+            </div>
+            <div class="pp-nav">
+              <button type="button" class="pp-btn-outline" (click)="backFromCheckout()" [disabled]="isBusy">← {{ w.back }}</button>
+              <button type="submit" class="btn pp-btn-pay" [disabled]="isBusy">{{ w.reviewPay }} {{ money(selectedProvider?.totalContribution) }}</button>
+            </div>
+          </form>
+        }
+      </div>
+
+      <!-- ===== Summary column (desktop) ===== -->
+      <aside class="pp-side">
+        <ng-container *ngTemplateOutlet="summary; context: { inSheet: false }" />
+      </aside>
+    </div>
+  }
+
+  <!-- ===== Order summary: plan / add-ons / total / documents ===== -->
+  <ng-template #summary let-inSheet="inSheet">
+    <div class="sum" [class.in-sheet]="inSheet" aria-live="polite">
+      @if (!inSheet) { <h3 class="sum__title">{{ w.orderSummary }}</h3> }
+      @if (selectedProvider; as sp) {
+        <section class="sum__sec">
+          <div class="sum__label">{{ w.plan }} @if (step > 2) { <button type="button" class="pp-link" (click)="goTo(2)" [disabled]="isBusy">{{ w.change }}</button> }</div>
+          <div class="sum__insurer">
+            <app-insurer-logo [code]="sp.provider" [apiLogo]="logo(sp)" />
+            <div><strong>{{ insurerName(sp) }}</strong><div class="pp-muted pp-small">{{ coverInfo(coverTypeCode).title }}</div></div>
+          </div>
+          <dl class="sum__facts">
+            <dt>{{ w.coverPeriod }}</dt><dd>{{ sp.effectiveDate }} – {{ sp.expiryDate }}</dd>
+            @if (!isThirdParty) { <dt>{{ w.sumInsured }}</dt><dd>{{ money(sp.sumInsured) }} <span class="pp-muted">· {{ cover.valueType === 'agreed' ? w.agreedValue : w.marketValue }}</span></dd> }
+            @if (roadTaxAmount) { <dt>{{ w.roadTax }}</dt><dd>{{ w.included }}</dd> }
+          </dl>
+        </section>
+
+        <section class="sum__sec">
+          <div class="sum__label">{{ w.addons }}</div>
+          @if (!selectedAddons.length) { <div class="pp-muted pp-small">{{ w.noneSelected }}</div> } @else {
+            <details class="sum__addons" [open]="inSheet">
+              <summary><span>{{ fill(w.nSelected, { n: selectedAddons.length }) }}</span><span>{{ money(addonsTotal(sp)) }}</span></summary>
+              <ul>@for (a of selectedAddons; track a.code) { <li><span>{{ addonLabel(a.code) }}</span><span>{{ isFree(a.premium) ? w.free : money(a.premium) }}</span></li> }</ul>
+            </details>
+          }
+        </section>
+
+        <section class="sum__sec">
+          <div class="sum__label">{{ w.totalToPay }}
+            @if (priceDelta) { <span class="sum__delta" [class.up]="priceDelta > 0" [class.down]="priceDelta < 0">{{ priceDelta > 0 ? '+' : '−' }}{{ money(abs(priceDelta)) }}</span> }
+          </div>
+          <div class="sum__total" [class.dim]="isRepricing || priceStale">{{ money(sp.totalContribution) }}</div>
+          @if (isRepricing) { <div class="pp-muted pp-small">{{ w.updatingPrice }}</div> }
+          @else if (perDay(sp) > 0) { <div class="pp-muted pp-small">{{ fill(w.perDay, { amount: money(perDay(sp)) }) }}</div> }
+          @if (ncdSaving(sp) > 0) { <div class="sum__saving">✓ {{ fill(w.ncdSaving, { amount: money(ncdSaving(sp)), ncd: ncdLabel(sp.ncdPercentage) }) }}</div> }
+          <div class="pp-muted pp-small">{{ processingFee(sp) ? w.inclSstStampFee : w.inclSstStamp }}</div>
+          <details class="sum__breakdown" [open]="inSheet">
+            <summary class="pp-small">{{ w.viewBreakdown }}</summary>
+            <table>
+              <tbody>
+                <tr><td>{{ w.beforeNcd }}</td><td>{{ money(priceBeforeNcdOnly(sp)) }}</td></tr>
+                <tr><td>{{ fill(w.ncdDiscount, { ncd: ncdLabel(sp.ncdPercentage) }) }}</td><td class="good">−{{ money(sp.ncdValue) }}</td></tr>
+                @if (addonsTotal(sp)) { <tr><td>{{ w.addons }} ({{ selectedAddons.length }})</td><td>+{{ money(addonsTotal(sp)) }}</td></tr> }
+                <tr><td>SST {{ sp.sstPercentage ? ncdLabel(sp.sstPercentage) : '' }}</td><td>{{ money(sp.sst) }}</td></tr>
+                <tr><td>{{ w.stampDuty }}</td><td>{{ money(sp.stampDuty) }}</td></tr>
+                @if (processingFee(sp)) { <tr><td>{{ w.processingFee }}</td><td>{{ money(processingFee(sp)) }}</td></tr> }
+                @if (roadTaxAmount) { <tr><td>{{ w.roadTax }}</td><td>{{ money(roadTaxAmount) }}</td></tr> }
+                <tr class="strong"><td>{{ w.total }}</td><td>{{ money(sp.totalContribution) }}</td></tr>
+              </tbody>
+            </table>
+          </details>
+          @if (!inSheet) {
+            <div class="sum__action">
+              @if (step === 2) {
+                <button type="button" class="btn btn--primary" (click)="continueToCheckout()" [disabled]="!canContinue || isBusy">{{ w.continueDetails }} →</button>
+                @if (continueHint) {
+                  <div class="pp-small pp-center" [class.pp-error]="repriceFailed && !isRepricing" [class.pp-muted]="!repriceFailed || isRepricing">
+                    {{ continueHint }} @if (repriceFailed && !isRepricing) { <button type="button" class="pp-link" (click)="retryReprice()">{{ w.tryAgain }}</button> }
+                  </div>
+                }
+              }
+              @if (step === 3) {
+                <button type="button" class="btn pp-btn-pay" (click)="reviewAndPay()" [disabled]="isBusy">{{ w.reviewPay }} {{ money(sp.totalContribution) }}</button>
+                <div class="pp-muted pp-small pp-center">{{ w.billplzFpx }}</div>
+              }
+            </div>
+          }
+        </section>
+
+        @if (pdsLink(sp) || privacyLink(sp)) {
+          <section class="sum__sec">
+            <div class="sum__label">{{ w.documents }}</div>
+            <div class="sum__docs">
+              @if (pdsLink(sp)) { <a [href]="pdsLink(sp)" target="_blank" rel="noopener noreferrer">{{ w.pds }}</a> }
+              @if (privacyLink(sp)) { <a [href]="privacyLink(sp)" target="_blank" rel="noopener noreferrer">{{ w.privacy }}</a> }
+            </div>
+            <div class="pp-muted pp-small">{{ w.pricesChange }}</div>
+          </section>
+        }
+      } @else {
+        <div class="pp-muted">{{ w.chooseToSee }}</div>
+      }
+    </div>
+  </ng-template>
+
+  <!-- ===== Phones/tablets: bottom bar (price + one action); tap the price for the breakdown ===== -->
+  @if (step === 2 && compact && mobileView === 'customise' && continueHint) {
+    <div class="pp-bar-hint" [class.pp-error]="repriceFailed && !isRepricing">
+      {{ continueHint }} @if (repriceFailed && !isRepricing) { <button type="button" class="pp-link" (click)="retryReprice()">{{ w.tryAgain }}</button> }
+    </div>
+  }
+  @if (showBottomBar && selectedProvider; as sp) {
+    <div class="pp-bar">
+      <button type="button" class="pp-bar__price" (click)="showSheet = true" [attr.aria-expanded]="showSheet" aria-controls="pp-sheet">
+        <span class="pp-muted pp-small">{{ insurerName(sp) }}</span>
+        <strong [class.dim]="isRepricing || priceStale">{{ money(sp.totalContribution) }}</strong>
+        <span class="pp-small pp-blue">{{ w.viewBreakdown }} ▴</span>
+      </button>
+      <button type="button" class="btn" [class.btn--primary]="step === 2" [class.pp-btn-pay]="step === 3" (click)="barAction()" [disabled]="barActionDisabled">{{ barActionLabel }} →</button>
+    </div>
+  }
+
+  <!-- Bottom sheet: the same summary as the desktop column -->
+  @if (showSheet && selectedProvider) {
+    <div class="pp-backdrop pp-backdrop--sheet" (click)="showSheet = false"></div>
+    <div id="pp-sheet" class="pp-sheet" role="dialog" aria-modal="true" [attr.aria-label]="w.orderSummary">
+      <div class="pp-sheet__handle" aria-hidden="true"></div>
+      <div class="pp-card__head"><h3>{{ w.orderSummary }}</h3><button type="button" class="pp-x" [attr.aria-label]="w.close" (click)="showSheet = false"><app-icon name="x" [size]="20" /></button></div>
+      <ng-container *ngTemplateOutlet="summary; context: { inSheet: true }" />
+    </div>
+  }
+
+  <!-- ===== Start over: confirm before discarding ===== -->
+  @if (showStartOverConfirm) {
+    <div class="pp-backdrop">
+      <div class="pp-modal" role="dialog" aria-modal="true" aria-labelledby="pp-startover">
+        <h3 id="pp-startover">{{ w.discardTitle }}</h3>
+        <p class="pp-muted">{{ w.discardBody }}</p>
+        <div class="pp-modal__actions">
+          <button type="button" class="pp-btn-outline" (click)="showStartOverConfirm = false">{{ w.keepEditing }}</button>
+          <button type="button" class="btn pp-btn-danger" (click)="confirmStartOver()">{{ w.discard }}</button>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- ===== Re-quote protection ===== -->
+  @if (showRequoteConfirm) {
+    <div class="pp-backdrop">
+      <div class="pp-modal" role="dialog" aria-modal="true" aria-labelledby="pp-requote">
+        <h3 id="pp-requote">{{ w.requoteTitle }}</h3>
+        <p class="pp-muted">{{ w.requoteBody }}</p>
+        <div class="pp-modal__actions">
+          <button type="button" class="pp-btn-outline" (click)="keepCurrentQuote()">{{ w.keepQuote }}</button>
+          <button type="button" class="btn btn--primary" (click)="confirmRequote()">{{ w.getNewQuotes }}</button>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- ===== Check & confirm before paying ===== -->
+  @if (showConfirm && quote && selectedProvider; as sp) {
+    <div class="pp-backdrop pp-backdrop--confirm">
+      <div class="pp-confirm" role="dialog" aria-modal="true" aria-labelledby="pp-confirm-title">
+        <div class="pp-confirm__head"><h3 id="pp-confirm-title">{{ w.checkTitle }}</h3><button type="button" class="pp-x" [attr.aria-label]="w.close" (click)="closeConfirm()"><app-icon name="x" [size]="20" /></button></div>
+        <div class="pp-confirm__body">
+          <div class="pp-confirm__warn" role="note">⚠ <span><strong>{{ w.checkWarnStrong }}</strong> {{ w.checkWarn }}</span></div>
+          <section class="cg">
+            <div class="cg__head"><span>{{ w.vehicleCover }}</span><button type="button" class="pp-link" (click)="editFromConfirm('cover')">{{ w.edit }}</button></div>
+            <div class="strong">{{ quote.vehRegNo }} · {{ vehicleLabel }}</div>
+            <div>{{ insurerName(sp) }} · {{ coverInfo(coverTypeCode).title }}</div>
+            <div class="pp-muted">{{ sp.effectiveDate }} – {{ sp.expiryDate }}
+              @if (!isThirdParty) { · {{ w.sumInsured }} {{ money(sp.sumInsured) }}{{ cover.valueType === 'agreed' ? ' (' + w.agreedShort + ')' : '' }} }</div>
+          </section>
+          <section class="cg">
+            <div class="cg__head"><span>{{ w.addons }} · {{ selectedAddons.length }}</span><button type="button" class="pp-link" (click)="editFromConfirm('cover')">{{ w.edit }}</button></div>
+            @if (!selectedAddons.length) { <div class="pp-muted">{{ w.none }}</div> }
+            @else { <ul class="cg__list">@for (a of selectedAddons; track a.code) { <li><span>{{ addonLabel(a.code) }}</span><span>{{ isFree(a.premium) ? w.free : money(a.premium) }}</span></li> }</ul> }
+          </section>
+          <section class="cg">
+            <div class="cg__head"><span>{{ w.holder }}</span><button type="button" class="pp-link" (click)="editFromConfirm('holder')">{{ w.edit }}</button></div>
+            <div class="strong">{{ profile.full_name }}</div>
+            <div class="strong">{{ idNumberLabel }} {{ quotedValues?.id_number }}</div>
+            <div>{{ profile.mobile_no }} · {{ profile.email }}</div>
+            <div class="pp-muted">{{ profile.address_line1 }}@if (profile.address_line2) {, {{ profile.address_line2 }}}@if (profile.address_line3) {, {{ profile.address_line3 }}}, {{ quotedValues?.postcode }} {{ profile.city }}, {{ profile.state }}</div>
+            <div class="pp-muted">{{ customerName ? fill(w.linkedTo, { name: customerName }) : w.notLinkedApp }}</div>
+          </section>
+        </div>
+        <div class="pp-confirm__foot">
+          <div class="pp-confirm__total"><span class="pp-muted">{{ w.totalToPay }}</span><strong>{{ money(sp.totalContribution) }}</strong></div>
+          <div class="pp-muted pp-small">{{ processingFee(sp) ? w.inclSstStampFee : w.inclSstStamp }} · {{ fill(w.aboutPerDay, { amount: money(perDay(sp)) }) }}</div>
+          @if (pdsLink(sp)) {
+            <label class="pp-pds"><input type="checkbox" name="pds" [(ngModel)]="pdsAcknowledged" />
+              <span>{{ w.pdsGiven }} <a [href]="pdsLink(sp)" target="_blank" rel="noopener noreferrer">{{ w.pds }}</a></span></label>
+          }
+          <div class="pp-modal__actions">
+            <button type="button" class="pp-btn-outline" (click)="closeConfirm()" [disabled]="isBusy">{{ w.back }}</button>
+            <button type="button" class="btn pp-btn-pay grow" (click)="pay()" [disabled]="isBusy || !canPay">{{ w.confirmPay }} {{ money(sp.totalContribution) }}</button>
+          </div>
+          <div class="pp-muted pp-small pp-center">{{ w.billplzTab }}</div>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- ===== Blocking loading popup (quote / save / payment only; re-pricing stays inline) ===== -->
+  @if (isBusy) {
+    <div class="pp-backdrop pp-backdrop--busy">
+      <div class="pp-busy" role="dialog" aria-modal="true" aria-labelledby="pp-busy-msg" aria-live="assertive">
+        <span class="pp-spinner" aria-hidden="true"></span>
+        <strong id="pp-busy-msg">{{ busyMessage }}</strong>
+        @if (isQuoting) { <div class="pp-muted pp-small">{{ fill(w.elapsed, { s: quoteElapsed }) }}</div> }
+        <div class="pp-muted pp-small">{{ w.dontClose }}</div>
+      </div>
+    </div>
+  }
+</div>

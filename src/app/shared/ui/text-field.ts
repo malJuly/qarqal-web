@@ -7,7 +7,7 @@ import { ChangeDetectionStrategy, Component, ElementRef, input, model, viewChild
 @Component({
   selector: 'app-text-field',
   template: `
-    <div class="tf">
+    <div class="tf" [class.tf--compact]="compact()">
       <label [for]="inputId()">{{ label() }}@if (optional()) { <span class="tf__opt"> ({{ optional() }})</span> }</label>
       <input #el [id]="inputId()" [type]="type()" [value]="value()" [placeholder]="placeholder()"
         [attr.autocomplete]="autocomplete() || null" [attr.inputmode]="inputmode() || null" [attr.maxlength]="maxLength() || null"
@@ -24,6 +24,9 @@ import { ChangeDetectionStrategy, Component, ElementRef, input, model, viewChild
       width: 100%; height: 48px; padding: 0 14px; font: 400 1rem var(--font); color: var(--ink);
       background: #fff; border: 1px solid #c9d1e4; border-radius: 10px;
     }
+    .tf--compact { gap: 4px; }
+    .tf--compact label { font-size: 0.75rem; }
+    .tf--compact input { height: 40px; padding: 0 10px; font-size: 0.9375rem; }
     input::placeholder { color: #8895a6; }
     input:focus { outline: none; border-color: var(--navy); box-shadow: 0 0 0 3px rgb(0 160 230 / 0.28); }
     input[readonly] { background: var(--bg-soft); color: var(--ink-2); }
@@ -37,7 +40,7 @@ export class TextField {
   readonly inputId = input.required<string>();
   readonly label = input.required<string>();
   readonly value = model('');
-  readonly type = input<'text' | 'email' | 'tel' | 'date'>('text');
+  readonly type = input<'text' | 'email' | 'tel' | 'date' | 'password'>('text');
   readonly placeholder = input('');
   readonly autocomplete = input('');
   readonly inputmode = input('');
@@ -45,6 +48,8 @@ export class TextField {
   /** For type="date": latest allowed day, yyyy-mm-dd. */
   readonly max = input('');
   readonly readonly = input(false);
+  /** Smaller (40px) field, for filter bars. */
+  readonly compact = input(false);
   /** Text shown after the label, e.g. "optional". */
   readonly optional = input('');
   /** Error message; empty or undefined means valid. */

@@ -12,7 +12,7 @@ export interface SelectOption {
 @Component({
   selector: 'app-select-field',
   template: `
-    <div class="sf">
+    <div class="sf" [class.sf--compact]="compact()">
       <label [for]="inputId()">{{ label() }}</label>
       <select #el [id]="inputId()" [disabled]="disabled()" [attr.aria-describedby]="inputId() + '-err'" [attr.aria-invalid]="error() ? 'true' : null"
         (change)="value.set(el.value)">
@@ -31,6 +31,9 @@ export interface SelectOption {
       font: 400 1rem var(--font); color: var(--ink); border: 1px solid #c9d1e4; border-radius: 10px;
       background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%231e3c96' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6l6-6'/%3E%3C/svg%3E") no-repeat right 12px center;
     }
+    .sf--compact { gap: 4px; }
+    .sf--compact label { font-size: 0.75rem; }
+    .sf--compact select { height: 40px; padding-left: 10px; font-size: 0.9375rem; }
     select:disabled { background-color: var(--bg-soft); color: var(--ink-2); cursor: default; }
     select:focus { outline: none; border-color: var(--navy); box-shadow: 0 0 0 3px rgb(0 160 230 / 0.28); }
     select[aria-invalid='true'] { border-color: #d92d20; }
@@ -46,6 +49,8 @@ export class SelectField {
   readonly value = model('');
   readonly placeholder = input('');
   readonly disabled = input(false);
+  /** Smaller (40px) field, for filter bars. */
+  readonly compact = input(false);
   /** Error message; empty or undefined means valid. */
   readonly error = input<string | undefined>('');
 

@@ -1,0 +1,325 @@
+@let b = i18n.t().agent.bulk;
+@let w = i18n.t().agent.wizard;
+<div class="bq" [class.bq--wide-pay]="s.phase === 'pay' && wide">
+  <div class="bq-head">
+    <div class="bq-head__row">
+      <span class="bq-muted">{{ b.kicker }}</span>
+      <span class="bq-head__links">
+        <a [routerLink]="session.path('insurance-purchase/sales')">{{ w.mySales }}</a>
+        @if (s.phase !== 'edit') { <button type="button" class="bq-link" (click)="startNewBatch()" [disabled]="running">{{ b.newBatch }}</button> }
+      </span>
+    </div>
+    <h2 class="bq-title">
+      @switch (s.phase) {
+        @case ('edit') { {{ b.titles.edit }} }
+        @case ('run') { {{ b.titles.run }} }
+        @case ('review') { {{ b.titles.review }} }
+        @case ('pay') { {{ b.titles.pay }} }
+      }
+    </h2>
+    <!-- Where the agent is in the batch -->
+    <ol class="bq-stages" [attr.aria-label]="b.progress">
+      <li [class.active]="s.phase === 'edit'" [class.done]="s.phase !== 'edit'"><span class="dot">1</span>{{ b.stages.vehicles }}</li>
+      <li [class.active]="s.phase === 'run' || s.phase === 'review'" [class.done]="s.phase === 'pay'"><span class="dot">2</span>{{ b.stages.compare }}</li>
+      <li [class.active]="s.phase === 'pay'"><span class="dot">3</span>{{ b.stages.pay }}</li>
+    </ol>
+  </div>
+
+  <!-- =================== 1. Vehicles: CSV or typed, checked row by row =================== -->
+  @if (s.phase === 'edit') {
+    <div class="bq-mode" role="tablist" [attr.aria-label]="b.mode">
+      <a class="bq-mode__opt" role="tab" aria-selected="false" [routerLink]="session.path('insurance-purchase')">{{ b.oneVehicle }}</a>
+      <span class="bq-mode__opt active" role="tab" aria-selected="true">{{ b.manyVehicles }}</span>
+    </div>
+
+    <section class="bq-card">
+      <div class="bq-csv">
+        <label class="bq-btn-outline">
+          <app-icon name="upload" [size]="16" /> {{ b.csv.upload }}
+          <input type="file" accept=".csv,text/csv" class="sr-only" (change)="onCsvSelected($event)" />
+        </label>
+        <button type="button" class="bq-link" (click)="downloadTemplate()"><app-icon name="download" [size]="16" /> {{ b.csv.template }}</button>
+        <span class="bq-hint">{{ fill(b.csv.hint, { max: maxRows }) }}</span>
+      </div>
+      @if (s.csvMessage) { <div class="bq-note"><app-icon name="alertCircle" [size]="16" /> {{ s.csvMessage }}</div> }
+
+      <label class="bq-check">
+        <input type="checkbox" name="sameOwner" [(ngModel)]="s.sameOwner" />
+        <span>{{ b.sameOwner }}</span>
+      </label>
+      @if (s.sameOwner) {
+        <div class="bq-owner">
+          <div>
+            <span class="bq-label" id="bq-owner-idt">{{ w.ownerId }}</span>
+            <div class="bq-seg" role="radiogroup" aria-labelledby="bq-owner-idt">
+              @for (t of options?.id_types ?? []; track t.id) {
+                <input type="radio" class="bq-seg__input" name="owner-idt" [id]="'bq-idt-' + t.id" [value]="t.id"
+                  [(ngModel)]="s.sharedOwner.idType" (ngModelChange)="onIdInput(s.sharedOwner)" />
+                <label class="bq-seg__opt" [for]="'bq-idt-' + t.id">{{ idTypeLabel(t.id) }}</label>
+              }
+            </div>
+          </div>
+          <div>
+            <label class="bq-label" for="bq-owner-id">{{ fill(b.idNumberOf, { type: idTypeLabel(s.sharedOwner.idType) }) }}</label>
+            <input id="bq-owner-id" name="owner-id" class="bq-field" [(ngModel)]="s.sharedOwner.idNumber" (ngModelChange)="onIdInput(s.sharedOwner)" autocomplete="off" />
+          </div>
+          <div>
+            <label class="bq-label" for="bq-owner-pc">{{ w.postcode }}</label>
+            <input id="bq-owner-pc" name="owner-pc" class="bq-field" inputmode="numeric" maxlength="5" [(ngModel)]="s.sharedOwner.postcode" autocomplete="off" />
+          </div>
+          <div>
+            <label class="bq-label" for="bq-owner-qq">{{ b.qarqalId }} <span class="bq-muted">({{ w.optional }})</span></label>
+            <input id="bq-owner-qq" name="owner-qq" class="bq-field" [(ngModel)]="s.sharedOwner.qarqalId" autocomplete="off" />
+          </div>
+        </div>
+      }
+
+      <!-- Vehicles -->
+      <div class="bq-rows-head" [class.with-owner]="!s.sameOwner" aria-hidden="true">
+        <span>#</span><span>{{ b.plate }}</span>
+        @if (!s.sameOwner) { <span>{{ w.idTypeLabel }}</span><span>{{ w.idNumberShort }}</span><span>{{ w.postcode }}</span><span>{{ b.qarqalId }}</span> }
+        <span></span>
+      </div>
+      <div class="bq-rows">
+        @for (row of s.rows; track row.key; let i = $index) {
+          <div class="bq-row" [class.with-owner]="!s.sameOwner" [class.has-problem]="!!showProblem(row)">
+            <span class="bq-row__no">{{ i + 1 }}</span>
+            <input class="bq-field bq-plate" [name]="'plate-' + row.key" [(ngModel)]="row.plate" [placeholder]="b.plate"
+              [attr.aria-label]="fill(b.rowLabel, { field: b.plate, n: i + 1 })" autocapitalize="characters" autocomplete="off" spellcheck="false" />
+            @if (!s.sameOwner) {
+              <select class="bq-field" [name]="'idt-' + row.key" [(ngModel)]="row.idType" (ngModelChange)="onIdInput(row)" [attr.aria-label]="fill(b.rowLabel, { field: w.idTypeLabel, n: i + 1 })">
+                @for (t of options?.id_types ?? []; track t.id) { <option [ngValue]="t.id">{{ idTypeLabel(t.id) }}</option> }
+              </select>
+              <input class="bq-field" [name]="'id-' + row.key" [(ngModel)]="row.idNumber" (ngModelChange)="onIdInput(row)" [placeholder]="w.idNumberShort"
+                [attr.aria-label]="fill(b.rowLabel, { field: w.idNumberShort, n: i + 1 })" autocomplete="off" />
+              <input class="bq-field" [name]="'pc-' + row.key" [(ngModel)]="row.postcode" [placeholder]="w.postcode" inputmode="numeric" maxlength="5"
+                [attr.aria-label]="fill(b.rowLabel, { field: w.postcode, n: i + 1 })" autocomplete="off" />
+              <input class="bq-field" [name]="'qq-' + row.key" [(ngModel)]="row.qarqalId" [placeholder]="w.optional"
+                [attr.aria-label]="fill(b.rowLabel, { field: b.qarqalId, n: i + 1 })" autocomplete="off" />
+            }
+            <button type="button" class="bq-remove" (click)="removeRow(row)" [attr.aria-label]="fill(b.removeRow, { n: i + 1 })"><app-icon name="x" [size]="16" /></button>
+            @if (showProblem(row) || (!s.sameOwner && row.holder.full_name)) {
+              <div class="bq-row__meta">
+                @if (showProblem(row); as problem) { <span class="bq-error"><app-icon name="alertCircle" [size]="14" /> {{ problem }}</span> }
+                @if (!s.sameOwner && row.holder.full_name) { <span class="bq-muted"><app-icon name="user" [size]="14" /> {{ row.holder.full_name }}</span> }
+              </div>
+            }
+          </div>
+        }
+      </div>
+      <button type="button" class="bq-link bq-add" (click)="addRow()" [disabled]="s.rows.length >= maxRows"><app-icon name="plus" [size]="16" /> {{ b.addVehicle }}</button>
+    </section>
+
+    <div class="bq-footer">
+      <div class="bq-small bq-muted">
+        {{ fill(b.nReady, { n: readyRows.length }) }}@if (problemCount) { · <span class="bq-error">{{ fill(b.nFix, { n: problemCount }) }}</span> }
+      </div>
+      <button type="button" class="btn btn--primary" (click)="startQuoting()" [disabled]="!readyRows.length || !options">
+        {{ fill(readyRows.length === 1 ? b.getOne : b.getMany, { n: readyRows.length || '' }) }} <app-icon name="arrowRight" [size]="18" />
+      </button>
+    </div>
+  }
+
+  <!-- =================== 2a. Quoting: live progress =================== -->
+  @if (s.phase === 'run') {
+    <section class="bq-card">
+      <div class="bq-between">
+        <strong aria-live="polite">{{ fill(b.done, { n: counts.ready + counts.failed, total: counts.total }) }}</strong>
+        <button type="button" class="bq-btn-outline bq-btn-sm" (click)="stop()">{{ b.stop }}</button>
+      </div>
+      <div class="bq-progress" role="progressbar" [attr.aria-valuenow]="progressPercent" aria-valuemin="0" aria-valuemax="100">
+        <span [style.width.%]="progressPercent"></span>
+      </div>
+      <div class="bq-results">
+        @for (row of s.rows; track row.key) {
+          <div class="bq-result" [class.ready]="row.status === 'ready'" [class.failed]="row.status === 'failed'">
+            <div class="bq-min0">
+              <div class="bq-plate-text">{{ row.plate }}</div>
+              <div class="bq-small bq-muted bq-ellipsis">{{ vehicleText(row.result) || '—' }}</div>
+            </div>
+            <div class="bq-result__status">
+              @switch (row.status) {
+                @case ('queued') { <span class="bq-pill">{{ b.status.queued }}</span> }
+                @case ('quoting') { <span class="bq-pill busy"><span class="bq-spinner" aria-hidden="true"></span>{{ b.status.quoting }}</span> }
+                @case ('waiting') { <span class="bq-pill busy">{{ b.status.retrying }}</span> }
+                @case ('failed') { <span class="bq-pill bad">{{ row.error }}</span> }
+                @case ('skipped') { <span class="bq-pill">{{ b.status.skipped }} · {{ row.error }}</span> }
+                @case ('ready') { <strong>{{ fill(b.from, { amount: money(cheapest(row.result)?.totalContribution) }) }}</strong> }
+              }
+            </div>
+          </div>
+        }
+      </div>
+    </section>
+  }
+
+  <!-- =================== 2b. Compare: every quote on one screen =================== -->
+  @if (s.phase === 'review') {
+    <section class="bq-card">
+      <div class="bq-toolbar">
+        <label class="bq-check">
+          <input type="checkbox" [checked]="allIncluded" (change)="toggleAll($any($event.target).checked)" [disabled]="!readyQuotes.length" />
+          <span>{{ fill(b.selectedOf, { n: includedRows.length, total: readyQuotes.length }) }}</span>
+        </label>
+        <div class="bq-bulkpick">
+          <label class="bq-label" for="bq-bulk-insurer">{{ b.insurerForAll }}</label>
+          <select id="bq-bulk-insurer" name="bulkInsurer" class="bq-field bq-field--sm" [(ngModel)]="bulkInsurer" (ngModelChange)="onBulkInsurer($event)">
+            <option value="">{{ b.cheapestEach }}</option>
+            @for (c of insurerChoices; track c.code) { <option [value]="c.code">{{ insurer(c.code) }} ({{ fill(b.nOf, { n: c.count, total: readyQuotes.length }) }})</option> }
+          </select>
+        </div>
+      </div>
+      @if (bulkInsurer) { <p class="bq-small bq-muted">{{ fill(b.othersKeep, { insurer: insurer(bulkInsurer) }) }}</p> }
+
+      @if (!readyQuotes.length) { <div class="bq-empty">{{ b.noPrices }}</div> }
+
+      <div class="bq-review">
+        @for (row of readyQuotes; track row.key) {
+          <div class="bq-review__row" [class.excluded]="!row.include">
+            <input type="checkbox" class="bq-review__check" [name]="'inc-' + row.key" [(ngModel)]="row.include" [attr.aria-label]="fill(b.include, { plate: row.plate })" />
+            <div class="bq-min0">
+              <div class="bq-plate-text">{{ row.plate }}</div>
+              <div class="bq-small bq-muted bq-ellipsis">{{ vehicleText(row.result) }} · NCD {{ ncd(row.result) }}</div>
+            </div>
+            <div class="bq-review__insurer">
+              <app-insurer-logo [code]="row.providerCode" [apiLogo]="chosen(row)?.insuranceProviderLogos?.logo ?? ''" />
+              <select class="bq-field" [name]="'ins-' + row.key" [ngModel]="row.providerCode" (ngModelChange)="setInsurer(row, $event); bulkInsurer = ''"
+                [attr.aria-label]="fill(b.insurerFor, { plate: row.plate })">
+                @for (p of providersOf(row); track p.provider) { <option [value]="p.provider">{{ insurer(p.provider) }} — {{ money(p.totalContribution) }}</option> }
+              </select>
+            </div>
+            <div class="bq-review__price">
+              <strong>{{ money(chosen(row)?.totalContribution) }}</strong>
+              @if (isCheapest(row)) { <span class="bq-tag good">{{ b.cheapest }}</span> }
+              @else { <span class="bq-tag">{{ fill(b.overCheapest, { amount: money(overCheapest(row)) }) }}</span> }
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Nothing silently disappears: failed and skipped stay listed with a way forward -->
+      @if (notQuoted.length) {
+        <div class="bq-notquoted">
+          <div class="bq-between">
+            <strong class="bq-small">{{ fill(b.notQuoted, { n: notQuoted.length }) }}</strong>
+            <span class="bq-actions">
+              @if (counts.failed) { <button type="button" class="bq-btn-outline bq-btn-sm" (click)="retryFailed()">{{ fill(b.retryFailed, { n: counts.failed }) }}</button> }
+              <button type="button" class="bq-link" (click)="backToEdit()">{{ b.editList }}</button>
+            </span>
+          </div>
+          @for (row of notQuoted; track row.key) {
+            <div class="bq-notquoted__row">
+              <span class="bq-plate-text">{{ row.plate }}</span>
+              <span class="bq-small" [class.bq-error]="row.status === 'failed'" [class.bq-muted]="row.status === 'skipped'">
+                {{ row.status === 'skipped' ? b.status.skipped + ' · ' : '' }}{{ row.error }}
+              </span>
+            </div>
+          }
+        </div>
+      }
+      <p class="bq-small bq-muted">{{ b.compareNote }}</p>
+    </section>
+
+    <div class="bq-footer">
+      <div>
+        <div class="bq-small bq-muted">{{ fill(includedRows.length === 1 ? b.nVehicle : b.nVehicles, { n: includedRows.length }) }}</div>
+        <div class="bq-total">{{ money(includedTotal) }}</div>
+      </div>
+      <button type="button" class="btn btn--primary" (click)="goToPayment()" [disabled]="!includedRows.length">
+        {{ b.continuePay }} <app-icon name="arrowRight" [size]="18" />
+      </button>
+    </div>
+  }
+
+  <!-- =================== 3. Review & pay: list on the left, the vehicle on the right =================== -->
+  @if (s.phase === 'pay') {
+    <div class="bq-pay">
+      <aside class="bq-rail" [attr.aria-label]="b.railLabel">
+        <div class="bq-rail__head">
+          <div class="bq-between">
+            <strong aria-live="polite">{{ fill(b.paidOf, { n: paidCount, total: includedRows.length }) }}</strong>
+            <span class="bq-small bq-muted">{{ money(paidTotal) }} / {{ money(includedTotal) }}</span>
+          </div>
+          <div class="bq-progress bq-progress--paid" role="progressbar" [attr.aria-valuenow]="paidCount" aria-valuemin="0" [attr.aria-valuemax]="includedRows.length">
+            <span [style.width.%]="includedRows.length ? (paidCount / includedRows.length) * 100 : 0"></span>
+          </div>
+          @if (awaitingPayment) {
+            <button type="button" class="bq-link" (click)="refreshPaid()"><app-icon name="refresh" [size]="14" /> {{ b.refreshStatus }}</button>
+          }
+        </div>
+
+        <div class="bq-rail__list">
+          @for (row of includedRows; track row.key; let i = $index) {
+            <button type="button" class="bq-rail__item" [class.active]="wide && row.key === s.selectedKey" [class.paid]="isPaid(row)" (click)="openRow(row)"
+              [attr.aria-current]="wide && row.key === s.selectedKey ? 'true' : null">
+              <span class="bq-rail__status" [class.done]="isPaid(row)" [class.started]="row.policyStatus === 'PENDING_FOR_PAYMENT'" aria-hidden="true">
+                @if (isPaid(row)) { <app-icon name="check" [size]="14" /> } @else { {{ i + 1 }} }
+              </span>
+              <span class="bq-rail__main">
+                <span class="bq-plate-text">{{ row.plate }}</span>
+                <span class="bq-rail__sub"><span class="bq-ellipsis">{{ insurer(row.providerCode) }}</span><span>{{ money(rowTotal(row)) }}</span></span>
+                @if (paymentLabel(row)) {
+                  <span class="bq-rail__state" [class.good]="isPaid(row)">{{ paymentLabel(row) }}@if (row.coverNote) { · {{ row.coverNote }} }</span>
+                } @else if (!holderComplete(row)) {
+                  <span class="bq-rail__state muted">{{ b.detailsNeeded }}</span>
+                }
+              </span>
+              @if (!wide) { <app-icon name="arrowRight" [size]="16" /> }
+            </button>
+          }
+        </div>
+
+        <div class="bq-rail__foot">
+          <button type="button" class="bq-link" (click)="backToReview()"><app-icon name="arrowLeft" [size]="14" /> {{ b.backToCompare }}</button>
+          <a class="bq-link" [routerLink]="session.path('insurance-purchase/sales')">{{ w.mySales }}</a>
+        </div>
+      </aside>
+
+      <!-- The normal single-vehicle flow, one vehicle at a time (re-created per vehicle) -->
+      @if (wide) {
+        <section class="bq-pane" aria-live="polite">
+          @if (selectedRow; as row) {
+            <div class="bq-pane__head">
+              <div class="bq-min0">
+                <div class="bq-small bq-muted">{{ fill(b.vehicleOf, { n: selectedIndex + 1, total: includedRows.length }) }}</div>
+                <div class="bq-pane__title">
+                  <span class="bq-plate-text">{{ row.plate }}</span>
+                  <span class="bq-muted bq-ellipsis">{{ vehicleText(row.result) }}</span>
+                  <span class="bq-chip">NCD {{ ncd(row.result) }}</span>
+                </div>
+              </div>
+              @if (nextUnpaid; as next) {
+                <button type="button" class="bq-btn-outline bq-btn-sm" (click)="openInPane(next)">{{ fill(b.next, { plate: next.plate }) }} <app-icon name="arrowRight" [size]="14" /></button>
+              }
+            </div>
+
+            @if (paymentNoticeKey === row.key && !isPaid(row)) {
+              <div class="bq-notice" role="status">
+                <app-icon name="externalLink" [size]="16" />
+                <span class="bq-grow">{{ b.paymentOpened }}</span>
+                @if (nextUnpaid; as next) { <button type="button" class="btn btn--primary bq-btn-sm" (click)="openInPane(next)">{{ fill(b.nextVehicle, { plate: next.plate }) }}</button> }
+              </div>
+            }
+
+            @if (isPaid(row)) {
+              <div class="bq-paid">
+                <span class="bq-paid__icon" aria-hidden="true"><app-icon name="check" [size]="26" /></span>
+                <h3>{{ paymentLabel(row) }}</h3>
+                <p class="bq-muted">{{ insurer(row.providerCode) }} · {{ money(rowTotal(row)) }}@if (row.coverNote) { · {{ fill(b.coverNote, { no: row.coverNote }) }} }</p>
+                @if (nextUnpaid; as next) {
+                  <button type="button" class="btn btn--primary" (click)="openInPane(next)">{{ fill(b.nextVehicle, { plate: next.plate }) }} <app-icon name="arrowRight" [size]="16" /></button>
+                } @else { <strong class="bq-good">{{ b.allDone }}</strong> }
+              </div>
+            } @else {
+              @for (key of paneKeys; track key) {
+                <app-agent-insurance-purchase-page [embedded]="true" [batchHandoff]="paneHandoff" />
+              }
+            }
+          } @else {
+            <div class="bq-empty">{{ b.pickOne }}</div>
+          }
+        </section>
+      }
+    </div>
+  }
+</div>

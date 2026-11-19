@@ -40,6 +40,7 @@ type NavId = 'insurance' | 'calculator' | 'services' | 'assist' | 'faq' | 'about
               }
             </ul>
           </details>
+          <a class="top__agent" [href]="agentLoginPath()" [attr.aria-current]="page() === 'agent' ? 'page' : null">{{ t.nav.agentLogin }}</a>
           <a class="btn btn--light top__cta" [href]="i18n.home() + '#download'" data-smart-download>
             <app-icon name="download" [size]="20" cls="top__cta-icon" />
             <span class="top__cta-text">{{ t.nav.download }}</span>
@@ -51,6 +52,7 @@ type NavId = 'insurance' | 'calculator' | 'services' | 'assist' | 'faq' | 'about
                 <li><a [href]="i18n.home() + '#' + l.id" (click)="closeMenu()" [attr.aria-current]="active() === l.id ? 'true' : null">{{ l.label }}</a></li>
               }
               <li><a [href]="privacyPath()" [attr.aria-current]="page() === 'privacy' ? 'page' : null">{{ t.nav.links.privacy }}</a></li>
+              <li class="menu__agent"><a [href]="agentLoginPath()" [attr.aria-current]="page() === 'agent' ? 'page' : null">{{ t.nav.agentLogin }}</a></li>
             </ul>
           </details>
         </div>
@@ -126,6 +128,21 @@ type NavId = 'insurance' | 'calculator' | 'services' | 'assist' | 'faq' | 'about
     }
     .menu a { display: flex; align-items: center; min-height: 44px; padding: 0 12px; border-radius: 8px; color: var(--ink); text-decoration: none; font-weight: 700; }
     .menu a:hover, .menu a[aria-current] { background: var(--bg-soft); color: var(--navy); }
+    .menu__agent { margin-top: 4px; padding-top: 4px; border-top: 1px solid var(--line); }
+
+    /* Agent login: a quiet text link so it doesn't compete with Download. Shown in the bar only when the
+       desktop nav is (the phone menu has its own item). */
+    .top__agent {
+      display: none; align-items: center; min-height: 40px; padding: 0 10px; border-radius: 999px;
+      color: var(--night-ink); text-decoration: none; font-weight: 700; font-size: 0.9375rem; white-space: nowrap;
+    }
+    .top__agent:hover, .top__agent[aria-current] { background: rgb(255 255 255 / 0.1); }
+    @media (min-width: 1200px) { .top__agent { display: inline-flex; } }
+    @media (min-width: 1200px) and (max-width: 1319px) {
+      /* Tightest widths (Malay labels): a smaller link keeps the row on screen. */
+      .top__agent { padding: 0 6px; font-size: 0.8125rem; }
+      :host-context(html[lang^='ta']) .top__agent { display: none; }
+    }
 
     .lang { position: relative; color: var(--night-ink); }
     .lang summary {
@@ -150,7 +167,7 @@ type NavId = 'insurance' | 'calculator' | 'services' | 'assist' | 'faq' | 'about
 export class Header {
   protected readonly i18n = inject(I18nService);
   /** A legal page (no blue hero) gets a solid header; its links point back to the home sections. */
-  readonly page = input<'home' | 'privacy' | 'terms' | 'quote'>('home');
+  readonly page = input<'home' | 'privacy' | 'terms' | 'quote' | 'agent'>('home');
   /** That page's path under each language root, so the language switcher stays on the same page. */
   readonly subpath = input('');
 
@@ -162,6 +179,7 @@ export class Header {
   // "Calculator" only when that section is on the page (it needs environment.apiBaseUrl, or `ng serve`; see calculator.ts).
   private readonly hasCalculator = Boolean(environment.apiBaseUrl) || !environment.production;
   protected readonly privacyPath = computed(() => `${this.i18n.home()}privacy-policy/`);
+  protected readonly agentLoginPath = computed(() => `${this.i18n.home()}agent/login/`);
   protected readonly links = computed(() => {
     const ids: NavId[] = ['insurance', ...(this.hasCalculator ? ['calculator' as const] : []), 'services', 'assist', 'faq', 'about'];
     const labels = this.i18n.t().nav.links;

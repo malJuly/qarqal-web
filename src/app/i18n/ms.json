@@ -19,7 +19,8 @@
       "calculator": "Kalkulator",
       "privacy": "Privasi"
     },
-    "menu": "Menu"
+    "menu": "Menu",
+    "agentLogin": "Log masuk ejen"
   },
   "brand": {
     "tagline": "Bespoke app for all your vehicle needs"
@@ -591,5 +592,231 @@
   "terms": {
     "title": "Terma & Syarat",
     "englishOnly": "Terma ini disediakan dalam bahasa Inggeris sahaja."
+  },
+  "agent": {
+    "meta": {
+      "title": "Portal ejen | QarQal"
+    },
+    "login": {
+      "title": "Log masuk ejen",
+      "lede": "Untuk syarikat rakan kongsi QarQal dan kakitangan mereka.",
+      "email": "E-mel",
+      "password": "Kata laluan",
+      "submit": "Log masuk",
+      "submitting": "Sedang log masuk…",
+      "required": "Masukkan e-mel dan kata laluan anda.",
+      "invalid": "E-mel atau kata laluan tidak sah.",
+      "deactivated": "Akaun ini telah dinyahaktifkan. Sila hubungi pentadbir syarikat anda.",
+      "rateLimited": "Terlalu banyak cubaan. Sila tunggu 15 minit dan cuba lagi.",
+      "failed": "Gagal log masuk. Semak sambungan anda dan cuba lagi.",
+      "expired": "Sesi anda telah tamat. Sila log masuk semula.",
+      "unavailable": "Log masuk ejen tidak tersedia buat masa ini."
+    },
+    "company": {
+      "title": "Pilih syarikat",
+      "lede": "Akaun anda berada di bawah lebih daripada satu syarikat. Pilih syarikat yang anda wakili sekarang.",
+      "rootAdmin": "Pentadbir utama",
+      "current": "Semasa",
+      "failed": "Gagal menukar syarikat. Sila cuba lagi."
+    },
+    "shell": {
+      "menu": "Menu ejen",
+      "switchCompany": "Tukar syarikat",
+      "logout": "Log keluar",
+      "loading": "Memuatkan…",
+      "openMenu": "Buka menu",
+      "closeMenu": "Tutup menu",
+      "roles": "Peranan anda"
+    },
+    "home": {
+      "title": "Selamat datang, {name}",
+      "none": "Peranan anda belum merangkumi sebarang halaman portal. Minta akses daripada pentadbir syarikat anda."
+    },
+    "common": {
+      "all": "Semua",
+      "view": "Lihat",
+      "close": "Tutup",
+      "save": "Simpan",
+      "saving": "Menyimpan…",
+      "loading": "Memuatkan…",
+      "empty": "Tiada rekod dijumpai.",
+      "records": "rekod",
+      "loadFailed": "Gagal memuatkan data. Sila cuba lagi.",
+      "saveFailed": "Gagal menyimpan. Sila cuba lagi.",
+      "downloadCsv": "Muat turun CSV",
+      "pages": "Halaman",
+      "prev": "Halaman sebelumnya",
+      "next": "Halaman seterusnya"
+    },
+    "assist": {
+      "menu": "Pesanan Assist",
+      "title": "Pesanan Assist",
+      "status": "Status",
+      "company": "Syarikat",
+      "allCompanies": "Semua syarikat",
+      "detailTitle": "Butiran pesanan",
+      "updateTitle": "Kemas kini pesanan",
+      "remarks": "Catatan",
+      "statuses": {
+        "New": "Baharu",
+        "Live": "Aktif",
+        "Task Completed": "Tugasan selesai",
+        "Refunded": "Dipulangkan",
+        "Expired": "Tamat tempoh"
+      },
+      "cols": {
+        "reference": "Rujukan",
+        "company": "Syarikat",
+        "vehicle": "Kenderaan",
+        "plan": "Pelan",
+        "amount": "Jumlah",
+        "purchased": "Dibeli",
+        "period": "Tempoh perlindungan",
+        "status": "Status"
+      },
+      "detail": {
+        "reference": "Rujukan",
+        "status": "Status",
+        "company": "Syarikat",
+        "companyEmail": "E-mel syarikat",
+        "customerId": "ID pelanggan",
+        "vehicle": "No. kenderaan",
+        "vehicleType": "Jenis kenderaan",
+        "brand": "Jenama",
+        "plan": "Pelan",
+        "amount": "Jumlah",
+        "purchased": "Dibeli",
+        "start": "Tarikh mula",
+        "end": "Tarikh tamat",
+        "payment": "Status bayaran",
+        "driver": "Nama pemandu",
+        "driverId": "No. KP pemandu",
+        "referral": "Kod rujukan",
+        "remarks": "Catatan"
+      }
+    },
+    "insurance": {
+      "menu": "Pesanan insurans",
+      "title": "Pesanan insurans",
+      "from": "Dari",
+      "to": "Hingga",
+      "payment": "Status bayaran",
+      "policyStatus": "Status polisi",
+      "clear": "Kosongkan",
+      "totalContribution": "Jumlah caruman",
+      "viewPolicy": "Polisi",
+      "policyTitle": "Butiran polisi",
+      "policyMissing": "Polisi ini tidak dijumpai.",
+      "openPolicyDoc": "Buka dokumen polisi",
+      "cols": {
+        "order": "ID pesanan",
+        "customer": "Pelanggan",
+        "qarqalId": "ID QarQal",
+        "vehicle": "Kenderaan",
+        "insurer": "Syarikat insurans",
+        "payment": "Bayaran",
+        "contribution": "Caruman",
+        "policy": "Status polisi",
+        "created": "Dicipta",
+        "referral": "Kod rujukan"
+      },
+      "paymentStatuses": {
+        "Success": "Dibayar",
+        "Failed": "Gagal",
+        "Initiated": "Dimulakan"
+      },
+      "policyStatuses": {
+        "PENDING_FOR_PAYMENT": "Menunggu bayaran",
+        "PENDING_FOR_APPROVAL": "Menunggu kelulusan",
+        "SUCCESS": "Dikeluarkan",
+        "REJECTED": "Ditolak",
+        "CANCELLED": "Dibatalkan",
+        "PENDING_REFERCASE": "Dirujuk kepada syarikat insurans",
+        "PENDING": "Belum selesai",
+        "PAYMENT_FAILED": "Bayaran gagal",
+        "REFUNDED": "Dipulangkan"
+      },
+      "policy": {
+        "vehicle": "No. kenderaan",
+        "status": "Status",
+        "coverNote": "No. nota perlindungan",
+        "issued": "Dikeluarkan",
+        "effective": "Tarikh mula",
+        "expiry": "Tarikh tamat",
+        "sumInsured": "Jumlah diinsuranskan",
+        "valuation": "Penilaian",
+        "marketValue": "Nilai pasaran",
+        "agreedValue": "Nilai dipersetujui",
+        "ncd": "NCD",
+        "ncdValue": "Jumlah NCD",
+        "basic": "Caruman asas",
+        "gross": "Caruman kasar",
+        "stampDuty": "Duti setem",
+        "sst": "SST",
+        "processingFee": "Fi pemprosesan",
+        "roadTax": "Cukai jalan",
+        "total": "Jumlah caruman",
+        "promo": "Kod promosi",
+        "quotation": "ID sebut harga"
+      },
+      "nSelected": "{n} dipilih"
+    },
+    "purchase": {
+      "menu": "Beli insurans",
+      "title": "Beli insurans",
+      "steps": [
+        "Kenderaan & pemilik",
+        "Syarikat insurans & pelan",
+        "Butiran & bayar"
+      ],
+      "startOver": "Mula semula",
+      "mySales": "Jualan saya",
+      "recent": "Sebut harga terkini",
+      "customerId": "ID QarQal pelanggan",
+      "customerHint": "cth. QQ12345",
+      "customerCheck": "Semak",
+      "customerFound": "Pelanggan: {name}",
+      "forCustomer": "Untuk pelanggan {name}",
+      "customerNote": "Pilihan. Dengan ID QarQal, polisi masuk ke akaun QarQal pelanggan tersebut; ia tetap dikira sebagai jualan syarikat anda.",
+      "customerInvalid": "Gunakan 3 hingga 20 huruf dan nombor.",
+      "customerNotFound": "Tiada pelanggan dengan ID QarQal ini.",
+      "customerFailed": "Gagal menyemak ID QarQal ini. Sila cuba lagi.",
+      "getQuotes": "Dapatkan harga",
+      "quoting": "Mendapatkan harga…",
+      "notFound": "Kami tidak menemui sebut harga untuk kenderaan dan pemilik ini. Semak butiran dan cuba lagi.",
+      "quoteFailed": "Gagal mendapatkan harga",
+      "listNote": "Harga pada kad adalah untuk perlindungan Komprehensif.",
+      "coverNote": "Perlindungan ini diberi harga untuk syarikat insurans yang dipilih sahaja.",
+      "backToPlan": "Kembali ke syarikat insurans & pelan",
+      "pay": "Simpan dan bayar",
+      "restartTitle": "Mulakan sebut harga baharu?",
+      "restartBody": "Harga dan pilihan semasa akan dikosongkan.",
+      "result": {
+        "successTitle": "Bayaran diterima",
+        "successBody": "Bayaran berjaya. Polisi sedang dikeluarkan dan akan dipaparkan dalam Jualan saya.",
+        "failedTitle": "Bayaran tidak selesai",
+        "failedBody": "Bayaran tidak berjaya dan tiada caj dikenakan. Anda boleh cuba lagi.",
+        "viewSales": "Lihat jualan saya",
+        "newSale": "Pembelian baharu",
+        "tryAgain": "Cuba lagi"
+      }
+    },
+    "sales": {
+      "menu": "Jualan saya",
+      "title": "Jualan saya",
+      "empty": "Belum ada jualan.",
+      "draft": "Draf",
+      "linked": "Pelanggan QarQal",
+      "company": "Syarikat",
+      "cols": {
+        "date": "Tarikh",
+        "vehicle": "Kenderaan",
+        "quotation": "ID sebut harga",
+        "customer": "Dijual kepada",
+        "total": "Jumlah",
+        "policy": "Status polisi",
+        "coverNote": "Nota perlindungan"
+      }
+    }
   }
 }

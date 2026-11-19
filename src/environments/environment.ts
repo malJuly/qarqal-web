@@ -14,4 +14,9 @@ export const environment = {
     apiKey: '12345678',
     apiSecret: '12345678',
   },
+  // Agent portal (/agent): partner staff log in with email + password (POST /auth/partner-login) and then
+  // call the admin API with their own Bearer token. No partner signature. Set root to '' to turn the portal off.
+  agentApi: {
+    root: 'https://staging.qarqal.com/api/v1',
+  },
 };

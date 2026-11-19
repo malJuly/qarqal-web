@@ -21,8 +21,22 @@ import menu from '@tabler/icons/outline/menu-2.svg';
 import car from '@tabler/icons/outline/car.svg';
 import x from '@tabler/icons/outline/x.svg';
 import search from '@tabler/icons/outline/search.svg';
+// Agent portal sidebar
+import cart from '@tabler/icons/outline/shopping-cart.svg';
+import receipt from '@tabler/icons/outline/receipt.svg';
+import logout from '@tabler/icons/outline/logout.svg';
+import switchCompany from '@tabler/icons/outline/switch-horizontal.svg';
+// Agent bulk quote
+import upload from '@tabler/icons/outline/upload.svg';
+import plus from '@tabler/icons/outline/plus.svg';
+import refresh from '@tabler/icons/outline/refresh.svg';
+import alertCircle from '@tabler/icons/outline/alert-circle.svg';
+import externalLink from '@tabler/icons/outline/external-link.svg';
 
-const icons = { home, check, chevronDown, play, shieldCheck, bell, carCrane, clock24, arrowRight, arrowLeft, lock, world, download, user, compass, message, menu, car, x, search };
+const icons = {
+  home, check, chevronDown, play, shieldCheck, bell, carCrane, clock24, arrowRight, arrowLeft, lock, world, download, user,
+  compass, message, menu, car, x, search, cart, receipt, logout, switchCompany, upload, plus, refresh, alertCircle, externalLink,
+};
 export type IconName = keyof typeof icons;
 
 /**
